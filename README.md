@@ -1,6 +1,9 @@
-# fs1-mern
+# fs1-mern (El mundo de las guitarras)
+> ¿Aqui en el mundo de las guitarras?
 
-This is the repo for @Gadielo023 and @sudo-ramonkey project for their fullstack I class
+> [alejandroSampa11](https://github.com/alejandroSampa11)
+
+This is the repo for [Gadielo023](https://github.com/Gadielo03) and [sudo-ramonkey](https://github.com/sudo-ramonkey) project for their fullstack I class
 ## Getting Started
 
 To run this project, follow these steps:
