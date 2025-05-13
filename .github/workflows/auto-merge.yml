@@ -26,3 +26,28 @@ jobs:
           MERGE_REQUIRED_APPROVALS: "1"
           UPDATE_LABELS: "automerge"
           UPDATE_METHOD: "rebase"
+
+    build-front:
+      runs-on: fs1
+      needs: auto-merge
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v2
+
+        - name: Build Frontend
+          run: |
+            cd front
+            docker build -t react-app-local .
+            docker tag react-app-local:latest react-app-local:${{ github.sha }}
+    
+    deploy-front:
+      runs-on: fs1
+      needs: auto-merge
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v2
+
+        - name: Deploy Frontend
+          run: |
+            cd front
+            helm upgrade --install react-app ./helmchart --set image.tag=${{ github.sha }}
