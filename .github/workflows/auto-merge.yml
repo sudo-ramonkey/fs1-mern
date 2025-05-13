@@ -37,6 +37,7 @@ jobs:
     
   deploy-front:
     runs-on: fs1
+    needs: build-front
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
