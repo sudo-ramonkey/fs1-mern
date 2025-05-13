@@ -1,13 +1,9 @@
 name: Auto Merge Pull Requests
 
 on:
-  pull_request_review:
-    types:
-      - submitted
-  check_suite:
-    types:
-      - completed
-  status: {}
+  push:
+    branches:
+      - main
 
 jobs:
   auto-merge:
