@@ -28,7 +28,7 @@ jobs:
           UPDATE_METHOD: "rebase"
 
     build-front:
-      runs-on: ubuntu-latest
+      runs-on: fs1
       needs: auto-merge
       steps:
         - name: Checkout code
@@ -41,7 +41,7 @@ jobs:
             docker tag react-app-local:latest react-app-local:${{ github.sha }}
     
     deploy-front:
-      runs-on: ubuntu-latest
+      runs-on: fs1
       needs: auto-merge
       steps:
         - name: Checkout code
