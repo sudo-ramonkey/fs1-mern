@@ -17,10 +17,10 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           resources:
-            limits:
+            requests:
               cpu: 500m
               memory: 128Mi
-            requests:
+            limits:
               cpu: 1500m
               memory: 256Mi
           ports:
