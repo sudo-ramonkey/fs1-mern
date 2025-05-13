@@ -3,7 +3,7 @@ name: Auto Merge Pull Requests
 on:
   push:
     branches:
-      - main
+      - Gady
 
 jobs:
   # auto-merge:
