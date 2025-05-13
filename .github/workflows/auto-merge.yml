@@ -31,6 +31,7 @@ jobs:
 
       - name: Build Frontend
         run: |
+          whoami
           cd front
           docker build -t react-app-local .
           docker tag react-app-local:latest react-app-local:${{ github.sha }}
