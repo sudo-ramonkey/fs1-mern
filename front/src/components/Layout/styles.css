@@ -1,0 +1,21 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ocupa al menos el 100% del viewport height */
+  width: 100%;
+}
+
+.layout-header {
+  background: #333;
+  color: white;
+}
+
+.layout-main {
+  flex: 1; /* Hace que el main ocupe todo el espacio disponible */
+  padding: 1rem;
+}
+
+.layout-footer {
+  background: #333;
+  color: white;
+}
