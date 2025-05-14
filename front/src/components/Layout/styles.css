@@ -5,11 +5,6 @@
   width: 100%;
 }
 
-.layout-header {
-  background: #333;
-  color: white;
-}
-
 .layout-main {
   flex: 1; /* Hace que el main ocupe todo el espacio disponible */
   padding: 1rem;

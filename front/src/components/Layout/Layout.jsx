@@ -1,10 +1,10 @@
-import React from 'react'
+import AppHeader from '../Misc/AppHeader'
 import './styles.css'
 
 const Layout = ({ children }) => {
   return (
     <div className="layout">
-      <header className="layout-header">Header Content</header>
+      <AppHeader/>
       <main className="layout-main">{children}</main>
       <footer className="layout-footer">Footer Content</footer>
     </div>

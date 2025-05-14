@@ -1,0 +1,44 @@
+.app-header{
+    background-color: #1f8f9e;
+    min-height: 70px;
+    color: white;
+}
+
+.app-header-nav{
+    width: 100%;
+    background-color: #233335;
+}
+
+.app-header-nav ul{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+.app-header-nav ul li {
+    text-decoration: none;
+    color: white;
+    font-size: 1.2rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}
+
+.app-header-nav ul li a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.app-header-nav ul li a:hover {
+    color: #ffcc00;
+    background-color: #1f8f9e;
+    transform: scale(1.1);
+    transition: all 0.3s ease;
+    font-weight: bold;
+    border-radius:0px 0px 5px 5px ;
+    padding: 0.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
