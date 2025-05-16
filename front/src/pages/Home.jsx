@@ -1,10 +1,10 @@
 import React from 'react'
+import FilterPopUp from '../components/FilterPopUp/FilterPopUp'
 
 const Home = () => {
     return (
         <div>
-            <h1>Home Page</h1>
-        <p>Welcome to our website!</p>
+        <FilterPopUp />
         </div>
     )
 }

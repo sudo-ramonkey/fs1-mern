@@ -1,0 +1,11 @@
+.pop-up-filter-btn{
+    color: white;
+    border: none;
+    cursor: pointer;
+    background-color: #233335;
+    font-weight: bold;
+}
+
+.pop-up-filter-btn:hover{
+    background-color: #1f8f9e;
+}
