@@ -1,10 +1,12 @@
 import '@carbon/styles/css/styles.css';//DO NOT REMOVE THIS LINE
-
+import { Provider } from 'react-redux';
+import { store } from '../../store/store';
 const Wrapper = ({ children }) => {
     return (
         <div className="wrapper">
-        {/* Aquí puedes agregar providers, contextos, etc. */}
+        <Provider store={store}>
         {children}
+        </Provider>
         </div>
     )
 }
