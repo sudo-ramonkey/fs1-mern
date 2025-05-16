@@ -1,4 +1,4 @@
-import './styles.css'
+import '@carbon/styles/css/styles.css';//DO NOT REMOVE THIS LINE
 
 const Wrapper = ({ children }) => {
     return (
