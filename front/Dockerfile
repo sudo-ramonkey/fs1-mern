@@ -7,8 +7,4 @@ RUN npm config set "strict-ssl" false
 RUN npm install --production
 RUN npm run build
 
-FROM nginx:alpine
-RUN ls
-COPY --from=builder /app/build /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+# No need for the Nginx stage anymore, as we're using a separate Nginx container
