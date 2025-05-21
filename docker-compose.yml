@@ -21,5 +21,23 @@ services:
     container_name: front_fs1
     ports:
       - "80:80"
+      - "443:443" # Add HTTPS port
+    volumes:
+      - certbot-data:/etc/letsencrypt
     environment:
       - NODE_ENV=production
+      - DOMAIN=${DOMAIN} # Use environment variable
+    restart: unless-stopped
+
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - certbot-data:/etc/letsencrypt
+      - certbot-webroot:/var/www/certbot
+    depends_on:
+      - front
+    command: certonly --webroot --webroot-path=/var/www/certbot --email ${EMAIL} --agree-tos --no-eff-email -d ${DOMAIN}
+
+volumes:
+  certbot-data:
+  certbot-webroot:
