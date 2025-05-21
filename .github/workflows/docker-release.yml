@@ -1,0 +1,30 @@
+name: Build and Deploy Docker Compose
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: fs1
+    steps:
+      - name: Clean out old containers and images
+        run: |
+          docker-compose down --remove-orphans || true
+          docker image rm front:fs1 back:fs1 || true
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker images
+        run: |
+          docker-compose build
+
+      - name: Deploy containers
+        run: |
+          docker-compose up -d
