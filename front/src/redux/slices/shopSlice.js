@@ -1,7 +1,17 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { fetchProductos } from '../../service/service';
 import { articleMockData } from './articleMockData';
+
+export const fetchProductosThunk = createAsyncThunk(
+  'shop/fetchProductos',
+  async () => {
+    const data = await fetchProductos();
+    return data;
+  }
+);
+
 const initialState = {
-    articles: [...articleMockData],
+    productos: [], // Inicializa como arreglo vacío
     categories: [
         { id: "guitarras", name: "Guitarras" },
         { id: "baterias", name: "Baterías" },
@@ -48,6 +58,11 @@ const shopSlice = createSlice({
                 state.filters.selectedBrands.push(brand);
             }
         }
+    },
+    extraReducers: (builder) => {
+        builder.addCase(fetchProductosThunk.fulfilled, (state, action) => {
+            state.productos = action.payload; // Llena productos con los datos de la API
+        });
     }
 });
 

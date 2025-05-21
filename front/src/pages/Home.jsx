@@ -1,26 +1,28 @@
-import React from 'react'
-import FilterPopUp from '../components/FilterPopUp/FilterPopUp'
-import InstrumentCard from '../components/Cards/InstrumentCard'
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProductosThunk } from '../redux/slices/shopSlice';
+import FilterPopUp from '../components/FilterPopUp/FilterPopUp';
+import ProductCard from '../components/Cards/InstrumentCard';
 import "./styles.css"
 
 const Home = () => {
-    const {
-        articles
-    } = useSelector(state => state.shop);
+    const dispatch = useDispatch();
+    const { productos } = useSelector(state => state.shop);
+
+    useEffect(() => {
+        dispatch(fetchProductosThunk());
+    }, [dispatch]);
 
     return (
         <div>
             <FilterPopUp />
-            <div className='ArticleWrapper'>
-            {
-                articles.map((article) => (
-                    <InstrumentCard key={article.id} instrument={article} />
-                ))
-            }
+            <div className='articleWrapper'>
+                {productos.map((producto) => (
+                    <ProductCard key={producto.id} producto={producto} />
+                ))}
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Home
+export default Home;

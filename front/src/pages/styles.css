@@ -1,4 +1,4 @@
-.ArticleWrapper {
+.articleWrapper {
   display: flex;
   flex-wrap: wrap;         /* Permite que las cards se acomoden en varias filas */
   gap: 24px;               /* Espacio entre las cards */
