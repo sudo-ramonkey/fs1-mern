@@ -1,6 +1,7 @@
 import { useRef } from 'react';
-import { Search } from '@carbon/react';
-import './styles.css';
+import { useSelector } from 'react-redux';
+import HeaderTooltip from './HeaderTooltip';
+import './AppHeaderstyles.css';
 
 const navLinks = [
   { href: '/', label: 'Inicio' },
@@ -14,6 +15,9 @@ const navLinks = [
 
 const AppHeader = () => {
   const selected = useRef('/');
+      const {
+        categories,
+    } = useSelector(state => state.shop);
 
   const handleSelect = (href) => {
     selected.current = href;
@@ -23,35 +27,11 @@ const AppHeader = () => {
   return (
     <>
       <header className="app-header">
-        <h1>El mundo de las guitarras</h1>
-        <Search
-          size="md"
-          labelText="Buscar"
-          placeholder="Buscar guitarras..."
-          closeButtonLabelText="Limpiar búsqueda"
-          className="app-header-search"
-        />
+        <h1>LOGO</h1>
+        {categories && categories.map(cat => (
+          <HeaderTooltip key={cat._id || cat.name} name={cat.name} />
+        ))}
       </header>
-      <div className="app-header-nav">
-        <nav>
-          <ul>
-            {navLinks.map(link => (
-              <li key={link.href}>
-                <a
-                  href={link.href}
-                  className={window.location.pathname === link.href ? 'selected' : ''}
-                  onClick={e => {
-                    e.preventDefault();
-                    handleSelect(link.href);
-                  }}
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </div>
     </>
   );
 };

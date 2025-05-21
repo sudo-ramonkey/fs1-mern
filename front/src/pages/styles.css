@@ -1,0 +1,9 @@
+.ArticleWrapper {
+  display: flex;
+  flex-wrap: wrap;         /* Permite que las cards se acomoden en varias filas */
+  gap: 24px;               /* Espacio entre las cards */
+  justify-content: center; /* Centra las cards horizontalmente */
+  align-items: flex-start; /* Alinea las cards al inicio verticalmente */
+  width: 100%;
+  padding: 24px 0;
+}

@@ -1,6 +1,6 @@
 import '@carbon/styles/css/styles.css';//DO NOT REMOVE THIS LINE
 import { Provider } from 'react-redux';
-import { store } from '../../store/store';
+import { store } from '../../redux/store';
 const Wrapper = ({ children }) => {
     return (
         <div className="wrapper">

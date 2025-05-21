@@ -1,30 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
-
+import { articleMockData } from './articleMockData';
 const initialState = {
-    articles: [
-        {
-            id: 1,
-            name: "Guitarra Fender Stratocaster",
-            category: "guitarras",
-            price: 1200,
-            brand: "Fender",
-            inStock: true
-        },
-        {
-            id: 2,
-            name: "Batería Pearl Export",
-            category: "baterias",
-            price: 1500,
-            brand: "Pearl",
-            inStock: true
-        }
-    ],
+    articles: [...articleMockData],
     categories: [
         { id: "guitarras", name: "Guitarras" },
         { id: "baterias", name: "Baterías" },
+        { id: "bajos", name: "Bajos" },
         { id: "teclados", name: "Teclados" },
         { id: "vientos", name: "Instrumentos de viento" },
-        { id: "accesorios", name: "Accesorios" }
+        { id: "accesorios", name: "Accesorios" },
+        { id: "audio", name: "Audio" },
     ],
     filters: {
         selectedCategory: null,
