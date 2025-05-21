@@ -10,6 +10,11 @@ jobs:
   build-and-deploy:
     runs-on: fs1
     steps:
+      - name: Clean out old containers and images
+        run: |
+          docker-compose down --remove-orphans || true
+          docker image rm front:fs1 back:fs1 || true
+
       - name: Checkout code
         uses: actions/checkout@v4
 
