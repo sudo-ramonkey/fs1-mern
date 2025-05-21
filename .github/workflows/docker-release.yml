@@ -9,6 +9,8 @@ on:
 jobs:
   build-and-deploy:
     runs-on: fs1
+    env:
+      MONGO_URI: ${{ secrets.MONGO_URI }}
     steps:
       - name: Clean out old containers and images
         run: |
