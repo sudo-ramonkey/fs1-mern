@@ -8,7 +8,7 @@ services:
     image: back:fs1
     container_name: back_fs1
     expose:
-      - "5000:5000"
+      - "5000"
     environment:
       - NODE_ENV=production
       - PORT=5000
