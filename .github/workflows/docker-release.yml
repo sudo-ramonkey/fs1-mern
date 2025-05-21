@@ -13,6 +13,11 @@ jobs:
       EMAIL: ${{ secrets.EMAIL }}
       DOMAIN: ${{ secrets.DOMAIN }}
     steps:
+      - name: Clean out old containers and images
+        run: |
+          docker-compose down --remove-orphans || true
+          docker image rm front:fs1 back:fs1 || true
+
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -26,7 +31,7 @@ jobs:
 
       - name: Build Docker images
         run: |
-          docker-compose build
+          docker-compose build --no-cache
 
       - name: Deploy containers
         run: |
