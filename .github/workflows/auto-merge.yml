@@ -9,7 +9,9 @@ on:
 jobs:
   auto-merge:
     runs-on: fs1
+    env:
+      REPO_GITHUB_TOKEN: ${{ secrets.FS1_MERN_GH_TOKEN }}
     steps:
       - uses: alexwilson/enable-github-automerge-action@2.0.0
         with:
-          github-token: "${{ secrets.FS1_MERN_GH_TOKEN }}"
+          github-token: "${{ env.REPO_GITHUB_TOKEN }}"
