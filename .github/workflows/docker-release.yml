@@ -26,5 +26,9 @@ jobs:
           docker-compose build
 
       - name: Deploy containers
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+          MONGO_USER: ${{ secrets.MONGO_USER }}
+          MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
         run: |
           docker-compose up -d
