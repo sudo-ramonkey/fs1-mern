@@ -1,7 +1,7 @@
 .instrument-card {
   position: relative;
-  width: 260px;
-  min-height: 340px;
+  width: 280px;
+  min-height: 420px;
   background: #fff;
   border-radius: 16px;
   box-shadow: 0 2px 12px rgba(0,0,0,0.08);
@@ -11,59 +11,134 @@
   margin: 16px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 10px;
+}
+
+.instrument-card__image-container {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
 }
 
 .instrument-card__image {
   width: 100%;
-  height: 180px;
+  height: 100%;
   object-fit: cover;
-  transition: opacity 0.3s;
-  border-top-left-radius: 16px;
-  border-top-right-radius: 16px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.instrument-card__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.instrument-card:hover .instrument-card__overlay {
+  opacity: 1;
+}
+
+.instrument-card:hover .instrument-card__image {
+  transform: scale(1.1);
+}
+
+.view-details-btn {
+  background-color: #1e40af !important;
+  border-color: #1e40af !important;
+  color: #ffffff !important;
+}
+
+.view-details-btn:hover {
+  background-color: #1e3a8a !important;
+  border-color: #1e3a8a !important;
+}
+
+.instrument-card__content {
+  padding: 1.25rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
 .instrument-card__name {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 600;
-  margin: 16px 0 8px 0;
-  color: #222;
+  margin: 0;
+  color: #1f2937;
+  line-height: 1.4;
   text-align: center;
 }
 
 .instrument-card__price {
-  font-size: 1rem;
-  color: #388e3c;
-  font-weight: 500;
-  margin-bottom: 8px;
+  font-size: 1.25rem;
+  color: #1e40af;
+  font-weight: 700;
+  margin: 0;
   text-align: center;
 }
 
 .instrument-card__description {
-  opacity: 0;
-  max-height: 0;
-  transition: opacity 0.3s, max-height 0.3s;
-  overflow: hidden;
-  padding: 0 16px;
-  color: #444;
-  font-size: 0.98rem;
+  color: #6b7280;
+  font-size: 0.9rem;
+  line-height: 1.5;
   text-align: center;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.instrument-card__brand {
+  color: #4b5563;
+  font-size: 0.85rem;
+  margin: 0;
+  text-align: center;
+  font-style: italic;
+}
+
+.instrument-card__actions {
+  margin-top: auto;
+  padding-top: 0.75rem;
+}
+
+.add-to-cart-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: #1e40af !important;
+  border-color: #1e40af !important;
+  color: #ffffff !important;
+  padding: 0.75rem 1rem;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.add-to-cart-btn:hover {
+  background-color: #1e3a8a !important;
+  border-color: #1e3a8a !important;
+  transform: translateY(-2px);
+}
+
+.add-to-cart-btn:disabled {
+  background-color: #9ca3af !important;
+  border-color: #9ca3af !important;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .instrument-card:hover {
-  transform: scale(1.06);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
-  z-index: 2;
-}
-
-.instrument-card:hover .instrument-card__image {
-  opacity: 0.5;
-}
-
-.instrument-card:hover .instrument-card__description {
-  opacity: 1;
-  max-height: 120px;
-  margin-top: 12px;
-  margin-bottom: 16px;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
 }
