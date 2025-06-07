@@ -12,6 +12,9 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=5000
+      - MONGO_URI=${MONGO_URI}
+      - MONGO_USER=${MONGO_USER}
+      - MONGO_PASSWORD=${MONGO_PASSWORD}
 
   front:
     build:
