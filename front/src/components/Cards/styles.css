@@ -19,34 +19,35 @@
   width: 100%;
   height: 180px;
   object-fit: cover;
-  transition: opacity 0.3s;
-  border-top-left-radius: 16px;
-  border-top-right-radius: 16px;
+  transition: opacity var(--transition-normal);
+  border-top-left-radius: var(--radius-xl);
+  border-top-right-radius: var(--radius-xl);
 }
 
 .instrument-card__name {
   font-size: 1.2rem;
   font-weight: 600;
-  margin: 16px 0 8px 0;
-  color: #222;
+  margin: var(--spacing-md) 0 var(--spacing-sm) 0;
+  color: var(--text-primary) !important;
   text-align: center;
+  line-height: 1.4;
 }
 
 .instrument-card__price {
   font-size: 1rem;
-  color: #388e3c;
+  color: var(--success-600) !important;
   font-weight: 500;
-  margin-bottom: 8px;
+  margin-bottom: var(--spacing-sm);
   text-align: center;
 }
 
 .instrument-card__description {
   opacity: 0;
   max-height: 0;
-  transition: opacity 0.3s, max-height 0.3s;
+  transition: opacity var(--transition-normal), max-height var(--transition-normal);
   overflow: hidden;
-  padding: 0 16px;
-  color: #444;
+  padding: 0 var(--spacing-md);
+  color: var(--text-secondary) !important;
   font-size: 0.98rem;
   text-align: center;
 }
