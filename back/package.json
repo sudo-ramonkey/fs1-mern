@@ -5,16 +5,31 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/server.js",
-    "dev": "nodemon src/server.js"
+    "dev": "nodemon src/server.js",
+    "seed": "node scripts/newSeedDatabase.js",
+    "seed-admin": "node src/utils/seedAdmin.js",
+    "db:stats": "node src/utils/dbManager.js stats",
+    "db:clear": "node src/utils/dbManager.js clear-all",
+    "db:reset": "node src/utils/dbManager.js reset --create-admin",
+    "db:backup": "node src/utils/dbManager.js backup-products && node src/utils/dbManager.js backup-users",
+    "db:validate": "node src/utils/dbManager.js validate",
+    "db:indexes": "node src/utils/dbManager.js create-indexes",
+    "test:api": "node src/utils/testApi.js",
+    "test:auth": "node src/utils/testApi.js auth",
+    "test:products": "node src/utils/testApi.js products",
+    "test:users": "node src/utils/testApi.js users"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "axios": "^1.9.0",
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.14.2"
   },
   "devDependencies": {

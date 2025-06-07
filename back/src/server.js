@@ -4,6 +4,8 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 const productosRoutes = require("./routes/productos");
+const authRoutes = require("./routes/auth");
+const usersRoutes = require("./routes/users");
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -15,6 +17,8 @@ app.use(express.json());
 
 // API routes
 app.use("/api/productos", productosRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/users", usersRoutes);
 
 // Root endpoint
 app.get("/", (req, res) => {
