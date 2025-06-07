@@ -1,0 +1,1033 @@
+{
+	"info": {
+		"_postman_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+		"name": "El Mundo de las Guitarras API",
+		"description": "Colección completa para probar todos los endpoints de la API de El Mundo de las Guitarras",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12345678"
+	},
+	"item": [
+		{
+			"name": "🔐 Authentication",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"testuser\",\n  \"email\": \"test@example.com\",\n  \"password\": \"Test123!\",\n  \"firstName\": \"Test\",\n  \"lastName\": \"User\",\n  \"phone\": \"+1234567890\",\n  \"address\": {\n    \"street\": \"123 Main St\",\n    \"city\": \"Test City\",\n    \"state\": \"Test State\",\n    \"zipCode\": \"12345\",\n    \"country\": \"Mexico\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						},
+						"description": "Registrar un nuevo usuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    pm.environment.set('userToken', response.token);",
+									"    pm.environment.set('userId', response.user._id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"login\": \"admin\",\n  \"password\": \"Admin123!\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						},
+						"description": "Iniciar sesión y obtener token JWT"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{userToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/auth/profile",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"profile"
+							]
+						},
+						"description": "Obtener perfil del usuario actual"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{userToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"Updated Name\",\n  \"phone\": \"+0987654321\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/profile",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"profile"
+							]
+						},
+						"description": "Actualizar perfil del usuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Change Password",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{userToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"currentPassword\": \"Admin123!\",\n  \"newPassword\": \"NewPassword123!\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/change-password",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"change-password"
+							]
+						},
+						"description": "Cambiar contraseña del usuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh Token",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{userToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/auth/refresh",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"refresh"
+							]
+						},
+						"description": "Renovar token JWT"
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{userToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/auth/logout",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						},
+						"description": "Cerrar sesión"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints de autenticación y gestión de perfil"
+		},
+		{
+			"name": "🎸 Products",
+			"item": [
+				{
+					"name": "Get All Products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/productos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"productos"
+							]
+						},
+						"description": "Obtener todos los productos"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Products with Filters",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/productos?tipo=Instrumento&marca=Fender&precioMin=500&precioMax=2000",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"productos"
+							],
+							"query": [
+								{
+									"key": "tipo",
+									"value": "Instrumento"
+								},
+								{
+									"key": "marca",
+									"value": "Fender"
+								},
+								{
+									"key": "precioMin",
+									"value": "500"
+								},
+								{
+									"key": "precioMax",
+									"value": "2000"
+								}
+							]
+						},
+						"description": "Obtener productos con filtros aplicados"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/productos/{{productId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"productos",
+								"{{productId}}"
+							]
+						},
+						"description": "Obtener producto específico por ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Instruments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/productos/tipo/instrumentos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"productos",
+								"tipo",
+								"instrumentos"
+							]
+						},
+						"description": "Obtener todos los instrumentos"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Equipment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/productos/tipo/equipos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"productos",
+								"tipo",
+								"equipos"
+							]
+						},
+						"description": "Obtener todos los equipos"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Accessories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/productos/tipo/accesorios",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"productos",
+								"tipo",
+								"accesorios"
+							]
+						},
+						"description": "Obtener todos los accesorios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Products by Category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/productos/categoria/Guitarras Electricas",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"productos",
+								"categoria",
+								"Guitarras Electricas"
+							]
+						},
+						"description": "Obtener productos por categoría"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Products by Brand",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/productos/marca/Fender",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"productos",
+								"marca",
+								"Fender"
+							]
+						},
+						"description": "Obtener productos por marca"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Instrument (Admin)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    const response = pm.response.json();",
+									"    pm.environment.set('productId', response._id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{testingToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Stratocaster Test\",\n  \"descripcion\": \"Guitarra eléctrica de prueba para testing\",\n  \"precio\": 999.99,\n  \"marca\": \"Fender\",\n  \"stock\": 5,\n  \"tipo\": \"Instrumento\",\n  \"categoriaProducto\": \"Guitarras Electricas\",\n  \"imagenes\": [\"test-strat.jpg\"],\n  \"categoria\": \"Electrico\",\n  \"tipoInstrumento\": \"Guitarra\",\n  \"materialCuerpo\": \"Aliso\",\n  \"materialMastil\": \"Arce\",\n  \"materialDiapason\": \"Arce\",\n  \"numeroCuerdas\": 6,\n  \"color\": \"Sunburst\",\n  \"incluyeEstuche\": false,\n  \"subcategoriaInstrumento\": \"Stratocaster\",\n  \"especificacionesGuitarra\": {\n    \"serie\": \"Test Series\",\n    \"modeloEspecifico\": \"Test Stratocaster\",\n    \"escala\": \"25.5 pulgadas\",\n    \"cantidadTrastes\": 22,\n    \"tipoPastillas\": \"Single-coil\",\n    \"cantidadPastillas\": 3,\n    \"configuracionPastillas\": \"SSS\",\n    \"controlVolumen\": 1,\n    \"controlTono\": 2,\n    \"selector\": \"5 posiciones\",\n    \"tipoPuente\": \"Tremolo\",\n    \"acabado\": \"Gloss\",\n    \"paisFabricacion\": \"Mexico\",\n    \"añoModelo\": 2024\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/productos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"productos"
+							]
+						},
+						"description": "Crear nuevo instrumento (requiere permisos de admin)"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Equipment (Admin)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{testingToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Amplificador Test\",\n  \"descripcion\": \"Amplificador de prueba para testing\",\n  \"precio\": 599.99,\n  \"marca\": \"Fender\",\n  \"stock\": 3,\n  \"tipo\": \"Equipo\",\n  \"categoriaProducto\": \"Amplificadores\",\n  \"imagenes\": [\"test-amp.jpg\"],\n  \"tipoEquipo\": \"Amplificador\",\n  \"potencia\": 20,\n  \"entradas\": 2,\n  \"salidas\": 1,\n  \"caracteristicasAdicionales\": \"Reverb incluido\",\n  \"especificacionesAmplificador\": {\n    \"tipo\": \"Combo\",\n    \"tecnologia\": \"Estado Sólido\",\n    \"cantidadCanales\": 2,\n    \"tamañoAltavoz\": \"10 pulgadas\",\n    \"efectosIncorporados\": [\"Reverb\", \"Overdrive\"],\n    \"impedancia\": \"8 ohms\",\n    \"uso\": \"Práctica\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/productos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"productos"
+							]
+						},
+						"description": "Crear nuevo equipo (requiere permisos de admin)"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Accessory (Admin)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{testingToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Cuerdas Test\",\n  \"descripcion\": \"Cuerdas de prueba para testing\",\n  \"precio\": 15.99,\n  \"marca\": \"Otros\",\n  \"stock\": 50,\n  \"tipo\": \"Accesorio\",\n  \"categoriaProducto\": \"Accesorios\",\n  \"subcategoriaAccesorio\": \"Cuerdas Guitarra Electrica\",\n  \"imagenes\": [\"test-strings.jpg\"],\n  \"tipoAccesorio\": \"Cuerdas Guitarra Electrica\",\n  \"compatibilidad\": \"Guitarra Eléctrica\",\n  \"color\": \"Plateado\",\n  \"material\": \"Níquel\",\n  \"especificacionesCuerdas\": {\n    \"calibre\": \"10-46\",\n    \"material\": \"Níquel\",\n    \"recubrimiento\": false,\n    \"cantidadCuerdas\": 6\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/productos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"productos"
+							]
+						},
+						"description": "Crear nuevo accesorio (requiere permisos de admin)"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product (Admin)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{testingToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"precio\": 1099.99,\n  \"stock\": 8,\n  \"descripcion\": \"Descripción actualizada del producto\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/productos/{{productId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"productos",
+								"{{productId}}"
+							]
+						},
+						"description": "Actualizar producto existente (requiere permisos de admin)"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product (Admin)",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{testingToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/productos/{{productId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"productos",
+								"{{productId}}"
+							]
+						},
+						"description": "Eliminar producto (requiere permisos de admin)"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints de gestión de productos"
+		},
+		{
+			"name": "👥 User Management (Admin)",
+			"item": [
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{testingToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						},
+						"description": "Obtener todos los usuarios (solo admin)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Users with Pagination",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{testingToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users?page=1&limit=5&role=User&isActive=true",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "5"
+								},
+								{
+									"key": "role",
+									"value": "User"
+								},
+								{
+									"key": "isActive",
+									"value": "true"
+								}
+							]
+						},
+						"description": "Obtener usuarios con paginación y filtros"
+					},
+					"response": []
+				},
+				{
+					"name": "Search Users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{testingToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users?search=admin&sortBy=createdAt&sortOrder=desc",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "admin"
+								},
+								{
+									"key": "sortBy",
+									"value": "createdAt"
+								},
+								{
+									"key": "sortOrder",
+									"value": "desc"
+								}
+							]
+						},
+						"description": "Buscar usuarios con términos específicos"
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Statistics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{testingToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users/stats",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"stats"
+							]
+						},
+						"description": "Obtener estadísticas de usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get User by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{testingToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users/{{targetUserId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"{{targetUserId}}"
+							]
+						},
+						"description": "Obtener usuario específico por ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Create User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    const response = pm.response.json();",
+									"    pm.environment.set('targetUserId', response.user._id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{testingToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"newuser\",\n  \"email\": \"newuser@example.com\",\n  \"password\": \"NewUser123!\",\n  \"firstName\": \"New\",\n  \"lastName\": \"User\",\n  \"role\": \"User\",\n  \"phone\": \"+1111111111\",\n  \"address\": {\n    \"street\": \"456 New St\",\n    \"city\": \"New City\",\n    \"state\": \"New State\",\n    \"zipCode\": \"54321\",\n    \"country\": \"Mexico\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						},
+						"description": "Crear nuevo usuario (solo admin)"
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{testingToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"Updated\",\n  \"lastName\": \"Name\",\n  \"phone\": \"+2222222222\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/{{targetUserId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"{{targetUserId}}"
+							]
+						},
+						"description": "Actualizar usuario existente (solo admin)"
+					},
+					"response": []
+				},
+				{
+					"name": "Toggle User Status",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{testingToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users/{{targetUserId}}/toggle-active",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"{{targetUserId}}",
+								"toggle-active"
+							]
+						},
+						"description": "Activar/desactivar usuario (solo admin)"
+					},
+					"response": []
+				},
+				{
+					"name": "Reset User Password",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{testingToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"newPassword\": \"ResetPassword123!\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/{{targetUserId}}/reset-password",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"{{targetUserId}}",
+								"reset-password"
+							]
+						},
+						"description": "Restablecer contraseña de usuario (solo admin)"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{testingToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users/{{targetUserId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"{{targetUserId}}"
+							]
+						},
+						"description": "Eliminar usuario (solo admin)"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints de gestión de usuarios (solo administradores)"
+		},
+		{
+			"name": "🔧 Testing & Utilities",
+			"item": [
+				{
+					"name": "Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								""
+							]
+						},
+						"description": "Verificar que la API esté funcionando"
+					},
+					"response": []
+				},
+				{
+					"name": "Test Admin Token",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{testingToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/auth/profile",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"profile"
+							]
+						},
+						"description": "Probar el token de administrador permanente"
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Endpoint (404 Test)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/invalid-endpoint",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"invalid-endpoint"
+							]
+						},
+						"description": "Probar endpoint inválido para verificar manejo de errores"
+					},
+					"response": []
+				},
+				{
+					"name": "Unauthorized Access Test",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Test Product\",\n  \"precio\": 100,\n  \"tipo\": \"Instrumento\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/productos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"productos"
+							]
+						},
+						"description": "Probar acceso no autorizado (sin token)"
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Login Test",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"login\": \"invalid-user\",\n  \"password\": \"wrong-password\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						},
+						"description": "Probar inicio de sesión con credenciales inválidas"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para pruebas y verificación del sistema"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5000/api",
+			"type": "string"
+		},
+		{
+			"key": "testingToken",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ0ZXN0aW5nLWFkbWluLTEyMzQiLCJ1c2VybmFtZSI6InRlc3RpbmctYWRtaW4iLCJlbWFpbCI6InRlc3RpbmdAZWxtdW5kb2RlbGFzZ3VpdGFycmFzLmNvbSIsInJvbGUiOiJBZG1pbiIsInRlc3RpbmciOnRydWUsImlhdCI6MTcwMDAwMDAwMCwiZXhwIjozMjUwMzY4MDAwMH0.testing-token-signature-for-development-only",
+			"type": "string"
+		}
+	]
+}
