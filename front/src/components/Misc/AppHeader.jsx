@@ -20,7 +20,9 @@ import {
   Notification,
 } from '@carbon/react/icons';
 import { setSearchText } from '../../redux/slices/shopSlice';
+import { toggleCart, selectCartTotalItems } from '../../redux/slices/cartSlice';
 import HeaderTooltip from './HeaderTooltip';
+import CartDrawer from '../CartDrawer/CartDrawer';
 import './AppHeaderstyles.css';
 
 const AppHeader = () => {
@@ -28,10 +30,15 @@ const AppHeader = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const dispatch = useDispatch();
   const { categories, filters } = useSelector(state => state.shop);
+  const cartTotalItems = useSelector(selectCartTotalItems);
 
   const handleSearchChange = useCallback((event) => {
     dispatch(setSearchText(event.target.value));
   }, [dispatch]);
+
+  const handleCartClick = () => {
+    dispatch(toggleCart());
+  };
 
   const handleNavigation = (href) => {
     // Aquí puedes implementar navegación con React Router en el futuro
@@ -102,9 +109,12 @@ const AppHeader = () => {
         <HeaderGlobalAction
           aria-label="Carrito de compras"
           className="header-cart"
+          onClick={handleCartClick}
         >
           <ShoppingCart size={20} />
-          <span className="cart-badge">2</span>
+          {cartTotalItems > 0 && (
+            <span className="cart-badge">{cartTotalItems}</span>
+          )}
         </HeaderGlobalAction>
 
         {/* Usuario */}
@@ -159,6 +169,9 @@ const AppHeader = () => {
           </div>
         </div>
       )}
+
+      {/* Cart Drawer */}
+      <CartDrawer />
     </Header>
   );
 };
