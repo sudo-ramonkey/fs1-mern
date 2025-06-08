@@ -23,24 +23,24 @@
   font-weight: 500;
 }
 
-/* Grid de productos */
+/* Grid de productos optimizado para mostrar más productos */
 .articleWrapper {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); /* Reducido de 280px */
+  gap: 16px; /* Reducido de 24px */
   justify-items: center;
   width: 100%;
   padding: 0;
-  margin-bottom: 32px;
+  margin-bottom: 24px; /* Reducido de 32px */
 }
 
-/* Wrapper de paginación */
+/* Wrapper de paginación optimizado */
 .pagination-wrapper {
   display: flex;
   justify-content: center;
-  padding: 32px 0;
+  padding: 24px 0; /* Reducido de 32px */
   border-top: 1px solid #e5e7eb;
-  margin-top: 32px;
+  margin-top: 24px; /* Reducido de 32px */
 }
 
 /* Estilos para el componente de paginación de Carbon */

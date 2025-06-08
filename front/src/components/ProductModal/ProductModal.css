@@ -12,8 +12,8 @@
 .product-modal__content {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  padding: 1rem 0;
+  gap: 1.5rem; /* Reducido de 2rem */
+  padding: 0.75rem 0; /* Reducido de 1rem */
 }
 
 .product-modal__images {

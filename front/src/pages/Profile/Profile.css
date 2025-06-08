@@ -2,7 +2,7 @@
 .profile-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: 1.5rem 1rem; /* Reducido de 2rem */
   min-height: calc(100vh - 120px);
   display: flex;
   flex-direction: column;
@@ -13,8 +13,8 @@
 
 .profile-header {
   text-align: center;
-  margin-bottom: 2.5rem;
-  padding: 2rem 1rem;
+  margin-bottom: 2rem; /* Reducido de 2.5rem */
+  padding: 1.5rem 1rem; /* Reducido de 2rem */
   border-bottom: 1px solid var(--cds-border-subtle);
   width: 100%;
   max-width: 800px;
@@ -45,7 +45,7 @@
 }
 
 .profile-notification {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem; /* Reducido de 1.5rem */
   width: 100%;
   max-width: 800px;
 }
@@ -80,8 +80,8 @@
   background: var(--cds-layer);
   border: 1px solid var(--cds-border-subtle);
   border-radius: 8px;
-  padding: 2rem;
-  margin: 1rem auto 0 auto;
+  padding: 1.5rem; /* Reducido de 2rem */
+  margin: 0.75rem auto 0 auto; /* Reducido de 1rem */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 900px;
@@ -92,13 +92,13 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
+  margin-bottom: 1.5rem; /* Reducido de 2rem */
+  padding-bottom: 0.75rem; /* Reducido de 1rem */
   border-bottom: 1px solid var(--cds-border-subtle);
 }
 
 .profile-section-header h3 {
-  font-size: 1.5rem;
+  font-size: 1.375rem; /* Reducido de 1.5rem */
   font-weight: 600;
   color: var(--cds-text-primary);
   margin: 0;
@@ -139,7 +139,7 @@
 
 .form-group {
   position: relative;
-  margin-bottom: clamp(1rem, 3vw, 1.5rem);
+  margin-bottom: clamp(0.75rem, 3vw, 1.25rem); /* Reducido */
 }
 
 .form-group .input-icon {

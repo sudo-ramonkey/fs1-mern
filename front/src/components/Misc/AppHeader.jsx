@@ -102,9 +102,8 @@ const AppHeader = () => {
         onClick={() => setMenuOpen(!menuOpen)}
         isActive={menuOpen}
         className="header-menu-button"
-      />
-        <HeaderName onClick={() => handleNavigation('/')} prefix="" className="header-logo">
-        🎵 MusicStore
+      />        <HeaderName onClick={() => handleNavigation('/')} prefix="" className="header-logo">
+        🎸 El mundo de las guitarras
       </HeaderName><HeaderNavigation aria-label="Navegación principal" className="header-navigation">
         <HeaderMenuItem onClick={() => handleNavigation('/')}>Inicio</HeaderMenuItem>
         <HeaderMenuItem onClick={() => handleNavigation('/productos')}>Productos</HeaderMenuItem>

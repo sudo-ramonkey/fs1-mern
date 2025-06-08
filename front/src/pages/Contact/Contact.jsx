@@ -134,10 +134,9 @@ const Contact = () => {
                 <Tile className="contact-method">
                   <div className="method-icon">
                     <Email size={24} />
-                  </div>
-                  <div className="method-details">
+                  </div>                  <div className="method-details">
                     <h4>Email</h4>
-                    <p>info@musicstore.com<br />soporte@musicstore.com</p>
+                    <p>info@elmundodelasguiarras.com<br />soporte@elmundodelasguiarras.com</p>
                   </div>
                 </Tile>
 

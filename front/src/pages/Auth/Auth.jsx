@@ -207,9 +207,8 @@ const Auth = () => {
   }
   return (
     <div className="auth-container">
-      <div className="auth-content">
-        <div className="auth-header">
-          <h1>🎵 MusicStore</h1>
+      <div className="auth-content">        <div className="auth-header">
+          <h1>🎸 El mundo de las guitarras</h1>
           <p>Bienvenido a nuestra tienda de instrumentos musicales</p>
         </div>
 
