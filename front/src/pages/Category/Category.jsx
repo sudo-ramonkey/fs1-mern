@@ -22,9 +22,9 @@ import {
   ArrowUp,
   ShoppingCart,
 } from '@carbon/react/icons';
-import { fetchProductosThunk, selectFilteredProducts, selectCategories } from '../redux/slices/shopSlice';
-import { addToCart } from '../redux/slices/cartSlice';
-import InstrumentCard from '../components/Cards/InstrumentCard';
+import { fetchProductosThunk, selectFilteredProducts, selectCategories } from '../../redux/slices/shopSlice';
+import { addToCart } from '../../redux/slices/cartSlice';
+import InstrumentCard from '../../components/Cards/InstrumentCard';
 import './Category.css';
 
 const Category = () => {  const { categoryId, subcategory } = useParams();

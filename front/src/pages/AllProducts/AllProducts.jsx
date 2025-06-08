@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Pagination } from '@carbon/react';
-import { fetchProductosThunk, selectFilteredProducts, applyFilters } from '../redux/slices/shopSlice';
-import FilterPopUp from '../components/FilterPopUp/FilterPopUp';
-import InstrumentCard from '../components/Cards/InstrumentCard';
+import { fetchProductosThunk, selectFilteredProducts, applyFilters } from '../../redux/slices/shopSlice';
+import FilterPopUp from '../../components/FilterPopUp/FilterPopUp';
+import InstrumentCard from '../../components/Cards/InstrumentCard';
 import "./AllProducts.css"
 
 const AllProducts = () => {

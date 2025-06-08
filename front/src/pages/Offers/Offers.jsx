@@ -18,9 +18,9 @@ import {
   Star,
   ShoppingCart,
 } from '@carbon/react/icons';
-import { fetchProductosThunk, selectFilteredProducts } from '../redux/slices/shopSlice';
-import { addToCart } from '../redux/slices/cartSlice';
-import InstrumentCard from '../components/Cards/InstrumentCard';
+import { fetchProductosThunk, selectFilteredProducts } from '../../redux/slices/shopSlice';
+import { addToCart } from '../../redux/slices/cartSlice';
+import InstrumentCard from '../../components/Cards/InstrumentCard';
 import './Offers.css';
 
 const Offers = () => {

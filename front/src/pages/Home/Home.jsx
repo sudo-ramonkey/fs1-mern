@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Button, Grid, Column, Tile } from '@carbon/react';
 import { ArrowRight, ShoppingCatalog, Music, Trophy } from '@carbon/react/icons';
-import { fetchProductosThunk, selectFilteredProducts } from '../redux/slices/shopSlice';
-import InstrumentCard from '../components/Cards/InstrumentCard';
+import { fetchProductosThunk, selectFilteredProducts } from '../../redux/slices/shopSlice';
+import InstrumentCard from '../../components/Cards/InstrumentCard';
 import "./Home.css"
 
 const Home = () => {
