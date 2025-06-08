@@ -23,8 +23,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Password is required"],
     minlength: [6, "Password must be at least 6 characters long"]
-  },
-  role: {
+  },  role: {
     type: String,
     enum: ["User", "Admin"],
     default: "User"
@@ -108,6 +107,11 @@ userSchema.methods.getFullName = function () {
     return `${this.firstName} ${this.lastName}`;
   }
   return this.username;
+};
+
+// Method to check if user is admin
+userSchema.methods.isAdminUser = function () {
+  return this.role === "Admin";
 };
 
 // Method to get public profile (without sensitive data)
