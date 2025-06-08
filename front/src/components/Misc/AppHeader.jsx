@@ -186,7 +186,6 @@ const AppHeader = () => {
         <HeaderMenuItem onClick={() => handleNavigation("/productos")}>
           Productos
         </HeaderMenuItem>
-
         {/* Menús de categorías dinámicos */}
         {loading ? (
           <div className="categories-loading">

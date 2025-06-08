@@ -1,0 +1,67 @@
+/* Carbon Design System Tab Centering Overrides */
+/* Only affects visual alignment, preserves functionality */
+
+/* Center the tab list container without affecting display or JavaScript functionality */
+.cds--tabs .cds--tab-list {
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+/* Ensure tabs within the list maintain proper display but are centered */
+.cds--tabs .cds--tab-list .cds--tab {
+  text-align: center !important;
+}
+
+/* Specific overrides for Auth and Profile pages */
+.auth-content .cds--tabs .cds--tab-list,
+.profile-content .cds--tabs .cds--tab-list {
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+/* Responsive centering */
+@media (min-width: 320px) {
+  .cds--tabs .cds--tab-list {
+    justify-content: center !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .cds--tabs .cds--tab-list {
+    justify-content: center !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .cds--tabs .cds--tab-list {
+    justify-content: center !important;
+  }
+}
+
+/* Alternative approach with specific container classes */
+.auth-container .cds--tabs .cds--tab-list,
+.profile-container .cds--tabs .cds--tab-list {
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
+  display: flex !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+}
+
+/* Even more specific targeting */
+html body div.auth-container div.auth-content .cds--tabs .cds--tab-list,
+html body div.profile-container div.profile-content .cds--tabs .cds--tab-list {
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
+  display: flex !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+}
+
+/* Force with data attributes if present */
+[data-testid*="tab"] {
+  justify-content: center !important;
+  text-align: center !important;
+}

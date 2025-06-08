@@ -24,3 +24,20 @@ body, html {
   min-height: 100vh;
   background-color: var(--background-primary);
 }
+
+/* Basic Carbon Design System Tab List Centering */
+.cds--tabs .cds--tab-list {
+  justify-content: center !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* Additional tab centering support */
+.cds--tabs {
+  display: flex !important;
+  justify-content: center !important;
+}
+
+.cds--tab {
+  text-align: center !important;
+}

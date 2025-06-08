@@ -1,4 +1,5 @@
 import AppHeader from '../Misc/AppHeader'
+import Footer from '../Footer/Footer'
 import './styles.css'
 
 const Layout = ({ children }) => {
@@ -6,7 +7,7 @@ const Layout = ({ children }) => {
     <div className="layout">
       <AppHeader/>
       <main className="layout-main">{children}</main>
-      <footer className="layout-footer">Footer Content</footer>
+      <Footer />
     </div>
   )
 }

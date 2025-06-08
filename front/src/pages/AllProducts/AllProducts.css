@@ -1,27 +1,27 @@
-/* Container principal */
+/* Container principal optimizado */
 .all-products-container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 16px;
+  padding: 0 12px; /* Reducido de 16px */
 }
 
 /* Header con título, filtros y contador */
 .all-products-header {
-  padding: 24px 0;
+  padding: 20px 0; /* Reducido de 24px */
   border-bottom: 1px solid #e5e7eb;
-  margin-bottom: 24px;
+  margin-bottom: 20px; /* Reducido de 24px */
 }
 
 .page-title {
   text-align: center;
-  margin-bottom: 24px;
+  margin-bottom: 20px; /* Reducido de 24px */
 }
 
 .page-title h1 {
-  font-size: 2.5rem;
+  font-size: 2.25rem; /* Reducido de 2.5rem */
   font-weight: 700;
   color: #1f2937;
-  margin-bottom: 8px;
+  margin-bottom: 6px; /* Reducido de 8px */
 }
 
 .page-title p {
@@ -35,8 +35,8 @@
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 16px;
-  margin-top: 24px;
+  gap: 12px; /* Reducido de 16px */
+  margin-top: 20px; /* Reducido de 24px */
 }
 
 .products-count {
@@ -46,24 +46,24 @@
   margin-left: auto;
 }
 
-/* Grid de productos */
+/* Grid de productos optimizado */
 .articleWrapper {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); /* Reducido de 280px */
+  gap: 18px; /* Reducido de 24px */
   justify-items: center;
   width: 100%;
   padding: 0;
-  margin-bottom: 32px;
+  margin-bottom: 28px; /* Reducido de 32px */
 }
 
-/* Wrapper de paginación */
+/* Wrapper de paginación optimizado */
 .pagination-wrapper {
   display: flex;
   justify-content: center;
-  padding: 32px 0;
+  padding: 28px 0; /* Reducido de 32px */
   border-top: 1px solid #e5e7eb;
-  margin-top: 32px;
+  margin-top: 28px; /* Reducido de 32px */
 }
 
 /* Estilos para el componente de paginación de Carbon */

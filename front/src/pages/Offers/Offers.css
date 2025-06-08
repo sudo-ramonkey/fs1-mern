@@ -16,7 +16,7 @@
 .offers-hero {
   background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
   color: white;
-  padding: 4rem 0;
+  padding: 3rem 0; /* Reducido de 4rem */
   position: relative;
   overflow: hidden;
 }
@@ -121,16 +121,16 @@
 
 /* Featured Offers */
 .featured-offers {
-  padding: 4rem 0;
+  padding: 3rem 0; /* Reducido de 4rem */
   background: white;
 }
 
 .featured-offers-grid {
-  margin-top: 2rem;
+  margin-top: 1.5rem; /* Reducido de 2rem */
 }
 
 .featured-offer-col {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem; /* Reducido de 2rem */
 }
 
 .featured-offer-card {
@@ -235,16 +235,16 @@
 
 /* Regular Offers */
 .regular-offers {
-  padding: 4rem 0;
+  padding: 3rem 0; /* Reducido de 4rem */
   background: #f8f9fa;
 }
 
 .offers-grid {
-  margin-top: 2rem;
+  margin-top: 1.5rem; /* Reducido de 2rem */
 }
 
 .offer-col {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem; /* Reducido de 2rem */
 }
 
 /* Newsletter Section */

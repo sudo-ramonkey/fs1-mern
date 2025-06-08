@@ -24,6 +24,7 @@ import {
   Chat,
   Help,
 } from '@carbon/react/icons';
+import InteractiveMap from '../../components/Map/InteractiveMap';
 import './Contact.css';
 
 const Contact = () => {
@@ -114,10 +115,9 @@ const Contact = () => {
                 <Tile className="contact-method">
                   <div className="method-icon">
                     <Location size={24} />
-                  </div>
-                  <div className="method-details">
+                  </div>                  <div className="method-details">
                     <h4>Dirección</h4>
-                    <p>Av. Revolución 123<br />Col. Centro, Torreón, Coah.<br />CP 27000</p>
+                    <p>Niños Heroes 706<br />Tercero de Cobián Centro<br />27220 Torreón, Coah.</p>
                   </div>
                 </Tile>
 
@@ -134,10 +134,9 @@ const Contact = () => {
                 <Tile className="contact-method">
                   <div className="method-icon">
                     <Email size={24} />
-                  </div>
-                  <div className="method-details">
+                  </div>                  <div className="method-details">
                     <h4>Email</h4>
-                    <p>info@musicstore.com<br />soporte@musicstore.com</p>
+                    <p>info@elmundodelasguitarras.com<br />soporte@elmundodelasguitarras.com</p>
                   </div>
                 </Tile>
 
@@ -320,29 +319,24 @@ const Contact = () => {
             </Tile>
           </Column>
         </Grid>
-      </Section>
-
-      {/* Map Section */}
+      </Section>      {/* Map Section */}
       <Section className="contact-map">
         <Grid>
           <Column lg={16} md={8} sm={4}>
             <div className="map-header">
               <Heading className="map-title">
                 🗺️ Encuéntranos
-              </Heading>
-              <p className="map-subtitle">
-                Visita nuestra tienda física en el corazón de Torreón
+              </Heading>              <p className="map-subtitle">
+                Visita nuestra tienda física en Tercero de Cobián Centro, Torreón
               </p>
             </div>
-            <Tile className="map-container">
-              <div className="map-placeholder">
-                <Location size={48} />
-                <p>Mapa interactivo</p>
-                <p className="map-address">Av. Revolución 123, Col. Centro, Torreón, Coah.</p>
-                <Button kind="secondary" size="md">
-                  Ver en Google Maps
-                </Button>
-              </div>
+            <Tile className="map-container">              <InteractiveMap 
+                latitude={25.5418}
+                longitude={-103.4297}
+                zoom={16}
+                storeName="El mundo de las guitarras"
+                address="Niños Heroes 706, Tercero de Cobián Centro, 27220 Torreón, Coah."
+              />
             </Tile>
           </Column>
         </Grid>
