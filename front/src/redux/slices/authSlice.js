@@ -1,30 +1,19 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { loginService, registerService, getProfileService, logoutService, updateProfileService, changePasswordService } from '../../service/service';
 
 // Async thunks
 export const loginUser = createAsyncThunk(
   'auth/loginUser',
   async ({ login, password }, { rejectWithValue }) => {
     try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ login, password }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
+      const data = await loginService({ login, password });
+      if (data.error || !data.token) {
         return rejectWithValue(data);
       }
-
-      // Store token in localStorage
       localStorage.setItem('token', data.token);
-      
       return data;
     } catch (error) {
-      return rejectWithValue({ error: 'Network error' });
+      return rejectWithValue(error);
     }
   }
 );
@@ -33,26 +22,14 @@ export const registerUser = createAsyncThunk(
   'auth/registerUser',
   async (userData, { rejectWithValue }) => {
     try {
-      const response = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(userData),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
+      const data = await registerService(userData);
+      if (data.error || !data.token) {
         return rejectWithValue(data);
       }
-
-      // Store token in localStorage
       localStorage.setItem('token', data.token);
-      
       return data;
     } catch (error) {
-      return rejectWithValue({ error: 'Network error' });
+      return rejectWithValue(error);
     }
   }
 );
@@ -65,22 +42,13 @@ export const getUserProfile = createAsyncThunk(
       if (!token) {
         return rejectWithValue({ error: 'No token found' });
       }
-
-      const response = await fetch('/api/auth/profile', {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
+      const data = await getProfileService(token);
+      if (data.error) {
         return rejectWithValue(data);
       }
-
       return data;
     } catch (error) {
-      return rejectWithValue({ error: 'Network error' });
+      return rejectWithValue(error);
     }
   }
 );
@@ -91,20 +59,37 @@ export const logoutUser = createAsyncThunk(
     try {
       const token = localStorage.getItem('token');
       if (token) {
-        await fetch('/api/auth/logout', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
-        });
+        await logoutService(token);
       }
-      
       localStorage.removeItem('token');
       return {};
     } catch (error) {
-      // Even if the request fails, we should still clear local storage
       localStorage.removeItem('token');
       return {};
+    }
+  }
+);
+
+export const updateUserProfile = createAsyncThunk(
+  'auth/updateUserProfile',
+  async (userData, { rejectWithValue }) => {
+    try {
+      const data = await updateProfileService(userData);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const changeUserPassword = createAsyncThunk(
+  'auth/changeUserPassword',
+  async (passwordData, { rejectWithValue }) => {
+    try {
+      const data = await changePasswordService(passwordData);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error);
     }
   }
 );
@@ -196,6 +181,33 @@ const authSlice = createSlice({
         state.token = null;
         state.isAuthenticated = false;
         state.error = null;
+      })
+      // Update Profile
+      .addCase(updateUserProfile.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(updateUserProfile.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = action.payload.user;
+        state.error = null;
+      })
+      .addCase(updateUserProfile.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload?.error || 'Failed to update profile';
+      })
+      // Change Password
+      .addCase(changeUserPassword.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(changeUserPassword.fulfilled, (state) => {
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(changeUserPassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload?.error || 'Failed to change password';
       });
   },
 });

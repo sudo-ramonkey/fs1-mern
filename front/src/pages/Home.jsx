@@ -1,81 +1,135 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Pagination } from '@carbon/react';
-import { fetchProductosThunk, selectFilteredProducts, applyFilters } from '../redux/slices/shopSlice';
-import FilterPopUp from '../components/FilterPopUp/FilterPopUp';
+import { useNavigate } from 'react-router-dom';
+import { Button, Grid, Column, Tile } from '@carbon/react';
+import { ArrowRight, ShoppingCatalog, Music, Trophy } from '@carbon/react/icons';
+import { fetchProductosThunk, selectFilteredProducts } from '../redux/slices/shopSlice';
 import ProductCard from '../components/Cards/InstrumentCard';
-import "./styles.css"
+import "./Home.css"
 
 const Home = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const productos = useSelector(selectFilteredProducts);
     
-    // Estados para la paginación
-    const [currentPage, setCurrentPage] = useState(1);
-    const [pageSize, setPageSize] = useState(12);
-    
-    // Calcular productos paginados
-    const paginatedData = useMemo(() => {
-        const startIndex = (currentPage - 1) * pageSize;
-        const endIndex = startIndex + pageSize;
-        return productos.slice(startIndex, endIndex);
-    }, [productos, currentPage, pageSize]);
+    // Obtener productos destacados (los primeros 6)
+    const featuredProducts = useMemo(() => {
+        return productos.slice(0, 6);
+    }, [productos]);
 
     useEffect(() => {
         dispatch(fetchProductosThunk());
     }, [dispatch]);
 
-    // Resetear a la primera página cuando cambien los filtros
-    useEffect(() => {
-        setCurrentPage(1);
-    }, [productos.length]);
-
-    const handlePaginationChange = ({ page, pageSize: newPageSize }) => {
-        setCurrentPage(page);
-        if (newPageSize !== pageSize) {
-            setPageSize(newPageSize);
-            setCurrentPage(1); // Resetear a la primera página cuando cambie el tamaño
-        }
+    const handleViewAllProducts = () => {
+        navigate('/productos');
     };
 
     return (
-        <div className="home-container">
-            <div className="home-header">
-                <FilterPopUp />
-                <div className="products-count">
-                    Mostrando {paginatedData.length} de {productos.length} productos
+        <div className="home-landing-container">
+            {/* Hero Section */}
+            <section className="hero-section">
+                <div className="hero-content">
+                    <h1>El Mundo de las Guitarras</h1>
+                    <p>Descubre nuestra colección de instrumentos musicales de la más alta calidad. 
+                       Desde guitarras clásicas hasta equipos profesionales de audio.</p>
+                    <div className="hero-actions">                        <Button 
+                            kind="primary" 
+                            size="lg" 
+                            renderIcon={ShoppingCatalog}
+                            onClick={handleViewAllProducts}
+                        >
+                            Ver Todos los Productos
+                        </Button>
+                        <Button 
+                            kind="tertiary" 
+                            size="lg"
+                        >
+                            Conoce Más
+                        </Button>
+                    </div>
                 </div>
-            </div>
-            
-            <div className='articleWrapper'>
-                {paginatedData.map((producto) => (
-                    <ProductCard key={producto.id || producto._id} article={producto} />
-                ))}
-            </div>
-            
-            {productos.length > 0 && (
-                <div className="pagination-wrapper">
-                    <Pagination
-                        backwardText="Página anterior"
-                        forwardText="Página siguiente"
-                        itemsPerPageText="Productos por página:"
-                        page={currentPage}
-                        pageNumberText="Número de página"
-                        pageSize={pageSize}
-                        pageSizes={[6, 12, 24, 48]}
-                        size="md"
-                        totalItems={productos.length}
-                        onChange={handlePaginationChange}
-                    />
+            </section>
+
+            {/* Features Section */}
+            <section className="features-section">
+                <Grid>
+                    <Column lg={16}>
+                        <h2 className="section-title">¿Por qué elegir El Mundo Guitarras?</h2>
+                    </Column>
+                    <Column lg={5} md={4} sm={4}>
+                        <Tile className="feature-tile">
+                            <Music className="feature-icon" />
+                            <h3>Calidad Premium</h3>
+                            <p>Instrumentos seleccionados de las mejores marcas del mundo.</p>
+                        </Tile>
+                    </Column>
+                    <Column lg={5} md={4} sm={4}>
+                        <Tile className="feature-tile">
+                            <Trophy className="feature-icon" />
+                            <h3>Experiencia</h3>
+                            <p>Más de 20 años ofreciendo instrumentos musicales de excelencia.</p>
+                        </Tile>
+                    </Column>
+                    <Column lg={6} md={8} sm={4}>                        <Tile className="feature-tile">
+                            <ShoppingCatalog className="feature-icon" />
+                            <h3>Variedad</h3>
+                            <p>Amplio catálogo con guitarras, accesorios y equipos de audio.</p>
+                        </Tile>
+                    </Column>
+                </Grid>
+            </section>
+
+            {/* Featured Products Section */}
+            <section className="featured-section">
+                <div className="section-header">
+                    <h2 className="section-title">Productos Destacados</h2>
+                    <Button 
+                        kind="ghost" 
+                        renderIcon={ArrowRight}
+                        onClick={handleViewAllProducts}
+                    >
+                        Ver todos
+                    </Button>
                 </div>
-            )}
-            
-            {productos.length === 0 && (
-                <div className="no-products">
-                    <h3>No se encontraron productos</h3>
-                    <p>Intenta ajustar los filtros para ver más resultados.</p>
+                
+                <div className="featured-products-grid">
+                    {featuredProducts.map((producto) => (
+                        <ProductCard key={producto.id || producto._id} article={producto} />
+                    ))}
                 </div>
-            )}
+                
+                {featuredProducts.length === 0 && (
+                    <div className="no-products">
+                        <h3>Cargando productos destacados...</h3>
+                    </div>
+                )}
+            </section>
+
+            {/* CTA Section */}
+            <section className="cta-section">
+                <Grid>
+                    <Column lg={10} md={6} sm={4}>
+                        <div className="cta-content">
+                            <h2>¿Listo para encontrar tu instrumento perfecto?</h2>
+                            <p>Explora nuestra colección completa y encuentra el instrumento que llevará tu música al siguiente nivel.</p>
+                            <Button 
+                                kind="primary" 
+                                size="lg"
+                                renderIcon={ArrowRight}
+                                onClick={handleViewAllProducts}
+                            >
+                                Explorar Catálogo
+                            </Button>
+                        </div>
+                    </Column>
+                    <Column lg={6} md={2} sm={4}>
+                        <div className="cta-image">
+                            {/* Aquí podrías agregar una imagen */}
+                        </div>
+                    </Column>
+                </Grid>
+            </section>
         </div>
     );
 };

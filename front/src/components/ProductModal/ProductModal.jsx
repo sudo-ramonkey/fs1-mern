@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { Modal, Button } from '@carbon/react';
 import { ShoppingCart, Add, Subtract } from '@carbon/icons-react';
 import { useSelector } from 'react-redux';
@@ -7,8 +7,7 @@ import './ProductModal.css';
 
 const ProductModal = ({ isOpen, onClose, product, onProductChange }) => {
     const { addMultipleItems, getItemQuantity } = useCart();
-    const [selectedImage, setSelectedImage] = useState(0);
-    const [quantity, setQuantity] = useState(1);
+    const [selectedImage, setSelectedImage] = useState(0);    const [quantity, setQuantity] = useState(1);
     
     // Solo obtener productos para relacionados cuando el modal está abierto
     const productos = useSelector(state => isOpen ? state.shop.productos : []);
@@ -34,7 +33,18 @@ const ProductModal = ({ isOpen, onClose, product, onProductChange }) => {
             setSelectedImage(0);
             setQuantity(1);
         }
-    }, [product]);
+    }, [product]);    // Scroll al principio del modal cuando cambie el producto (por related)
+    useEffect(() => {
+        if (isOpen && product) {
+            // Usar requestAnimationFrame para asegurar que el DOM esté completamente renderizado
+            requestAnimationFrame(() => {
+                const modalContent = document.querySelector('.product-modal .cds--modal-content');
+                if (modalContent) {
+                    modalContent.scrollTo({ top: 0, behavior: 'auto' }); // Cambiar a 'auto' para scroll inmediato
+                }
+            });
+        }
+    }, [product, isOpen]);
 
     if (!product) return null;
 
@@ -55,18 +65,16 @@ const ProductModal = ({ isOpen, onClose, product, onProductChange }) => {
         }
     };
 
-    const images = product.imagenes || ['/placeholder-image.jpg'];
-
-    return (
+    const images = product.imagenes || ['/placeholder-image.jpg'];    return (
         <Modal
+            key={product._id} // Forzar re-render cuando cambie el producto
             open={isOpen}
             onRequestClose={onClose}
             modalHeading="Detalles del Producto"
             passiveModal={true}
             size="lg"
             className="product-modal"
-        >
-            <div className="product-modal__content">
+        ><div className="product-modal__content">
                 <div className="product-modal__images">
                     <div className="product-modal__main-image">
                         <img 
