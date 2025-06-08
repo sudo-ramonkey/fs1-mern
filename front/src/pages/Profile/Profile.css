@@ -187,10 +187,6 @@
 }
 
 .profile-content .cds--tabs .cds--tab-list {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  margin: 0 auto;
   border-bottom: 1px solid var(--cds-border-subtle);
   flex-wrap: wrap;
   gap: 0;
@@ -204,7 +200,6 @@
 
 .profile-content .cds--tabs .cds--tab-panel {
   width: 100%;
-  display: block;
   padding: 0;
 }
 

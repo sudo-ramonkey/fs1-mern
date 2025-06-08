@@ -12,20 +12,6 @@ const Footer = () => {
               Tu tienda de confianza que ofrece instrumentos de calidad 
               con un servicio al cliente excepcional y asesoramiento experto para músicos de todos los niveles.
             </p>
-            <div className="footer-social">
-              <a href="#" className="social-link" aria-label="Facebook">
-                <span>FB</span>
-              </a>
-              <a href="#" className="social-link" aria-label="Twitter">
-                <span>TW</span>
-              </a>
-              <a href="#" className="social-link" aria-label="Instagram">
-                <span>IG</span>
-              </a>
-              <a href="#" className="social-link" aria-label="LinkedIn">
-                <span>LI</span>
-              </a>
-            </div>
           </div>
 
           {/* Links Container - Side by Side */}
