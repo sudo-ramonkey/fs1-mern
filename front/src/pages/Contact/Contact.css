@@ -251,6 +251,7 @@
   background: white;
   position: relative;
   z-index: 1;
+  margin-bottom: 2rem;
 }
 
 .map-header {
@@ -281,6 +282,8 @@
   padding: 0;
   position: relative;
   z-index: 1;
+  height: 400px;
+  max-height: 400px;
 }
 
 /* Map styles now handled by InteractiveMap component */
@@ -377,9 +380,13 @@
   .form-title,
   .info-title {
     font-size: 1.25rem;
-  }
-    .faq-item {
+  }  .faq-item {
     padding: 1.5rem;
+  }
+  
+  .map-container {
+    height: 300px;
+    max-height: 300px;
   }
   
   /* Map styles handled by InteractiveMap component */
