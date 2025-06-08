@@ -38,7 +38,7 @@ To run this project locally, follow these steps:
    ```bash
    # Run backend
    cd back
-   npm run dev
+   npm start
 
    # In a separate terminal, run frontend
    cd front
@@ -51,29 +51,44 @@ To run this project locally, follow these steps:
 
 ## Deployment
 
-This project is configured for automated CI/CD deployment to Kubernetes using GitHub Actions.
+This project is configured for automated CI/CD deployment using Docker Compose and GitHub Actions.
 
-### Kubernetes Deployment
+### Docker Compose Deployment
 
-The application is deployed as StatefulSets for zero-downtime deployments:
+The application is deployed using Docker Compose with the following services:
 
-- **Backend**: Node.js Express API with MongoDB connection
-- **Frontend**: React application served via Nginx
-- **Ingress**: Configured to route traffic to the appropriate services
+- **Backend**: Node.js Express API with MongoDB connection (port 5000)
+- **Frontend**: React application served via Nginx (port 80)
 
 ### CI/CD Workflow
 
 Pushing to the `main` branch triggers the deployment workflow:
 
-1. Builds Docker images for frontend and backend
-2. Pushes images to GitHub Container Registry
-3. Updates Kubernetes manifests with new image tags
-4. Applies the manifests to the Kubernetes cluster
-5. Verifies the deployment
+1. Cleans out old containers and images
+2. Builds Docker images for frontend and backend using Docker Compose
+3. Deploys the containers using `docker-compose up -d`
 
 ### Manual Deployment
 
-For manual deployment, see the instructions in `k8s/README.md`.
+For manual deployment using Docker Compose:
+
+```bash
+# Build and start the services
+docker-compose up -d
+
+# To stop the services
+docker-compose down
+
+# To rebuild and restart
+docker-compose down
+docker-compose build
+docker-compose up -d
+```
+
+Make sure to set the required environment variables in your `.env` file:
+- `MONGO_URI`
+- `MONGO_USER`
+- `MONGO_PASSWORD`
 
 ## Project Structure
 
@@ -81,7 +96,7 @@ For manual deployment, see the instructions in `k8s/README.md`.
 fs1-mern/
 ├── back/                 # Backend Node.js Express API
 ├── front/                # Frontend React application
-├── k8s/                  # Kubernetes manifests
+├── docker-compose.yml    # Docker Compose configuration
 └── .github/workflows/    # GitHub Actions workflows
 ```
 
@@ -91,4 +106,4 @@ fs1-mern/
 
 [Carbon Icons](https://carbon-elements.netlify.app/icons/examples/preview/)
 
-[Kubernetes Documentation](https://kubernetes.io/docs/home/)
+[Docker Compose Documentation](https://docs.docker.com/compose/)
