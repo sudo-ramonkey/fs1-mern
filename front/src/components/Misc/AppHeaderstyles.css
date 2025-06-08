@@ -6,6 +6,7 @@
   position: sticky;
   top: 0;
   z-index: 1020;
+  padding-top: 0.75rem;
 }
 
 .header-logo {
@@ -80,7 +81,6 @@
 }
 
 /* Badge Styles */
-.notification-badge,
 .cart-badge {
   position: absolute;
   top: -4px;
@@ -122,7 +122,6 @@
 }
 
 /* Ensure header global actions have relative positioning for badges */
-.header-notifications,
 .header-cart {
   position: relative;
 }

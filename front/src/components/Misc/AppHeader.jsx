@@ -17,7 +17,6 @@ import {
   ShoppingCart,
   User,
   Menu,
-  Notification,
 } from '@carbon/react/icons';
 import { setSearchText } from '../../redux/slices/shopSlice';
 import { toggleCart, selectCartTotalItems } from '../../redux/slices/cartSlice';
@@ -94,15 +93,6 @@ const AppHeader = () => {
           className="header-search-toggle"
         >
           <SearchIcon size={20} />
-        </HeaderGlobalAction>
-
-        {/* Notificaciones */}
-        <HeaderGlobalAction
-          aria-label="Notificaciones"
-          className="header-notifications"
-        >
-          <Notification size={20} />
-          <span className="notification-badge">3</span>
         </HeaderGlobalAction>
 
         {/* Carrito */}

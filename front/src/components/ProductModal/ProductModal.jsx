@@ -1,27 +1,57 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Modal, Button } from '@carbon/react';
 import { ShoppingCart, Add, Subtract } from '@carbon/icons-react';
+import { useSelector } from 'react-redux';
 import useCart from '../../hooks/useCart';
 import './ProductModal.css';
 
-const ProductModal = ({ isOpen, onClose, product }) => {
+const ProductModal = ({ isOpen, onClose, product, onProductChange }) => {
     const { addMultipleItems, getItemQuantity } = useCart();
     const [selectedImage, setSelectedImage] = useState(0);
     const [quantity, setQuantity] = useState(1);
-    const cartQuantity = getItemQuantity(product?._id);
+    
+    // Solo obtener productos para relacionados cuando el modal está abierto
+    const productos = useSelector(state => isOpen ? state.shop.productos : []);
+    
+    // Solo calcular cartQuantity cuando el modal está abierto
+    const cartQuantity = isOpen ? getItemQuantity(product?._id) : 0;
+    
+    // Calcular productos relacionados solo cuando es necesario
+    const relatedProducts = useMemo(() => {
+        if (!isOpen || !product || !productos.length) return [];
+        
+        return productos
+            .filter(p => 
+                p._id !== product._id && 
+                (p.categoriaProducto === product.categoriaProducto || p.marca === product.marca)
+            )
+            .slice(0, 4);
+    }, [isOpen, product, productos]);
+
+    // Resetear estado cuando cambie el producto
+    useEffect(() => {
+        if (product) {
+            setSelectedImage(0);
+            setQuantity(1);
+        }
+    }, [product]);
 
     if (!product) return null;
 
     const handleAddToCart = () => {
         addMultipleItems(product, quantity);
         setQuantity(1);
-        // Opcional: cerrar el modal después de agregar al carrito
-        // onClose();
     };
 
     const handleQuantityChange = (value) => {
         if (value >= 1) {
             setQuantity(value);
+        }
+    };
+
+    const handleRelatedProductClick = (relatedProduct) => {
+        if (onProductChange) {
+            onProductChange(relatedProduct);
         }
     };
 
@@ -137,7 +167,7 @@ const ProductModal = ({ isOpen, onClose, product }) => {
                                     kind="ghost"
                                     size="sm"
                                     onClick={() => handleQuantityChange(quantity + 1)}
-                                    disabled={product.stock && quantity >= product.stock}
+                                    disabled={product.stock === 0 || (product.stock && quantity >= product.stock)}
                                     hasIconOnly
                                     iconDescription="Aumentar cantidad"
                                 >
@@ -164,6 +194,43 @@ const ProductModal = ({ isOpen, onClose, product }) => {
                         </Button>
                     </div>
                 </div>
+                
+                {/* Productos relacionados - solo se renderiza si hay productos */}
+                {relatedProducts.length > 0 && (
+                    <div className="product-modal__related">
+                        <div className="product-modal__related-header">
+                            <h3>Productos relacionados</h3>
+                            <p>También te puede interesar</p>
+                        </div>
+                        <div className="product-modal__related-grid">
+                            {relatedProducts.map((relatedProduct) => (
+                                <div 
+                                    key={relatedProduct._id} 
+                                    className="product-modal__related-item"
+                                    onClick={() => handleRelatedProductClick(relatedProduct)}
+                                >
+                                    {/* Badge de nuevo producto si es reciente */}
+                                    {new Date(relatedProduct.createdAt || Date.now()) > new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) && (
+                                        <div className="product-badge">Nuevo</div>
+                                    )}
+                                    
+                                    <img 
+                                        src={relatedProduct.imagenes?.[0] || '/placeholder-image.jpg'} 
+                                        alt={relatedProduct.nombre}
+                                        className="related-product-image"
+                                    />
+                                    <div className="related-product-info">
+                                        <h4 className="related-product-name">{relatedProduct.nombre}</h4>
+                                        <p className="related-product-price">
+                                            ${relatedProduct.precio?.toLocaleString()}
+                                        </p>
+                                        <p className="related-product-brand">{relatedProduct.marca}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
             </div>
         </Modal>
     );

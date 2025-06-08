@@ -28,19 +28,54 @@ const CartDrawer = () => {
         alert('Funcionalidad de checkout en desarrollo');
     };
 
+    // Prevent body scroll when drawer is open on mobile
+    React.useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+            document.body.style.position = 'fixed';
+            document.body.style.width = '100%';
+        } else {
+            document.body.style.overflow = '';
+            document.body.style.position = '';
+            document.body.style.width = '';
+        }
+
+        return () => {
+            document.body.style.overflow = '';
+            document.body.style.position = '';
+            document.body.style.width = '';
+        };
+    }, [isOpen]);
+
+    // Handle overlay click with better touch support
+    const handleOverlayClick = (e) => {
+        if (e.target === e.currentTarget) {
+            closeCartDrawer();
+        }
+    };
+
+    // Handle touch events for better mobile experience
+    const handleTouchStart = (e) => {
+        e.stopPropagation();
+    };
+
     return (
         <>
             {/* Overlay */}
             {isOpen && (
                 <div 
                     className="cart-drawer__overlay" 
-                    onClick={closeCartDrawer}
+                    onClick={handleOverlayClick}
+                    onTouchStart={handleTouchStart}
                     aria-hidden="true"
                 />
             )}
             
             {/* Drawer */}
-            <div className={`cart-drawer ${isOpen ? 'cart-drawer--open' : ''}`}>
+            <div 
+                className={`cart-drawer ${isOpen ? 'cart-drawer--open' : ''}`}
+                onTouchStart={handleTouchStart}
+            >
                 <div className="cart-drawer__header">
                     <div className="cart-drawer__title">
                         <ShoppingCart />
