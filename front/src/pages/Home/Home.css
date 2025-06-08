@@ -1,272 +1,287 @@
 /* Home Landing Page Styles */
 .home-landing-container {
-  width: 100%;
-  min-height: 100vh;
+    width: 100%;
+    min-height: 100vh;
 }
 
 /* Hero Section optimizado */
 .hero-section {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 60px 0; /* Reducido de 80px */
-  text-align: center;
-  position: relative;
-  overflow: hidden;
+    color: white;
+    border-radius: 12px;
+    padding: 60px 0; /* Reducido de 80px */
+    text-align: center;
+    position: relative;
+    overflow: hidden;
 }
 
 .hero-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.3);
-  z-index: 1;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("https://static.vecteezy.com/system/resources/previews/033/947/242/non_2x/group-of-electric-guitars-in-music-shop-on-desktop-photo.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(5px);
+    z-index: 0;
 }
 
 .hero-content {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 0 16px;
-  position: relative;
-  z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 16px;
+    position: relative;
+    z-index: 2;
 }
 
 .hero-content h1 {
-  font-size: 3rem; /* Reducido de 3.5rem */
-  font-weight: 700;
-  margin-bottom: 20px; /* Reducido de 24px */
-  line-height: 1.2;
+    font-size: 3rem; /* Reducido de 3.5rem */
+    font-weight: 700;
+    margin-bottom: 20px; /* Reducido de 24px */
+    line-height: 1.2;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .hero-content p {
-  font-size: 1.125rem; /* Reducido de 1.25rem */
-  margin-bottom: 32px; /* Reducido de 40px */
-  line-height: 1.6;
-  opacity: 0.9;
+    font-size: 1.125rem; /* Reducido de 1.25rem */
+    margin-bottom: 32px; /* Reducido de 40px */
+    line-height: 1.6;
+    opacity: 0.9;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
 }
 
 .hero-actions {
-  display: flex;
-  gap: 16px;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 /* Features Section */
 .features-section {
-  padding: 50px 0; /* Reducido de 80px */
-  background-color: #f8fafc;
+    padding: 50px 0; /* Reducido de 80px */
+    background-color: #f8fafc;
 }
 
 .section-title {
-  font-size: 2.25rem; /* Reducido de 2.5rem */
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 32px; /* Reducido de 48px */
-  color: #1f2937;
+    font-size: 2.25rem; /* Reducido de 2.5rem */
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 32px; /* Reducido de 48px */
+    color: #1f2937;
 }
 
 .feature-tile {
-  text-align: center;
-  padding: 24px 20px; /* Reducido de 32px 24px */
-  height: 100%;
-  background: white;
-  border-radius: 12px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+    padding: 24px 20px; /* Reducido de 32px 24px */
+    height: 100%;
+    background: white;
+    border-radius: 12px;
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
 }
 
 .feature-tile:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
 .feature-icon {
-  width: 40px; /* Reducido de 48px */
-  height: 40px; /* Reducido de 48px */
-  color: #667eea;
-  margin-bottom: 16px; /* Reducido de 24px */
+    width: 40px; /* Reducido de 48px */
+    height: 40px; /* Reducido de 48px */
+    color: #667eea;
+    margin-bottom: 16px; /* Reducido de 24px */
 }
 
 .feature-tile h3 {
-  font-size: 1.375rem; /* Reducido de 1.5rem */
-  font-weight: 600;
-  margin-bottom: 12px; /* Reducido de 16px */
-  color: #1f2937;
+    font-size: 1.375rem; /* Reducido de 1.5rem */
+    font-weight: 600;
+    margin-bottom: 12px; /* Reducido de 16px */
+    color: #1f2937;
 }
 
 .feature-tile p {
-  color: #6b7280;
-  line-height: 1.6;
-  margin: 0;
+    color: #6b7280;
+    line-height: 1.6;
+    margin: 0;
 }
 
 /* Featured Products Section */
 .featured-section {
-  padding: 60px 0; /* Reducido de 80px */
-  max-width: 1400px;
-  margin: 0 auto;
-  padding-left: 16px;
-  padding-right: 16px;
+    padding: 60px 0; /* Reducido de 80px */
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-left: 16px;
+    padding-right: 16px;
 }
 
 .section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 32px; /* Reducido de 48px */
-  flex-wrap: wrap;
-  gap: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px; /* Reducido de 48px */
+    flex-wrap: wrap;
+    gap: 16px;
 }
 
 .featured-products-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); /* Reducido de 280px */
-  gap: 20px; /* Reducido de 24px */
-  justify-items: center;
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fill,
+        minmax(260px, 1fr)
+    ); /* Reducido de 280px */
+    gap: 20px; /* Reducido de 24px */
+    justify-items: center;
 }
 
 .no-products {
-  text-align: center;
-  padding: 64px 16px;
-  color: #6b7280;
+    text-align: center;
+    padding: 64px 16px;
+    color: #6b7280;
 }
 
 .no-products h3 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: #374151;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #374151;
 }
 
 /* CTA Section */
 .cta-section {
-  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-  color: white;
-  padding: 60px 0; /* Reducido de 80px */
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    border-radius: 12px;
+    color: white;
+    padding: 60px 0; /* Reducido de 80px */
 }
 
 .cta-content {
-  padding: 0 16px;
+    padding: 0 16px;
 }
 
 .cta-content h2 {
-  font-size: 2.25rem; /* Reducido de 2.5rem */
-  font-weight: 700;
-  margin-bottom: 20px; /* Reducido de 24px */
-  line-height: 1.2;
+    font-size: 2.25rem; /* Reducido de 2.5rem */
+    font-weight: 700;
+    margin-bottom: 20px; /* Reducido de 24px */
+    line-height: 1.2;
 }
 
 .cta-content p {
-  font-size: 1.125rem;
-  margin-bottom: 28px; /* Reducido de 32px */
-  line-height: 1.6;
-  opacity: 0.9;
+    font-size: 1.125rem;
+    margin-bottom: 28px; /* Reducido de 32px */
+    line-height: 1.6;
+    opacity: 0.9;
 }
 
 .cta-image {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 200px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  margin: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    background-image: url("https://media.istockphoto.com/id/1169800985/photo/acoustic-electric-guitars-hanging-in-a-modern-musical-shop-in-a-shop-window.jpg?s=612x612&w=0&k=20&c=V1CUogxpyEcwTbI7ckxw8td96YgokMlIaohhV2UlPCI=");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 12px;
+    margin: 8px;
 }
 
 /* Responsive Design */
 @media (max-width: 1024px) {
-  .hero-content h1 {
-    font-size: 3rem;
-  }
-  
-  .section-title {
-    font-size: 2rem;
-  }
-  
-  .cta-content h2 {
-    font-size: 2rem;
-  }
+    .hero-content h1 {
+        font-size: 3rem;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .cta-content h2 {
+        font-size: 2rem;
+    }
 }
 
 @media (max-width: 768px) {
-  .hero-section {
-    padding: 60px 0;
-  }
-  
-  .hero-content h1 {
-    font-size: 2.5rem;
-  }
-  
-  .hero-content p {
-    font-size: 1.125rem;
-  }
-  
-  .hero-actions {
-    flex-direction: column;
-    width: 100%;
-  }
-  
-  .hero-actions .cds--btn {
-    width: 100%;
-    max-width: 300px;
-  }
-  
-  .features-section {
-    padding: 60px 0;
-  }
-  
-  .featured-section {
-    padding: 60px 16px;
-  }
-  
-  .section-header {
-    flex-direction: column;
-    text-align: center;
-  }
-  
-  .featured-products-grid {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 16px;
-  }
-  
-  .cta-section {
-    padding: 60px 0;
-  }
-  
-  .cta-content h2 {
-    font-size: 1.75rem;
-  }
-  
-  .cta-content p {
-    font-size: 1rem;
-  }
+    .hero-section {
+        padding: 60px 0;
+    }
+
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-content p {
+        font-size: 1.125rem;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .hero-actions .cds--btn {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .features-section {
+        padding: 60px 0;
+    }
+
+    .featured-section {
+        padding: 60px 16px;
+    }
+
+    .section-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .featured-products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 16px;
+    }
+
+    .cta-section {
+        padding: 60px 0;
+    }
+
+    .cta-content h2 {
+        font-size: 1.75rem;
+    }
+
+    .cta-content p {
+        font-size: 1rem;
+    }
 }
 
 @media (max-width: 480px) {
-  .hero-content h1 {
-    font-size: 2rem;
-  }
-  
-  .hero-content p {
-    font-size: 1rem;
-  }
-  
-  .section-title {
-    font-size: 1.75rem;
-  }
-  
-  .featured-products-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .feature-tile {
-    padding: 24px 16px;
-  }
-  
-  .cta-content h2 {
-    font-size: 1.5rem;
-  }
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+    }
+
+    .section-title {
+        font-size: 1.75rem;
+    }
+
+    .featured-products-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .feature-tile {
+        padding: 24px 16px;
+    }
+
+    .cta-content h2 {
+        font-size: 1.5rem;
+    }
 }
