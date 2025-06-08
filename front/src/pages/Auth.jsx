@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Form,
   TextInput,
@@ -14,6 +14,9 @@ import {
   InlineNotification,
   Loading,
   Checkbox,
+  Grid,
+  Column,
+  Tile
 } from '@carbon/react';
 import {
   User,
@@ -32,7 +35,11 @@ import './Auth.css';
 const Auth = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const { isAuthenticated, isLoading, error } = useSelector(selectAuth);
+
+  // Get the redirect path from location state or default to home
+  const from = location.state?.from?.pathname || '/';
 
   const [activeTab, setActiveTab] = useState(0);
   const [loginForm, setLoginForm] = useState({
@@ -58,12 +65,11 @@ const Auth = () => {
   });
 
   const [formErrors, setFormErrors] = useState({});
-
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/');
+      navigate(from, { replace: true });
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, navigate, from]);
 
   useEffect(() => {
     // Clear errors when switching tabs
@@ -199,10 +205,9 @@ const Auth = () => {
       </div>
     );
   }
-
   return (
     <div className="auth-container">
-      <div className="auth-card">
+      <div className="auth-content">
         <div className="auth-header">
           <h1>🎵 MusicStore</h1>
           <p>Bienvenido a nuestra tienda de instrumentos musicales</p>
@@ -215,6 +220,7 @@ const Auth = () => {
             subtitle={error}
             onCloseButtonClick={() => dispatch(clearError())}
             hideCloseButton={false}
+            className="auth-notification"
           />
         )}
 
@@ -227,266 +233,330 @@ const Auth = () => {
           <TabPanels>
             {/* Login Panel */}
             <TabPanel>
-              <Form onSubmit={handleLoginSubmit} className="auth-form">
-                <div className="form-group">
-                  <TextInput
-                    id="login"
-                    name="login"
-                    labelText="Email o Nombre de Usuario"
-                    placeholder="Ingresa tu email o nombre de usuario"
-                    value={loginForm.login}
-                    onChange={handleLoginChange}
-                    invalid={!!formErrors.login}
-                    invalidText={formErrors.login}
-                    size="lg"
-                  />
-                  <User className="input-icon" />
-                </div>
+              <Grid>
+                <Column lg={16} md={8} sm={4}>
+                  <Tile className="auth-tile">
+                    <Form onSubmit={handleLoginSubmit} className="auth-form">
+                      <Grid>
+                        <Column lg={16} md={8} sm={4}>
+                          <div className="form-group">
+                            <TextInput
+                              id="login"
+                              name="login"
+                              labelText="Email o Nombre de Usuario"
+                              placeholder="Ingresa tu email o nombre de usuario"
+                              value={loginForm.login}
+                              onChange={handleLoginChange}
+                              invalid={!!formErrors.login}
+                              invalidText={formErrors.login}
+                              size="lg"
+                            />
+                            <User className="input-icon" />
+                          </div>
+                        </Column>
 
-                <div className="form-group">
-                  <PasswordInput
-                    id="password"
-                    name="password"
-                    labelText="Contraseña"
-                    placeholder="Ingresa tu contraseña"
-                    value={loginForm.password}
-                    onChange={handleLoginChange}
-                    invalid={!!formErrors.password}
-                    invalidText={formErrors.password}
-                    size="lg"
-                  />
-                </div>
+                        <Column lg={16} md={8} sm={4}>
+                          <div className="form-group">
+                            <PasswordInput
+                              id="password"
+                              name="password"
+                              labelText="Contraseña"
+                              placeholder="Ingresa tu contraseña"
+                              value={loginForm.password}
+                              onChange={handleLoginChange}
+                              invalid={!!formErrors.password}
+                              invalidText={formErrors.password}
+                              size="lg"
+                            />
+                          </div>
+                        </Column>
 
-                <Button
-                  type="submit"
-                  kind="primary"
-                  size="lg"
-                  className="auth-submit-btn"
-                  disabled={isLoading}
-                >
-                  Iniciar Sesión
-                </Button>
+                        <Column lg={16} md={8} sm={4}>
+                          <div className="form-actions">
+                            <Button
+                              type="submit"
+                              kind="primary"
+                              size="lg"
+                              className="auth-submit-btn"
+                              disabled={isLoading}
+                            >
+                              Iniciar Sesión
+                            </Button>
+                          </div>
+                        </Column>
 
-                <div className="auth-footer">
-                  <p>
-                    ¿No tienes cuenta?{' '}
-                    <button
-                      type="button"
-                      className="link-button"
-                      onClick={() => setActiveTab(1)}
-                    >
-                      Regístrate aquí
-                    </button>
-                  </p>
-                </div>
-              </Form>
+                        <Column lg={16} md={8} sm={4}>
+                          <div className="auth-footer">
+                            <p>
+                              ¿No tienes cuenta?{' '}
+                              <button
+                                type="button"
+                                className="link-button"
+                                onClick={() => setActiveTab(1)}
+                              >
+                                Regístrate aquí
+                              </button>
+                            </p>
+                          </div>
+                        </Column>
+                      </Grid>
+                    </Form>
+                  </Tile>
+                </Column>
+              </Grid>
             </TabPanel>
 
             {/* Register Panel */}
             <TabPanel>
-              <Form onSubmit={handleRegisterSubmit} className="auth-form">
-                <div className="form-row">
-                  <div className="form-group">
-                    <TextInput
-                      id="firstName"
-                      name="firstName"
-                      labelText="Nombre"
-                      placeholder="Tu nombre"
-                      value={registerForm.firstName}
-                      onChange={handleRegisterChange}
-                      invalid={!!formErrors.firstName}
-                      invalidText={formErrors.firstName}
-                      size="lg"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <TextInput
-                      id="lastName"
-                      name="lastName"
-                      labelText="Apellido"
-                      placeholder="Tu apellido"
-                      value={registerForm.lastName}
-                      onChange={handleRegisterChange}
-                      invalid={!!formErrors.lastName}
-                      invalidText={formErrors.lastName}
-                      size="lg"
-                    />
-                  </div>
-                </div>
+              <Grid>
+                <Column lg={16} md={8} sm={4}>
+                  <Tile className="auth-tile">                    <Form onSubmit={handleRegisterSubmit} className="auth-form">
+                      <Grid>
+                        {/* Basic Information */}
+                        <Column lg={8} md={4} sm={4}>
+                          <div className="form-group">
+                            <TextInput
+                              id="firstName"
+                              name="firstName"
+                              labelText="Nombre"
+                              placeholder="Tu nombre"
+                              value={registerForm.firstName}
+                              onChange={handleRegisterChange}
+                              invalid={!!formErrors.firstName}
+                              invalidText={formErrors.firstName}
+                              size="lg"
+                            />
+                          </div>
+                        </Column>
+                        
+                        <Column lg={8} md={4} sm={4}>
+                          <div className="form-group">
+                            <TextInput
+                              id="lastName"
+                              name="lastName"
+                              labelText="Apellido"
+                              placeholder="Tu apellido"
+                              value={registerForm.lastName}
+                              onChange={handleRegisterChange}
+                              invalid={!!formErrors.lastName}
+                              invalidText={formErrors.lastName}
+                              size="lg"
+                            />
+                          </div>
+                        </Column>
 
-                <div className="form-group">
-                  <TextInput
-                    id="username"
-                    name="username"
-                    labelText="Nombre de Usuario"
-                    placeholder="Elige un nombre de usuario"
-                    value={registerForm.username}
-                    onChange={handleRegisterChange}
-                    invalid={!!formErrors.username}
-                    invalidText={formErrors.username}
-                    size="lg"
-                  />
-                  <User className="input-icon" />
-                </div>
+                        <Column lg={16} md={8} sm={4}>
+                          <div className="form-group">
+                            <TextInput
+                              id="username"
+                              name="username"
+                              labelText="Nombre de Usuario"
+                              placeholder="Elige un nombre de usuario"
+                              value={registerForm.username}
+                              onChange={handleRegisterChange}
+                              invalid={!!formErrors.username}
+                              invalidText={formErrors.username}
+                              size="lg"
+                            />
+                            <User className="input-icon" />
+                          </div>
+                        </Column>
 
-                <div className="form-group">
-                  <TextInput
-                    id="email"
-                    name="email"
-                    type="email"
-                    labelText="Email"
-                    placeholder="tu@email.com"
-                    value={registerForm.email}
-                    onChange={handleRegisterChange}
-                    invalid={!!formErrors.email}
-                    invalidText={formErrors.email}
-                    size="lg"
-                  />
-                  <Email className="input-icon" />
-                </div>
+                        <Column lg={16} md={8} sm={4}>
+                          <div className="form-group">
+                            <TextInput
+                              id="email"
+                              name="email"
+                              type="email"
+                              labelText="Email"
+                              placeholder="tu@email.com"
+                              value={registerForm.email}
+                              onChange={handleRegisterChange}
+                              invalid={!!formErrors.email}
+                              invalidText={formErrors.email}
+                              size="lg"
+                            />
+                            <Email className="input-icon" />
+                          </div>
+                        </Column>
 
-                <div className="form-group">
-                  <TextInput
-                    id="phone"
-                    name="phone"
-                    type="tel"
-                    labelText="Teléfono (Opcional)"
-                    placeholder="+52 123 456 7890"
-                    value={registerForm.phone}
-                    onChange={handleRegisterChange}
-                    size="lg"
-                  />
-                  <Phone className="input-icon" />
-                </div>
+                        <Column lg={16} md={8} sm={4}>
+                          <div className="form-group">
+                            <TextInput
+                              id="phone"
+                              name="phone"
+                              type="tel"
+                              labelText="Teléfono (Opcional)"
+                              placeholder="+52 123 456 7890"
+                              value={registerForm.phone}
+                              onChange={handleRegisterChange}
+                              size="lg"
+                            />
+                            <Phone className="input-icon" />
+                          </div>
+                        </Column>
 
-                <div className="form-group">
-                  <TextInput
-                    id="address.street"
-                    name="address.street"
-                    labelText="Calle y Número (Opcional)"
-                    placeholder="Ej: Av. Principal 123"
-                    value={registerForm.address.street}
-                    onChange={handleRegisterChange}
-                    size="lg"
-                  />
-                  <Location className="input-icon" />
-                </div>
+                        {/* Address Information */}
+                        <Column lg={16} md={8} sm={4}>
+                          <h4 className="subsection-title">Dirección (Opcional)</h4>
+                        </Column>
 
-                <div className="form-row">
-                  <div className="form-group">
-                    <TextInput
-                      id="address.city"
-                      name="address.city"
-                      labelText="Ciudad (Opcional)"
-                      placeholder="Ej: Guadalajara"
-                      value={registerForm.address.city}
-                      onChange={handleRegisterChange}
-                      size="lg"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <TextInput
-                      id="address.state"
-                      name="address.state"
-                      labelText="Estado (Opcional)"
-                      placeholder="Ej: Jalisco"
-                      value={registerForm.address.state}
-                      onChange={handleRegisterChange}
-                      size="lg"
-                    />
-                  </div>
-                </div>
+                        <Column lg={16} md={8} sm={4}>
+                          <div className="form-group">
+                            <TextInput
+                              id="address.street"
+                              name="address.street"
+                              labelText="Calle y Número"
+                              placeholder="Ej: Av. Principal 123"
+                              value={registerForm.address.street}
+                              onChange={handleRegisterChange}
+                              size="lg"
+                            />
+                            <Location className="input-icon" />
+                          </div>
+                        </Column>
 
-                <div className="form-row">
-                  <div className="form-group">
-                    <TextInput
-                      id="address.zipCode"
-                      name="address.zipCode"
-                      labelText="Código Postal (Opcional)"
-                      placeholder="Ej: 44100"
-                      value={registerForm.address.zipCode}
-                      onChange={handleRegisterChange}
-                      size="lg"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <TextInput
-                      id="address.country"
-                      name="address.country"
-                      labelText="País"
-                      placeholder="México"
-                      value={registerForm.address.country}
-                      onChange={handleRegisterChange}
-                      size="lg"
-                    />
-                  </div>
-                </div>
+                        <Column lg={8} md={4} sm={4}>
+                          <div className="form-group">
+                            <TextInput
+                              id="address.city"
+                              name="address.city"
+                              labelText="Ciudad"
+                              placeholder="Ej: Guadalajara"
+                              value={registerForm.address.city}
+                              onChange={handleRegisterChange}
+                              size="lg"
+                            />
+                          </div>
+                        </Column>
 
-                <div className="form-row">
-                  <div className="form-group">
-                    <PasswordInput
-                      id="password"
-                      name="password"
-                      labelText="Contraseña"
-                      placeholder="Mínimo 6 caracteres"
-                      value={registerForm.password}
-                      onChange={handleRegisterChange}
-                      invalid={!!formErrors.password}
-                      invalidText={formErrors.password}
-                      size="lg"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <PasswordInput
-                      id="confirmPassword"
-                      name="confirmPassword"
-                      labelText="Confirmar Contraseña"
-                      placeholder="Repite tu contraseña"
-                      value={registerForm.confirmPassword}
-                      onChange={handleRegisterChange}
-                      invalid={!!formErrors.confirmPassword}
-                      invalidText={formErrors.confirmPassword}
-                      size="lg"
-                    />
-                  </div>
-                </div>
+                        <Column lg={8} md={4} sm={4}>
+                          <div className="form-group">
+                            <TextInput
+                              id="address.state"
+                              name="address.state"
+                              labelText="Estado"
+                              placeholder="Ej: Jalisco"
+                              value={registerForm.address.state}
+                              onChange={handleRegisterChange}
+                              size="lg"
+                            />
+                          </div>
+                        </Column>
 
-                <div className="form-group">
-                  <Checkbox
-                    id="acceptTerms"
-                    name="acceptTerms"
-                    labelText="Acepto los términos y condiciones"
-                    checked={registerForm.acceptTerms}
-                    onChange={handleRegisterChange}
-                  />
-                  {formErrors.acceptTerms && (
-                    <div className="error-text">{formErrors.acceptTerms}</div>
-                  )}
-                </div>
+                        <Column lg={8} md={4} sm={4}>
+                          <div className="form-group">
+                            <TextInput
+                              id="address.zipCode"
+                              name="address.zipCode"
+                              labelText="Código Postal"
+                              placeholder="Ej: 44100"
+                              value={registerForm.address.zipCode}
+                              onChange={handleRegisterChange}
+                              size="lg"
+                            />
+                          </div>
+                        </Column>
 
-                <Button
-                  type="submit"
-                  kind="primary"
-                  size="lg"
-                  className="auth-submit-btn"
-                  disabled={isLoading}
-                >
-                  Crear Cuenta
-                </Button>
+                        <Column lg={8} md={4} sm={4}>
+                          <div className="form-group">
+                            <TextInput
+                              id="address.country"
+                              name="address.country"
+                              labelText="País"
+                              placeholder="México"
+                              value={registerForm.address.country}
+                              onChange={handleRegisterChange}
+                              size="lg"
+                            />
+                          </div>
+                        </Column>
 
-                <div className="auth-footer">
-                  <p>
-                    ¿Ya tienes cuenta?{' '}
-                    <button
-                      type="button"
-                      className="link-button"
-                      onClick={() => setActiveTab(0)}
-                    >
-                      Inicia sesión aquí
-                    </button>
-                  </p>
-                </div>
-              </Form>
+                        {/* Password Section */}
+                        <Column lg={16} md={8} sm={4}>
+                          <h4 className="subsection-title">Seguridad</h4>
+                        </Column>
+
+                        <Column lg={8} md={4} sm={4}>
+                          <div className="form-group">
+                            <PasswordInput
+                              id="password"
+                              name="password"
+                              labelText="Contraseña"
+                              placeholder="Mínimo 6 caracteres"
+                              value={registerForm.password}
+                              onChange={handleRegisterChange}
+                              invalid={!!formErrors.password}
+                              invalidText={formErrors.password}
+                              size="lg"
+                            />
+                          </div>
+                        </Column>
+
+                        <Column lg={8} md={4} sm={4}>
+                          <div className="form-group">
+                            <PasswordInput
+                              id="confirmPassword"
+                              name="confirmPassword"
+                              labelText="Confirmar Contraseña"
+                              placeholder="Repite tu contraseña"
+                              value={registerForm.confirmPassword}
+                              onChange={handleRegisterChange}
+                              invalid={!!formErrors.confirmPassword}
+                              invalidText={formErrors.confirmPassword}
+                              size="lg"
+                            />
+                          </div>
+                        </Column>
+
+                        <Column lg={16} md={8} sm={4}>
+                          <div className="form-group">
+                            <Checkbox
+                              id="acceptTerms"
+                              name="acceptTerms"
+                              labelText="Acepto los términos y condiciones"
+                              checked={registerForm.acceptTerms}
+                              onChange={handleRegisterChange}
+                            />
+                            {formErrors.acceptTerms && (
+                              <div className="error-text">{formErrors.acceptTerms}</div>
+                            )}
+                          </div>
+                        </Column>
+
+                        <Column lg={16} md={8} sm={4}>
+                          <div className="form-actions">
+                            <Button
+                              type="submit"
+                              kind="primary"
+                              size="lg"
+                              className="auth-submit-btn"
+                              disabled={isLoading}
+                            >
+                              Crear Cuenta
+                            </Button>
+                          </div>
+                        </Column>
+
+                        <Column lg={16} md={8} sm={4}>
+                          <div className="auth-footer">
+                            <p>
+                              ¿Ya tienes cuenta?{' '}
+                              <button
+                                type="button"
+                                className="link-button"
+                                onClick={() => setActiveTab(0)}
+                              >
+                                Inicia sesión aquí
+                              </button>
+                            </p>
+                          </div>
+                        </Column>
+                      </Grid>
+                    </Form>
+                  </Tile>
+                </Column>
+              </Grid>
             </TabPanel>
           </TabPanels>
         </Tabs>

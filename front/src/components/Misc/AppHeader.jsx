@@ -54,10 +54,19 @@ const AppHeader = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-
   const handleSearchChange = useCallback((event) => {
     dispatch(setSearchText(event.target.value));
-  }, [dispatch]);
+  }, [dispatch]);  const handleSearchSubmit = useCallback(() => {
+    // Close search bar and navigate to AllProducts page
+    setSearchOpen(false);
+    navigate('/productos');
+  }, [navigate]);
+
+  const handleSearchKeyPress = useCallback((event) => {
+    if (event.key === 'Enter') {
+      handleSearchSubmit();
+    }
+  }, [handleSearchSubmit]);
 
   const handleCartClick = () => {
     dispatch(toggleCart());
@@ -76,10 +85,8 @@ const AppHeader = () => {
     dispatch(logoutUser());
     setUserMenuOpen(false);
   };
-
   const handleUserProfile = () => {
-    // TODO: Navigate to user profile page
-    console.log('Navigate to profile');
+    navigate('/profile');
     setUserMenuOpen(false);
   };
 
@@ -94,10 +101,9 @@ const AppHeader = () => {
       
       <HeaderName href="/" prefix="" className="header-logo">
         🎵 MusicStore
-      </HeaderName>
-
-      <HeaderNavigation aria-label="Navegación principal" className="header-navigation">
+      </HeaderName>      <HeaderNavigation aria-label="Navegación principal" className="header-navigation">
         <HeaderMenuItem href="/">Inicio</HeaderMenuItem>
+        <HeaderMenuItem href="/productos">Productos</HeaderMenuItem>
         
         {/* Menús de categorías dinámicos */}
         {categories && categories.slice(0, 4).map(category => (
@@ -200,8 +206,7 @@ const AppHeader = () => {
         )}
       </HeaderGlobalBar>
 
-      {/* Barra de búsqueda expandible */}
-      {searchOpen && (
+      {/* Barra de búsqueda expandible */}      {searchOpen && (
         <div className="header-search-bar">
           <Search
             size="lg"
@@ -209,13 +214,14 @@ const AppHeader = () => {
             labelText=""
             value={filters?.searchText || ''}
             onChange={handleSearchChange}
+            onKeyPress={handleSearchKeyPress}
             onClear={() => dispatch(setSearchText(''))}
             className="header-search-input"
           />
           <Button
             kind="primary"
             size="md"
-            onClick={() => setSearchOpen(false)}
+            onClick={handleSearchSubmit}
             className="search-close-btn"
           >
             Buscar
@@ -226,9 +232,9 @@ const AppHeader = () => {
       {/* Menú móvil */}
       {menuOpen && (
         <div className="mobile-menu">
-          <div className="mobile-menu-content">
-            <nav className="mobile-navigation">
+          <div className="mobile-menu-content">            <nav className="mobile-navigation">
               <a href="/" className="mobile-nav-item">Inicio</a>
+              <a href="/productos" className="mobile-nav-item">Productos</a>
               {categories && categories.map(category => (
                 <HeaderTooltip 
                   key={category.id} 
