@@ -1,6 +1,6 @@
-import React, { useRef, useState, useCallback, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import React, { useRef, useState, useCallback, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   Header,
   HeaderName,
@@ -14,7 +14,7 @@ import {
   Button,
   OverflowMenu,
   OverflowMenuItem,
-} from '@carbon/react';
+} from "@carbon/react";
 import {
   Search as SearchIcon,
   ShoppingCart,
@@ -23,13 +23,13 @@ import {
   UserAvatar,
   Logout,
   Edit,
-} from '@carbon/react/icons';
-import { setSearchText } from '../../redux/slices/shopSlice';
-import { toggleCart, selectCartTotalItems } from '../../redux/slices/cartSlice';
-import { selectAuth, logoutUser } from '../../redux/slices/authSlice';
-import HeaderTooltip from './HeaderTooltip';
-import CartDrawer from '../CartDrawer/CartDrawer';
-import './AppHeaderstyles.css';
+} from "@carbon/react/icons";
+import { setSearchText } from "../../redux/slices/shopSlice";
+import { toggleCart, selectCartTotalItems } from "../../redux/slices/cartSlice";
+import { selectAuth, logoutUser } from "../../redux/slices/authSlice";
+import HeaderTooltip from "./HeaderTooltip";
+import CartDrawer from "../CartDrawer/CartDrawer";
+import "./AppHeaderstyles.css";
 
 const AppHeader = () => {
   const [searchOpen, setSearchOpen] = useState(false);
@@ -38,7 +38,7 @@ const AppHeader = () => {
   const userMenuRef = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { categories, filters } = useSelector(state => state.shop);
+  const { categories, filters } = useSelector((state) => state.shop);
   const cartTotalItems = useSelector(selectCartTotalItems);
   const { isAuthenticated, user } = useSelector(selectAuth);
 
@@ -50,24 +50,31 @@ const AppHeader = () => {
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  const handleSearchChange = useCallback((event) => {
-    dispatch(setSearchText(event.target.value));
-  }, [dispatch]);  const handleSearchSubmit = useCallback(() => {
+  const handleSearchChange = useCallback(
+    (event) => {
+      dispatch(setSearchText(event.target.value));
+    },
+    [dispatch],
+  );
+  const handleSearchSubmit = useCallback(() => {
     // Close search bar and navigate to AllProducts page
     setSearchOpen(false);
-    navigate('/productos');
+    navigate("/productos");
   }, [navigate]);
 
-  const handleSearchKeyPress = useCallback((event) => {
-    if (event.key === 'Enter') {
-      handleSearchSubmit();
-    }
-  }, [handleSearchSubmit]);
+  const handleSearchKeyPress = useCallback(
+    (event) => {
+      if (event.key === "Enter") {
+        handleSearchSubmit();
+      }
+    },
+    [handleSearchSubmit],
+  );
 
   const handleCartClick = () => {
     dispatch(toggleCart());
@@ -77,26 +84,28 @@ const AppHeader = () => {
   };
 
   const handleUserLogin = () => {
-    navigate('/auth');
+    navigate("/auth");
   };
 
   const handleUserLogout = () => {
     dispatch(logoutUser());
     setUserMenuOpen(false);
-  };  const handleUserProfile = () => {
-    navigate('/profile');
+  };
+  const handleUserProfile = () => {
+    navigate("/profile");
     setUserMenuOpen(false);
   };
 
   const handleAdminPanel = () => {
-    // Navigate to admin panel - for now just close menu
-    // You can implement the actual admin panel route later
+    navigate("/admin");
     setUserMenuOpen(false);
-    // navigate('/admin/productos'); // Uncomment when admin panel is ready
   };
 
   return (
-    <Header aria-label="Tienda de Instrumentos Musicales" className="modern-header">
+    <Header
+      aria-label="Tienda de Instrumentos Musicales"
+      className="modern-header"
+    >
       <HeaderMenuButton
         aria-label="Abrir menú"
         onClick={() => setMenuOpen(!menuOpen)}
@@ -109,29 +118,43 @@ const AppHeader = () => {
         <HeaderMenuItem onClick={() => handleNavigation('/productos')}>Productos</HeaderMenuItem>
         
         {/* Menús de categorías dinámicos */}
-        {categories && categories.slice(0, 4).map(category => (
-          <HeaderMenu
-            key={category.id}
-            aria-label={category.name}
-            menuLinkName={category.name}
-            className="header-category-menu"
-          >
-            <HeaderMenuItem onClick={() => handleNavigation(`/category/${category.id}`)}>
-              Ver todos
-            </HeaderMenuItem>
-            <HeaderMenuItem onClick={() => handleNavigation(`/category/${category.id}/featured`)}>
-              Destacados
-            </HeaderMenuItem>
-            <HeaderMenuItem onClick={() => handleNavigation(`/category/${category.id}/offers`)}>
-              Ofertas
-            </HeaderMenuItem>
-          </HeaderMenu>
-        ))}
-        
-        <HeaderMenuItem onClick={() => handleNavigation('/ofertas')}>Ofertas</HeaderMenuItem>
-        <HeaderMenuItem onClick={() => handleNavigation('/contacto')}>Contacto</HeaderMenuItem>
-      </HeaderNavigation>
+        {categories &&
+          categories.slice(0, 4).map((category) => (
+            <HeaderMenu
+              key={category.id}
+              aria-label={category.name}
+              menuLinkName={category.name}
+              className="header-category-menu"
+            >
+              <HeaderMenuItem
+                onClick={() => handleNavigation(`/category/${category.id}`)}
+              >
+                Ver todos
+              </HeaderMenuItem>
+              <HeaderMenuItem
+                onClick={() =>
+                  handleNavigation(`/category/${category.id}/featured`)
+                }
+              >
+                Destacados
+              </HeaderMenuItem>
+              <HeaderMenuItem
+                onClick={() =>
+                  handleNavigation(`/category/${category.id}/offers`)
+                }
+              >
+                Ofertas
+              </HeaderMenuItem>
+            </HeaderMenu>
+          ))}
 
+        <HeaderMenuItem onClick={() => handleNavigation("/ofertas")}>
+          Ofertas
+        </HeaderMenuItem>
+        <HeaderMenuItem onClick={() => handleNavigation("/contacto")}>
+          Contacto
+        </HeaderMenuItem>
+      </HeaderNavigation>
       <HeaderGlobalBar className="header-global-bar">
         {/* Búsqueda */}
         <HeaderGlobalAction
@@ -165,7 +188,7 @@ const AppHeader = () => {
             >
               <UserAvatar size={20} />
             </HeaderGlobalAction>
-            
+
             {userMenuOpen && (
               <div className="user-dropdown">
                 <div className="user-info">
@@ -178,26 +201,27 @@ const AppHeader = () => {
                     </span>
                     <span className="user-email">{user?.email}</span>
                   </div>
-                </div>                <div className="user-actions">
-                  <button 
+                </div>{" "}
+                <div className="user-actions">
+                  <button
                     className="user-action-btn"
                     onClick={handleUserProfile}
                   >
                     <User size={16} />
                     Mi Perfil
                   </button>
-                    {/* Admin-only button */}
-                  {user?.role === 'Admin' && (
-                    <button 
+                  {/* Admin-only button */}
+                  {user?.role === "Admin" && (
+                    <button
                       className="user-action-btn admin"
                       onClick={handleAdminPanel}
                     >
                       <Edit size={16} />
-                      Modificar Producto
+                      Panel de Admin
                     </button>
                   )}
-                  
-                  <button 
+
+                  <button
                     className="user-action-btn logout"
                     onClick={handleUserLogout}
                   >
@@ -218,17 +242,17 @@ const AppHeader = () => {
           </HeaderGlobalAction>
         )}
       </HeaderGlobalBar>
-
-      {/* Barra de búsqueda expandible */}      {searchOpen && (
+      {/* Barra de búsqueda expandible */}{" "}
+      {searchOpen && (
         <div className="header-search-bar">
           <Search
             size="lg"
             placeholder="Buscar instrumentos, accesorios..."
             labelText=""
-            value={filters?.searchText || ''}
+            value={filters?.searchText || ""}
             onChange={handleSearchChange}
             onKeyPress={handleSearchKeyPress}
-            onClear={() => dispatch(setSearchText(''))}
+            onClear={() => dispatch(setSearchText(""))}
             className="header-search-input"
           />
           <Button
@@ -241,28 +265,61 @@ const AppHeader = () => {
           </Button>
         </div>
       )}
-
       {/* Menú móvil */}
       {menuOpen && (
         <div className="mobile-menu">
-          <div className="mobile-menu-content">            <nav className="mobile-navigation">
-              <button onClick={() => { handleNavigation('/'); setMenuOpen(false); }} className="mobile-nav-item">Inicio</button>
-              <button onClick={() => { handleNavigation('/productos'); setMenuOpen(false); }} className="mobile-nav-item">Productos</button>
-              {categories && categories.map(category => (
-                <HeaderTooltip 
-                  key={category.id} 
-                  name={category.name} 
-                  categoryData={category}
-                  mobile={true}
-                />
-              ))}
-              <button onClick={() => { handleNavigation('/ofertas'); setMenuOpen(false); }} className="mobile-nav-item">Ofertas</button>
-              <button onClick={() => { handleNavigation('/contacto'); setMenuOpen(false); }} className="mobile-nav-item">Contacto</button>
+          <div className="mobile-menu-content">
+            {" "}
+            <nav className="mobile-navigation">
+              <button
+                onClick={() => {
+                  handleNavigation("/");
+                  setMenuOpen(false);
+                }}
+                className="mobile-nav-item"
+              >
+                Inicio
+              </button>
+              <button
+                onClick={() => {
+                  handleNavigation("/productos");
+                  setMenuOpen(false);
+                }}
+                className="mobile-nav-item"
+              >
+                Productos
+              </button>
+              {categories &&
+                categories.map((category) => (
+                  <HeaderTooltip
+                    key={category.id}
+                    name={category.name}
+                    categoryData={category}
+                    mobile={true}
+                  />
+                ))}
+              <button
+                onClick={() => {
+                  handleNavigation("/ofertas");
+                  setMenuOpen(false);
+                }}
+                className="mobile-nav-item"
+              >
+                Ofertas
+              </button>
+              <button
+                onClick={() => {
+                  handleNavigation("/contacto");
+                  setMenuOpen(false);
+                }}
+                className="mobile-nav-item"
+              >
+                Contacto
+              </button>
             </nav>
           </div>
         </div>
       )}
-
       {/* Cart Drawer */}
       <CartDrawer />
     </Header>
