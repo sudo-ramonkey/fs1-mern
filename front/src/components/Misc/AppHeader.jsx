@@ -1,5 +1,6 @@
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useRef, useState, useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import {
   Header,
   HeaderName,
@@ -11,15 +12,20 @@ import {
   HeaderMenuButton,
   Search,
   Button,
+  OverflowMenu,
+  OverflowMenuItem,
 } from '@carbon/react';
 import {
   Search as SearchIcon,
   ShoppingCart,
   User,
   Menu,
+  UserAvatar,
+  Logout,
 } from '@carbon/react/icons';
 import { setSearchText } from '../../redux/slices/shopSlice';
 import { toggleCart, selectCartTotalItems } from '../../redux/slices/cartSlice';
+import { selectAuth, logoutUser } from '../../redux/slices/authSlice';
 import HeaderTooltip from './HeaderTooltip';
 import CartDrawer from '../CartDrawer/CartDrawer';
 import './AppHeaderstyles.css';
@@ -27,9 +33,27 @@ import './AppHeaderstyles.css';
 const AppHeader = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const userMenuRef = useRef(null);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { categories, filters } = useSelector(state => state.shop);
   const cartTotalItems = useSelector(selectCartTotalItems);
+  const { isAuthenticated, user } = useSelector(selectAuth);
+
+  // Close user menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+        setUserMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const handleSearchChange = useCallback((event) => {
     dispatch(setSearchText(event.target.value));
@@ -42,6 +66,21 @@ const AppHeader = () => {
   const handleNavigation = (href) => {
     // Aquí puedes implementar navegación con React Router en el futuro
     window.location.href = href;
+  };
+
+  const handleUserLogin = () => {
+    navigate('/auth');
+  };
+
+  const handleUserLogout = () => {
+    dispatch(logoutUser());
+    setUserMenuOpen(false);
+  };
+
+  const handleUserProfile = () => {
+    // TODO: Navigate to user profile page
+    console.log('Navigate to profile');
+    setUserMenuOpen(false);
   };
 
   return (
@@ -108,12 +147,57 @@ const AppHeader = () => {
         </HeaderGlobalAction>
 
         {/* Usuario */}
-        <HeaderGlobalAction
-          aria-label="Cuenta de usuario"
-          className="header-user"
-        >
-          <User size={20} />
-        </HeaderGlobalAction>
+        {isAuthenticated ? (
+          <div className="header-user-menu" ref={userMenuRef}>
+            <HeaderGlobalAction
+              aria-label="Menú de usuario"
+              className="header-user authenticated"
+              onClick={() => setUserMenuOpen(!userMenuOpen)}
+            >
+              <UserAvatar size={20} />
+            </HeaderGlobalAction>
+            
+            {userMenuOpen && (
+              <div className="user-dropdown">
+                <div className="user-info">
+                  <div className="user-avatar">
+                    <UserAvatar size={24} />
+                  </div>
+                  <div className="user-details">
+                    <span className="user-name">
+                      {user?.firstName} {user?.lastName}
+                    </span>
+                    <span className="user-email">{user?.email}</span>
+                  </div>
+                </div>
+                <div className="user-actions">
+                  <button 
+                    className="user-action-btn"
+                    onClick={handleUserProfile}
+                  >
+                    <User size={16} />
+                    Mi Perfil
+                  </button>
+                  <button 
+                    className="user-action-btn logout"
+                    onClick={handleUserLogout}
+                  >
+                    <Logout size={16} />
+                    Cerrar Sesión
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        ) : (
+          <HeaderGlobalAction
+            aria-label="Iniciar sesión"
+            className="header-user"
+            onClick={handleUserLogin}
+          >
+            <User size={20} />
+          </HeaderGlobalAction>
+        )}
       </HeaderGlobalBar>
 
       {/* Barra de búsqueda expandible */}
