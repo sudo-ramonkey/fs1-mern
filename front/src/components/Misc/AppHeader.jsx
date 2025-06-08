@@ -22,6 +22,7 @@ import {
   Menu,
   UserAvatar,
   Logout,
+  Edit,
 } from '@carbon/react/icons';
 import { setSearchText } from '../../redux/slices/shopSlice';
 import { toggleCart, selectCartTotalItems } from '../../redux/slices/cartSlice';
@@ -82,10 +83,16 @@ const AppHeader = () => {
   const handleUserLogout = () => {
     dispatch(logoutUser());
     setUserMenuOpen(false);
-  };
-  const handleUserProfile = () => {
+  };  const handleUserProfile = () => {
     navigate('/profile');
     setUserMenuOpen(false);
+  };
+
+  const handleAdminPanel = () => {
+    // Navigate to admin panel - for now just close menu
+    // You can implement the actual admin panel route later
+    setUserMenuOpen(false);
+    // navigate('/admin/productos'); // Uncomment when admin panel is ready
   };
 
   return (
@@ -172,8 +179,7 @@ const AppHeader = () => {
                     </span>
                     <span className="user-email">{user?.email}</span>
                   </div>
-                </div>
-                <div className="user-actions">
+                </div>                <div className="user-actions">
                   <button 
                     className="user-action-btn"
                     onClick={handleUserProfile}
@@ -181,6 +187,17 @@ const AppHeader = () => {
                     <User size={16} />
                     Mi Perfil
                   </button>
+                    {/* Admin-only button */}
+                  {user?.role === 'Admin' && (
+                    <button 
+                      className="user-action-btn admin"
+                      onClick={handleAdminPanel}
+                    >
+                      <Edit size={16} />
+                      Modificar Producto
+                    </button>
+                  )}
+                  
                   <button 
                     className="user-action-btn logout"
                     onClick={handleUserLogout}

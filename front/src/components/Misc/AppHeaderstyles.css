@@ -470,6 +470,16 @@
   color: var(--cds-text-on-color);
 }
 
+.user-action-btn.admin {
+  color: #0f62fe;
+  font-weight: 500;
+}
+
+.user-action-btn.admin:hover {
+  background-color: rgba(15, 98, 254, 0.1);
+  color: #0353e9;
+}
+
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {
   .user-dropdown {
