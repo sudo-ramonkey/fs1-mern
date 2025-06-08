@@ -32,7 +32,7 @@ import {
   changeUserPassword,
   clearError,
   selectAuth,
-} from "../redux/slices/authSlice";
+} from "../../redux/slices/authSlice";
 import "./Profile.css";
 
 const Profile = () => {

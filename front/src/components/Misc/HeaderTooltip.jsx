@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { IconButton, Popover, PopoverContent, Button } from '@carbon/react';
 import { ChevronDownOutline, ArrowRight, Star, Tag } from '@carbon/icons-react';
 import "./HeaderTooltip.css";
 
 function HeaderTooltip({ name, categoryData, mobile = false }) {
     const [open, setOpen] = useState(false);
+    const navigate = useNavigate();
     const { productos = [] } = useSelector(state => state.shop);
 
     const handleOpen = () => setOpen(true);
@@ -24,7 +26,7 @@ function HeaderTooltip({ name, categoryData, mobile = false }) {
 
     const handleNavigation = (path) => {
         setOpen(false);
-        window.location.href = path;
+        navigate(path);
     };
 
     if (mobile) {

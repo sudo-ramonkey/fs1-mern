@@ -71,10 +71,8 @@ const AppHeader = () => {
   const handleCartClick = () => {
     dispatch(toggleCart());
   };
-
-  const handleNavigation = (href) => {
-    // Aquí puedes implementar navegación con React Router en el futuro
-    window.location.href = href;
+  const handleNavigation = (path) => {
+    navigate(path);
   };
 
   const handleUserLogin = () => {
@@ -98,12 +96,11 @@ const AppHeader = () => {
         isActive={menuOpen}
         className="header-menu-button"
       />
-      
-      <HeaderName href="/" prefix="" className="header-logo">
+        <HeaderName onClick={() => handleNavigation('/')} prefix="" className="header-logo">
         🎵 MusicStore
-      </HeaderName>      <HeaderNavigation aria-label="Navegación principal" className="header-navigation">
-        <HeaderMenuItem href="/">Inicio</HeaderMenuItem>
-        <HeaderMenuItem href="/productos">Productos</HeaderMenuItem>
+      </HeaderName><HeaderNavigation aria-label="Navegación principal" className="header-navigation">
+        <HeaderMenuItem onClick={() => handleNavigation('/')}>Inicio</HeaderMenuItem>
+        <HeaderMenuItem onClick={() => handleNavigation('/productos')}>Productos</HeaderMenuItem>
         
         {/* Menús de categorías dinámicos */}
         {categories && categories.slice(0, 4).map(category => (
@@ -113,20 +110,20 @@ const AppHeader = () => {
             menuLinkName={category.name}
             className="header-category-menu"
           >
-            <HeaderMenuItem href={`/category/${category.id}`}>
+            <HeaderMenuItem onClick={() => handleNavigation(`/category/${category.id}`)}>
               Ver todos
             </HeaderMenuItem>
-            <HeaderMenuItem href={`/category/${category.id}/featured`}>
+            <HeaderMenuItem onClick={() => handleNavigation(`/category/${category.id}/featured`)}>
               Destacados
             </HeaderMenuItem>
-            <HeaderMenuItem href={`/category/${category.id}/offers`}>
+            <HeaderMenuItem onClick={() => handleNavigation(`/category/${category.id}/offers`)}>
               Ofertas
             </HeaderMenuItem>
           </HeaderMenu>
         ))}
         
-        <HeaderMenuItem href="/ofertas">Ofertas</HeaderMenuItem>
-        <HeaderMenuItem href="/contacto">Contacto</HeaderMenuItem>
+        <HeaderMenuItem onClick={() => handleNavigation('/ofertas')}>Ofertas</HeaderMenuItem>
+        <HeaderMenuItem onClick={() => handleNavigation('/contacto')}>Contacto</HeaderMenuItem>
       </HeaderNavigation>
 
       <HeaderGlobalBar className="header-global-bar">
@@ -233,8 +230,8 @@ const AppHeader = () => {
       {menuOpen && (
         <div className="mobile-menu">
           <div className="mobile-menu-content">            <nav className="mobile-navigation">
-              <a href="/" className="mobile-nav-item">Inicio</a>
-              <a href="/productos" className="mobile-nav-item">Productos</a>
+              <button onClick={() => { handleNavigation('/'); setMenuOpen(false); }} className="mobile-nav-item">Inicio</button>
+              <button onClick={() => { handleNavigation('/productos'); setMenuOpen(false); }} className="mobile-nav-item">Productos</button>
               {categories && categories.map(category => (
                 <HeaderTooltip 
                   key={category.id} 
@@ -243,8 +240,8 @@ const AppHeader = () => {
                   mobile={true}
                 />
               ))}
-              <a href="/ofertas" className="mobile-nav-item">Ofertas</a>
-              <a href="/contacto" className="mobile-nav-item">Contacto</a>
+              <button onClick={() => { handleNavigation('/ofertas'); setMenuOpen(false); }} className="mobile-nav-item">Ofertas</button>
+              <button onClick={() => { handleNavigation('/contacto'); setMenuOpen(false); }} className="mobile-nav-item">Contacto</button>
             </nav>
           </div>
         </div>

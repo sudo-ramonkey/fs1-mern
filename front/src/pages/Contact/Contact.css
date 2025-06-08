@@ -1,0 +1,404 @@
+/* Contact Page Styles */
+.contact-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+/* Hero Section */
+.contact-hero {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 4rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/></svg>');
+  background-size: 100px 100px;
+  animation: drift 30s linear infinite;
+}
+
+@keyframes drift {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(100px, 100px); }
+}
+
+.hero-content {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-icon {
+  margin-bottom: 1.5rem;
+  opacity: 0.9;
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+.hero-description {
+  font-size: 1.25rem;
+  opacity: 0.95;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Breadcrumb */
+.contact-breadcrumb {
+  padding: 1rem 0;
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* Contact Content */
+.contact-content {
+  padding: 4rem 0;
+  background: white;
+}
+
+/* Contact Info */
+.contact-info {
+  padding-right: 2rem;
+}
+
+.info-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.info-subtitle {
+  color: #666;
+  font-size: 1.125rem;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.contact-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.contact-method {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-radius: 12px;
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  transition: all 0.3s ease;
+}
+
+.contact-method:hover {
+  background: white;
+  border-color: #667eea;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.1);
+}
+
+.method-icon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.method-details h4 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.method-details p {
+  color: #666;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Contact Form */
+.contact-form-container {
+  padding-left: 2rem;
+}
+
+.contact-form-tile {
+  padding: 2.5rem;
+  border-radius: 16px;
+  background: white;
+  border: 1px solid #e9ecef;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+}
+
+.form-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.form-subtitle {
+  color: #666;
+  font-size: 1.125rem;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-actions {
+  margin-top: 1rem;
+}
+
+.submit-btn {
+  width: 100%;
+  height: 48px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* FAQ Section */
+.contact-faq {
+  padding: 4rem 0;
+  background: #f8f9fa;
+}
+
+.faq-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.faq-title {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.faq-subtitle {
+  color: #666;
+  font-size: 1.125rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.faq-grid {
+  margin-top: 2rem;
+}
+
+.faq-item {
+  height: 100%;
+  padding: 2rem;
+  border-radius: 12px;
+  background: white;
+  border: 1px solid #e9ecef;
+  transition: all 0.3s ease;
+  margin-bottom: 1.5rem;
+}
+
+.faq-item:hover {
+  border-color: #667eea;
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(102, 126, 234, 0.1);
+}
+
+.faq-item h4 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.faq-item p {
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Map Section */
+.contact-map {
+  padding: 4rem 0;
+  background: white;
+}
+
+.map-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.map-title {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.map-subtitle {
+  color: #666;
+  font-size: 1.125rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.map-container {
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #e9ecef;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+}
+
+.map-placeholder {
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  color: #666;
+  text-align: center;
+  gap: 1rem;
+}
+
+.map-placeholder p {
+  margin: 0;
+  font-size: 1.125rem;
+}
+
+.map-address {
+  font-weight: 600;
+  color: #333;
+}
+
+/* Responsive Design */
+@media (max-width: 1056px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .contact-info {
+    padding-right: 1rem;
+  }
+  
+  .contact-form-container {
+    padding-left: 1rem;
+  }
+  
+  .faq-title,
+  .map-title {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .contact-hero {
+    padding: 3rem 0;
+  }
+  
+  .hero-title {
+    font-size: 2rem;
+  }
+  
+  .hero-description {
+    font-size: 1.125rem;
+  }
+  
+  .contact-content {
+    padding: 3rem 0;
+  }
+  
+  .contact-info,
+  .contact-form-container {
+    padding: 0;
+    margin-bottom: 2rem;
+  }
+  
+  .contact-form-tile {
+    padding: 2rem;
+  }
+  
+  .form-title,
+  .info-title {
+    font-size: 1.5rem;
+  }
+  
+  .contact-faq,
+  .contact-map {
+    padding: 3rem 0;
+  }
+  
+  .faq-title,
+  .map-title {
+    font-size: 1.75rem;
+  }
+  
+  .map-placeholder {
+    height: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 1.75rem;
+  }
+  
+  .hero-description {
+    font-size: 1rem;
+  }
+  
+  .contact-method {
+    padding: 1rem;
+  }
+  
+  .method-icon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .contact-form-tile {
+    padding: 1.5rem;
+  }
+  
+  .form-title,
+  .info-title {
+    font-size: 1.25rem;
+  }
+  
+  .faq-item {
+    padding: 1.5rem;
+  }
+  
+  .map-placeholder {
+    height: 250px;
+    padding: 1rem;
+  }
+}

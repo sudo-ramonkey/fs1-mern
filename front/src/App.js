@@ -8,6 +8,9 @@ import Home from './pages/Home';
 import AllProducts from './pages/AllProducts';
 import Auth from './pages/Auth';
 import Profile from './pages/Profile';
+import Offers from './pages/Offers';
+import Contact from './pages/Contact';
+import Category from './pages/Category';
 import { getUserProfile } from './redux/slices/authSlice';
 
 
@@ -26,6 +29,10 @@ function App() {
       <Layout>        <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/productos" element={<AllProducts />} />
+          <Route path="/ofertas" element={<Offers />} />
+          <Route path="/contacto" element={<Contact />} />
+          <Route path="/category/:categoryId" element={<Category />} />
+          <Route path="/category/:categoryId/:subcategory" element={<Category />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/profile" element={
             <ProtectedRoute>

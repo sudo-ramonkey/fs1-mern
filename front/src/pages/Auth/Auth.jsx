@@ -29,7 +29,7 @@ import {
   registerUser,
   clearError,
   selectAuth,
-} from '../redux/slices/authSlice';
+} from '../../redux/slices/authSlice';
 import './Auth.css';
 
 const Auth = () => {
