@@ -451,10 +451,13 @@
     flex: 1;
 }
 
-.header-search-input .cds--search-input {
-    background-color: #ffffff;
+.header-search-input .cds--search-input,
+.header-search-input .cds--search-input:focus,
+.header-search-input .cds--search-input:active,
+.header-search-input .cds--search-input:hover {
+    background-color: #ffffff !important;
     border: 2px solid rgba(255, 255, 255, 0.2);
-    color: #1f2937;
+    color: #000000 !important;
     border-radius: 12px;
     font-size: 1rem;
     padding: 0.75rem 1rem;
@@ -462,9 +465,32 @@
 }
 
 .header-search-input .cds--search-input:focus {
-    border-color: #fbbf24;
-    box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.2);
-    outline: none;
+    border-color: #fbbf24 !important;
+    box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.2) !important;
+    outline: none !important;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+
+/* Additional overrides for Carbon Design System */
+.header-search-input input,
+.header-search-input input:focus,
+.header-search-input input:active,
+.header-search-input input:hover {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+
+.header-search-input .cds--search-magnifier {
+    fill: #6b7280 !important;
+}
+
+.header-search-input .cds--search-close {
+    fill: #6b7280 !important;
+}
+
+.header-search-input .cds--search-close:hover {
+    fill: #374151 !important;
 }
 
 .search-actions {
@@ -850,9 +876,9 @@
     }
 
     .header-search-input .cds--search-input {
-        background-color: #374151;
-        color: #f9fafb;
-        border-color: #4b5563;
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        border-color: #e5e7eb;
     }
 }
 
