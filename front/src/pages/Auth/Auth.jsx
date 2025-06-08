@@ -236,21 +236,22 @@ const Auth = () => {
                 <Column lg={16} md={8} sm={4}>
                   <Tile className="auth-tile">
                     <Form onSubmit={handleLoginSubmit} className="auth-form">
-                      <Grid>
-                        <Column lg={16} md={8} sm={4}>
+                      <Grid>                        <Column lg={16} md={8} sm={4}>
                           <div className="form-group">
-                            <TextInput
-                              id="login"
-                              name="login"
-                              labelText="Email o Nombre de Usuario"
-                              placeholder="Ingresa tu email o nombre de usuario"
-                              value={loginForm.login}
-                              onChange={handleLoginChange}
-                              invalid={!!formErrors.login}
-                              invalidText={formErrors.login}
-                              size="lg"
-                            />
-                            <User className="input-icon" />
+                            <div className="input-with-icon">
+                              <TextInput
+                                id="login"
+                                name="login"
+                                labelText="Email o Nombre de Usuario"
+                                placeholder="Ingresa tu email o nombre de usuario"
+                                value={loginForm.login}
+                                onChange={handleLoginChange}
+                                invalid={!!formErrors.login}
+                                invalidText={formErrors.login}
+                                size="lg"
+                              />
+                              <User className="input-icon" />
+                            </div>
                           </div>
                         </Column>
 
@@ -342,76 +343,76 @@ const Auth = () => {
                               size="lg"
                             />
                           </div>
-                        </Column>
-
-                        <Column lg={16} md={8} sm={4}>
+                        </Column>                        <Column lg={16} md={8} sm={4}>
                           <div className="form-group">
-                            <TextInput
-                              id="username"
-                              name="username"
-                              labelText="Nombre de Usuario"
-                              placeholder="Elige un nombre de usuario"
-                              value={registerForm.username}
-                              onChange={handleRegisterChange}
-                              invalid={!!formErrors.username}
-                              invalidText={formErrors.username}
-                              size="lg"
-                            />
-                            <User className="input-icon" />
+                            <div className="input-with-icon">
+                              <TextInput
+                                id="username"
+                                name="username"
+                                labelText="Nombre de Usuario"
+                                placeholder="Elige un nombre de usuario"
+                                value={registerForm.username}
+                                onChange={handleRegisterChange}
+                                invalid={!!formErrors.username}
+                                invalidText={formErrors.username}
+                                size="lg"
+                              />
+                              <User className="input-icon" />
+                            </div>
                           </div>
-                        </Column>
-
-                        <Column lg={16} md={8} sm={4}>
+                        </Column>                        <Column lg={16} md={8} sm={4}>
                           <div className="form-group">
-                            <TextInput
-                              id="email"
-                              name="email"
-                              type="email"
-                              labelText="Email"
-                              placeholder="tu@email.com"
-                              value={registerForm.email}
-                              onChange={handleRegisterChange}
-                              invalid={!!formErrors.email}
-                              invalidText={formErrors.email}
-                              size="lg"
-                            />
-                            <Email className="input-icon" />
+                            <div className="input-with-icon">
+                              <TextInput
+                                id="email"
+                                name="email"
+                                type="email"
+                                labelText="Email"
+                                placeholder="tu@email.com"
+                                value={registerForm.email}
+                                onChange={handleRegisterChange}
+                                invalid={!!formErrors.email}
+                                invalidText={formErrors.email}
+                                size="lg"
+                              />
+                              <Email className="input-icon" />
+                            </div>
                           </div>
-                        </Column>
-
-                        <Column lg={16} md={8} sm={4}>
+                        </Column>                        <Column lg={16} md={8} sm={4}>
                           <div className="form-group">
-                            <TextInput
-                              id="phone"
-                              name="phone"
-                              type="tel"
-                              labelText="Teléfono (Opcional)"
-                              placeholder="+52 123 456 7890"
-                              value={registerForm.phone}
-                              onChange={handleRegisterChange}
-                              size="lg"
-                            />
-                            <Phone className="input-icon" />
+                            <div className="input-with-icon">
+                              <TextInput
+                                id="phone"
+                                name="phone"
+                                type="tel"
+                                labelText="Teléfono (Opcional)"
+                                placeholder="+52 123 456 7890"
+                                value={registerForm.phone}
+                                onChange={handleRegisterChange}
+                                size="lg"
+                              />
+                              <Phone className="input-icon" />
+                            </div>
                           </div>
                         </Column>
 
                         {/* Address Information */}
                         <Column lg={16} md={8} sm={4}>
                           <h4 className="subsection-title">Dirección (Opcional)</h4>
-                        </Column>
-
-                        <Column lg={16} md={8} sm={4}>
+                        </Column>                        <Column lg={16} md={8} sm={4}>
                           <div className="form-group">
-                            <TextInput
-                              id="address.street"
-                              name="address.street"
-                              labelText="Calle y Número"
-                              placeholder="Ej: Av. Principal 123"
-                              value={registerForm.address.street}
-                              onChange={handleRegisterChange}
-                              size="lg"
-                            />
-                            <Location className="input-icon" />
+                            <div className="input-with-icon">
+                              <TextInput
+                                id="address.street"
+                                name="address.street"
+                                labelText="Calle y Número"
+                                placeholder="Ej: Av. Principal 123"
+                                value={registerForm.address.street}
+                                onChange={handleRegisterChange}
+                                size="lg"
+                              />
+                              <Location className="input-icon" />
+                            </div>
                           </div>
                         </Column>
 
