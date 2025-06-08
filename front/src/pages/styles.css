@@ -1,9 +1,145 @@
-.articleWrapper {
+/* Container principal */
+.home-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* Header con filtros y contador */
+.home-header {
   display: flex;
-  flex-wrap: wrap;         /* Permite que las cards se acomoden en varias filas */
-  gap: 24px;               /* Espacio entre las cards */
-  justify-content: center; /* Centra las cards horizontalmente */
-  align-items: flex-start; /* Alinea las cards al inicio verticalmente */
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.products-count {
+  color: #6b7280;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Grid de productos */
+.articleWrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  justify-items: center;
   width: 100%;
-  padding: 24px 0;
+  padding: 0;
+  margin-bottom: 32px;
+}
+
+/* Wrapper de paginación */
+.pagination-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 32px 0;
+  border-top: 1px solid #e5e7eb;
+  margin-top: 32px;
+}
+
+/* Estilos para el componente de paginación de Carbon */
+.pagination-wrapper .cds--pagination {
+  background-color: transparent;
+  border: none;
+}
+
+.pagination-wrapper .cds--pagination__left,
+.pagination-wrapper .cds--pagination__right {
+  align-items: center;
+}
+
+.pagination-wrapper .cds--pagination__text {
+  color: #374151;
+  font-weight: 500;
+}
+
+.pagination-wrapper .cds--select-input {
+  background-color: #f9fafb;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+}
+
+.pagination-wrapper .cds--pagination__button {
+  background-color: #f9fafb;
+  border: 1px solid #d1d5db;
+  color: #374151;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.pagination-wrapper .cds--pagination__button:hover:not(:disabled) {
+  background-color: #1e40af;
+  border-color: #1e40af;
+  color: #ffffff;
+}
+
+.pagination-wrapper .cds--pagination__button:disabled {
+  background-color: #f3f4f6;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* Estado sin productos */
+.no-products {
+  text-align: center;
+  padding: 64px 16px;
+  color: #6b7280;
+}
+
+.no-products h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #374151;
+}
+
+.no-products p {
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .home-header {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+  
+  .articleWrapper {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 16px;
+  }
+  
+  .pagination-wrapper {
+    padding: 24px 0;
+  }
+  
+  .pagination-wrapper .cds--pagination {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .pagination-wrapper .cds--pagination__left,
+  .pagination-wrapper .cds--pagination__right {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .articleWrapper {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .home-container {
+    padding: 0 8px;
+  }
 }
