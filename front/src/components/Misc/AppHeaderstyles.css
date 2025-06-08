@@ -914,3 +914,229 @@
         border: 2px solid #000000;
     }
 }
+
+/* Enhanced Category Menu Styles */
+.header-category-menu .cds--header__menu {
+    min-width: 280px !important;
+    max-width: 350px !important;
+    max-height: 480px !important;
+    overflow-y: auto !important;
+}
+
+.header-category-menu .cds--header__menu-item {
+    display: flex !important;
+    align-items: center !important;
+    font-size: 0.875rem !important;
+    white-space: nowrap !important;
+}
+
+.category-main-item {
+    font-weight: 600 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    margin-bottom: 8px !important;
+    padding-bottom: 12px !important;
+}
+
+.category-featured-item {
+    background: linear-gradient(
+        135deg,
+        rgba(251, 191, 36, 0.1),
+        rgba(245, 158, 11, 0.1)
+    ) !important;
+    border-left: 3px solid #fbbf24 !important;
+}
+
+.category-offers-item {
+    background: linear-gradient(
+        135deg,
+        rgba(239, 68, 68, 0.1),
+        rgba(220, 38, 38, 0.1)
+    ) !important;
+    border-left: 3px solid #ef4444 !important;
+}
+
+.menu-divider {
+    height: 1px !important;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+    ) !important;
+    margin: 12px 8px !important;
+}
+
+.submenu-header {
+    color: #fbbf24 !important;
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    padding: 8px 20px 4px 20px !important;
+    margin: 8px 0 4px 0 !important;
+    background: rgba(251, 191, 36, 0.1) !important;
+    border-radius: 6px !important;
+    border-left: 3px solid #fbbf24 !important;
+}
+
+.category-subcategory-item {
+    font-size: 0.813rem !important;
+    padding-left: 1.75rem !important;
+    opacity: 0.9 !important;
+    position: relative !important;
+}
+
+.category-subcategory-item::before {
+    content: "↳" !important;
+    position: absolute !important;
+    left: 1.25rem !important;
+    opacity: 0.6 !important;
+    font-size: 0.75rem !important;
+}
+
+.category-subcategory-item:hover {
+    opacity: 1 !important;
+    padding-left: 2rem !important;
+}
+
+.category-see-more {
+    font-style: italic !important;
+    opacity: 0.8 !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+    margin-top: 8px !important;
+    padding-top: 12px !important;
+}
+
+/* Mobile Category Enhancements */
+.mobile-category-section {
+    margin-bottom: 16px !important;
+}
+
+.mobile-category-section .category-header {
+    background: linear-gradient(135deg, #1e40af, #1d4ed8) !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+    padding: 14px 20px !important;
+    margin-bottom: 8px !important;
+    border-radius: 10px !important;
+    border-left: 4px solid #fbbf24 !important;
+    box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3) !important;
+}
+
+.mobile-category-section .category-header:hover {
+    background: linear-gradient(135deg, #1d4ed8, #2563eb) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 16px rgba(30, 64, 175, 0.4) !important;
+}
+
+.mobile-subcategories {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+    margin-left: 16px !important;
+    padding-left: 16px !important;
+    border-left: 2px solid rgba(251, 191, 36, 0.3) !important;
+}
+
+.mobile-subcategories .subcategory {
+    background: rgba(255, 255, 255, 0.05) !important;
+    color: #e5e7eb !important;
+    font-size: 0.875rem !important;
+    padding: 10px 16px !important;
+    border-radius: 8px !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    position: relative !important;
+}
+
+.mobile-subcategories .subcategory::before {
+    content: "→" !important;
+    margin-right: 8px !important;
+    opacity: 0.6 !important;
+}
+
+.mobile-subcategories .subcategory:hover {
+    background: rgba(251, 191, 36, 0.1) !important;
+    color: #fbbf24 !important;
+    border-color: rgba(251, 191, 36, 0.3) !important;
+    transform: translateX(4px) !important;
+}
+
+.mobile-subcategories .see-more {
+    background: linear-gradient(
+        135deg,
+        rgba(59, 130, 246, 0.1),
+        rgba(37, 99, 235, 0.1)
+    ) !important;
+    color: #60a5fa !important;
+    font-style: italic !important;
+    border: 1px dashed rgba(96, 165, 250, 0.3) !important;
+}
+
+.mobile-subcategories .see-more:hover {
+    background: linear-gradient(
+        135deg,
+        rgba(59, 130, 246, 0.2),
+        rgba(37, 99, 235, 0.2)
+    ) !important;
+    border-color: rgba(96, 165, 250, 0.5) !important;
+}
+
+/* Scrollbar for category menus */
+.header-category-menu .cds--header__menu::-webkit-scrollbar {
+    width: 6px !important;
+}
+
+.header-category-menu .cds--header__menu::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-radius: 3px !important;
+}
+
+.header-category-menu .cds--header__menu::-webkit-scrollbar-thumb {
+    background: rgba(251, 191, 36, 0.6) !important;
+    border-radius: 3px !important;
+}
+
+.header-category-menu .cds--header__menu::-webkit-scrollbar-thumb:hover {
+    background: rgba(251, 191, 36, 0.8) !important;
+}
+
+/* Enhanced mobile menu responsiveness */
+@media (max-width: 768px) {
+    .mobile-category-section .category-header {
+        font-size: 0.938rem !important;
+        padding: 12px 18px !important;
+    }
+
+    .mobile-subcategories {
+        margin-left: 12px !important;
+        padding-left: 12px !important;
+    }
+
+    .mobile-subcategories .subcategory {
+        font-size: 0.813rem !important;
+        padding: 8px 14px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-category-menu .cds--header__menu {
+        min-width: 240px !important;
+        max-width: 280px !important;
+    }
+
+    .mobile-category-section .category-header {
+        font-size: 0.875rem !important;
+        padding: 10px 16px !important;
+    }
+
+    .mobile-subcategories {
+        margin-left: 8px !important;
+        padding-left: 8px !important;
+    }
+
+    .mobile-subcategories .subcategory {
+        font-size: 0.75rem !important;
+        padding: 6px 12px !important;
+    }
+}
