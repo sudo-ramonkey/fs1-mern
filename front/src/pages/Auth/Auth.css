@@ -160,16 +160,86 @@
 .form-group {
   position: relative;
   margin-bottom: clamp(1rem, 3vw, 1.5rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
-.form-group .input-icon {
+/* Form Group with Icon Wrapper */
+.input-with-icon {
+  position: relative;
+  width: 100%;
+}
+
+.input-with-icon .input-icon {
   position: absolute;
-  right: 1rem;
+  right: 12px;
   top: 50%;
   transform: translateY(-50%);
+  margin-top: 10px; /* Ajuste para compensar la etiqueta */
   color: var(--cds-icon-secondary);
   pointer-events: none;
-  z-index: 1;
+  z-index: 10;
+  height: 16px;
+  width: 16px;
+  transition: all 0.2s ease;
+}
+
+/* Adjust position for different input states */
+.input-with-icon .cds--text-input-wrapper {
+  position: relative;
+}
+
+.input-with-icon .cds--text-input-wrapper .input-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-top: 10px;
+}
+
+/* For large inputs, adjust the position */
+.input-with-icon .cds--text-input--lg ~ .input-icon {
+  right: 12px;
+  margin-top: 12px; /* Ajuste para inputs grandes */
+}
+
+/* Account for password input with show/hide button */
+.input-with-icon .cds--password-input-wrapper .input-icon {
+  right: 48px;
+  margin-top: 10px;
+}
+
+/* Focus states for icons */
+.input-with-icon .cds--text-input:focus ~ .input-icon,
+.input-with-icon .cds--password-input:focus-within ~ .input-icon {
+  color: var(--cds-icon-primary);
+  transform: translateY(-50%) scale(1.05);
+}
+
+/* For inputs with validation errors */
+.input-with-icon .cds--text-input--invalid ~ .input-icon {
+  color: var(--cds-support-error);
+}
+
+/* For inputs with success state */
+.input-with-icon .cds--text-input--valid ~ .input-icon {
+  color: var(--cds-support-success);
+}
+
+.form-group .cds--text-input,
+.form-group .cds--password-input,
+.form-group .cds--text-input-wrapper {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Center icons when input is focused */
+.input-with-icon .cds--text-input:focus ~ .input-icon,
+.input-with-icon .cds--password-input:focus-within ~ .input-icon {
+  color: var(--cds-icon-primary);
+  transform: translateY(-50%) scale(1.05);
 }
 
 .subsection-title {
@@ -180,23 +250,32 @@
   padding-top: clamp(1rem, 3vw, 1.5rem);
   border-top: 1px solid var(--cds-border-subtle);
   text-align: center;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .form-actions {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   gap: 1rem;
   margin-top: 2rem;
   padding-top: 1.5rem;
   border-top: 1px solid var(--cds-border-subtle);
   width: 100%;
+  text-align: center;
 }
 
 .form-actions .cds--btn {
-  min-width: 160px;
+  width: 100%;
+  min-width: 200px;
   max-width: 300px;
   transition: all 0.2s ease-in-out;
+  margin: 0 auto;
+  display: block;
 }
 
 /* Carbon Design System Input Overrides */
@@ -233,6 +312,12 @@
   font-weight: 600;
   margin-top: 0.5rem;
   transition: all 0.2s ease;
+  display: block !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: center;
+  width: 100%;
+  max-width: 300px;
 }
 
 .auth-submit-btn:hover:not(:disabled) {
@@ -251,6 +336,10 @@
   margin-top: 1.5rem;
   padding-top: 1rem;
   border-top: 1px solid var(--cds-border-subtle);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .auth-footer p {
@@ -449,18 +538,23 @@
   .form-group {
     margin-bottom: 1.25rem;
   }
-  
-  .form-actions {
+    .form-actions {
     margin-top: 1.5rem;
     padding-top: 1rem;
     flex-direction: column;
     gap: 0.75rem;
-  }
-  
-  .form-actions .cds--btn {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
     width: 100%;
-    max-width: none;
-    min-width: auto;
+  }
+    .form-actions .cds--btn {
+    width: 100% !important;
+    max-width: 280px !important;
+    min-width: auto !important;
+    margin: 0 auto !important;
+    left: 0 !important;
+    transform: none !important;
   }
   
   .subsection-title {
@@ -523,11 +617,21 @@
   .cds--password-input input {
     font-size: 16px; /* Prevent zoom on iOS */
   }
-  
-  .form-actions {
+    .form-actions {
     margin-top: 1rem;
     padding-top: 1rem;
     gap: 0.5rem;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+    .form-actions .cds--btn {
+    width: 100% !important;
+    max-width: 250px !important;
+    margin: 0 auto !important;
+    left: 0 !important;
+    transform: none !important;
   }
   
   .subsection-title {
@@ -593,13 +697,20 @@
     padding: 0.5rem 0.625rem;
     font-size: 0.75rem;
   }
-  
-  .form-actions {
+    .form-actions {
     gap: 0.5rem;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
   }
-  
-  .form-actions .cds--btn {
+    .form-actions .cds--btn {
     font-size: 0.875rem;
+    width: 100% !important;
+    max-width: 220px !important;
+    margin: 0 auto !important;
+    left: 0 !important;
+    transform: none !important;
   }
 }
 
@@ -782,4 +893,231 @@
   .auth-tile {
     padding: 0.75rem;
   }
+}
+
+/* Enhanced Centering Styles */
+.auth-form .cds--form-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.auth-form .cds--text-input-wrapper,
+.auth-form .cds--password-input-wrapper {
+  width: 100%;
+  max-width: 100%;
+}
+
+.auth-form .cds--checkbox-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 1rem 0;
+}
+
+.auth-form .cds--checkbox-wrapper .cds--checkbox-label-text {
+  text-align: center;
+}
+
+/* Additional Icon Centering */
+.form-group {
+  text-align: center;
+}
+
+.form-group .cds--label {
+  text-align: center;
+  width: 100%;
+  display: block;
+}
+
+/* Perfect Button Centering */
+.auth-submit-btn {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 300px;
+}
+
+/* Center tabs more precisely */
+.auth-content .cds--tabs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.auth-content .cds--tabs .cds--tab-list {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.auth-content .cds--tabs .cds--tab {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
+}
+
+/* Additional icon positioning refinements */
+.input-with-icon .cds--text-input {
+  padding-right: 44px !important; /* Make space for the icon */
+}
+
+.input-with-icon .cds--password-input input {
+  padding-right: 76px !important; /* Make space for both icon and password toggle */
+}
+
+/* Ensure icons don't interfere with input content */
+.input-with-icon .input-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Override Carbon's default positioning */
+.input-with-icon .cds--text-input-wrapper .input-icon {
+  position: absolute !important;
+  right: 12px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  margin-top: 10px !important;
+  z-index: 100 !important;
+}
+
+/* Special handling for password inputs */
+.input-with-icon .cds--password-input-wrapper {
+  position: relative;
+}
+
+.input-with-icon .cds--password-input-wrapper .input-icon {
+  position: absolute !important;
+  right: 48px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  margin-top: 10px !important;
+  z-index: 100 !important;
+}
+
+/* Ensure icons are visible above other elements */
+.input-with-icon .input-icon svg {
+  display: block;
+  height: 16px;
+  width: 16px;
+}
+
+/* Mobile responsive adjustments for icons */
+@media (max-width: 768px) {
+  .input-with-icon .input-icon {
+    right: 10px;
+    margin-top: 8px;
+    height: 14px;
+    width: 14px;
+  }
+  
+  .input-with-icon .cds--text-input {
+    padding-right: 40px !important;
+  }
+  
+  .input-with-icon .cds--password-input input {
+    padding-right: 70px !important;
+  }
+  
+  .input-with-icon .cds--password-input-wrapper .input-icon {
+    right: 44px !important;
+    margin-top: 8px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .input-with-icon .input-icon {
+    right: 8px;
+    margin-top: 6px;
+    height: 12px;
+    width: 12px;
+  }
+  
+  .input-with-icon .cds--text-input {
+    padding-right: 36px !important;
+  }
+  
+  .input-with-icon .cds--password-input input {
+    padding-right: 64px !important;
+  }
+  
+  .input-with-icon .cds--password-input-wrapper .input-icon {
+    right: 40px !important;
+    margin-top: 6px !important;
+  }
+}
+
+/* Ajustes adicionales para diferentes estados de los inputs */
+
+/* Para inputs normales sin label (caso raro pero posible) */
+.input-with-icon:not(:has(.cds--label)) .input-icon {
+  margin-top: 0 !important;
+}
+
+/* Para inputs con labels y diferentes tamaños */
+.input-with-icon:has(.cds--text-input--sm) .input-icon {
+  margin-top: 8px;
+}
+
+.input-with-icon:has(.cds--text-input--xl) .input-icon {
+  margin-top: 14px;
+}
+
+/* Ajustar cuando hay mensajes de error */
+.input-with-icon:has(.cds--text-input--invalid) .input-icon {
+  margin-top: 10px;
+}
+
+/* Asegurarnos que los iconos siempre tienen el tamaño correcto */
+.input-with-icon .input-icon svg {
+  height: 100%;
+  width: 100%;
+  display: block;
+}
+
+/* Mejora para centrado vertical preciso */
+.input-with-icon .cds--text-input-wrapper,
+.input-with-icon .cds--password-input-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ajustes finales de precisión para centrado vertical */
+.input-with-icon .cds--text-input,
+.input-with-icon .cds--password-input {
+  position: relative;
+}
+
+/* Accesibilidad visual para iconos de campo enfocado */
+.input-with-icon .cds--text-input:focus ~ .input-icon svg,
+.input-with-icon .cds--password-input:focus-within ~ .input-icon svg {
+  stroke-width: 2;
+}
+
+/* Estilos adicionales para centrar botones */
+.form-actions .auth-submit-btn {
+  margin: 0 auto !important;
+  display: block !important;
+  width: 100% !important;
+  max-width: 300px !important;
+  position: relative !important;
+  left: 0 !important;
+  transform: none !important;
+}
+
+/* Contenedor para centrar el botón */
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
