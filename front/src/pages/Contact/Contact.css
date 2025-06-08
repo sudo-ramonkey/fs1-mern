@@ -247,8 +247,10 @@
 
 /* Map Section */
 .contact-map {
-  padding: 4rem 0;
+  padding: 3rem 0; /* Reducido de 4rem */
   background: white;
+  position: relative;
+  z-index: 1;
 }
 
 .map-header {
@@ -275,29 +277,13 @@
   overflow: hidden;
   border: 1px solid #e9ecef;
   box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+  background: white;
+  padding: 0;
+  position: relative;
+  z-index: 1;
 }
 
-.map-placeholder {
-  height: 400px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  color: #666;
-  text-align: center;
-  gap: 1rem;
-}
-
-.map-placeholder p {
-  margin: 0;
-  font-size: 1.125rem;
-}
-
-.map-address {
-  font-weight: 600;
-  color: #333;
-}
+/* Map styles now handled by InteractiveMap component */
 
 /* Responsive Design */
 @media (max-width: 1056px) {
@@ -392,13 +378,9 @@
   .info-title {
     font-size: 1.25rem;
   }
-  
-  .faq-item {
+    .faq-item {
     padding: 1.5rem;
   }
   
-  .map-placeholder {
-    height: 250px;
-    padding: 1rem;
-  }
+  /* Map styles handled by InteractiveMap component */
 }

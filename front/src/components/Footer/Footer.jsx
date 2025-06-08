@@ -57,17 +57,16 @@ const Footer = () => {
             {/* Contact Information */}
             <div className="footer-section">
               <h4 className="footer-subtitle">Contact Info</h4>
-              <div className="footer-contact">
-                <div className="contact-item">
+              <div className="footer-contact">                <div className="contact-item">
                   <span className="contact-icon">📍</span>
-                  <span>Torreón, Coahuila, México</span>
+                  <span>Niños Heroes 706, Tercero de Cobián Centro, 27220 Torreón, Coah.</span>
                 </div>
                 <div className="contact-item">
                   <span className="contact-icon">📞</span>
                   <span>+52 871 123 4567</span>
                 </div>                <div className="contact-item">
                   <span className="contact-icon">✉️</span>
-                  <span>info@elmundodelasguiarras.com</span>
+                  <span>info@elmundodelasguitarras.com</span>
                 </div>
                 <div className="contact-item">
                   <span className="contact-icon">🕒</span>
