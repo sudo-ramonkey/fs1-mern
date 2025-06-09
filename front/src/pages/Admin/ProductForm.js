@@ -132,6 +132,10 @@ const ProductForm = ({ product, onProductCreated, onProductUpdated, onCancel }) 
       if (cleanData.salidas) cleanData.salidas = Number(cleanData.salidas);
       if (cleanData.numeroCuerdas) cleanData.numeroCuerdas = Number(cleanData.numeroCuerdas);
 
+      // Clean up empty enum values that could cause validation errors
+      if (cleanData.marca === '') delete cleanData.marca;
+      if (cleanData.categoriaProducto === '') delete cleanData.categoriaProducto;
+
       // Remove empty fields based on type
       if (cleanData.tipo !== 'Instrumento') {
         delete cleanData.categoria;
@@ -142,6 +146,11 @@ const ProductForm = ({ product, onProductCreated, onProductUpdated, onCancel }) 
         delete cleanData.numeroCuerdas;
         delete cleanData.incluyeEstuche;
         delete cleanData.subcategoriaInstrumento;
+      } else {
+        // For instruments, clean up empty enum values
+        if (cleanData.categoria === '') delete cleanData.categoria;
+        if (cleanData.tipoInstrumento === '') delete cleanData.tipoInstrumento;
+        if (cleanData.subcategoriaInstrumento === '') delete cleanData.subcategoriaInstrumento;
       }
 
       if (cleanData.tipo !== 'Equipo') {
@@ -150,12 +159,26 @@ const ProductForm = ({ product, onProductCreated, onProductUpdated, onCancel }) 
         delete cleanData.entradas;
         delete cleanData.salidas;
         delete cleanData.caracteristicasAdicionales;
+      } else {
+        // For equipment, clean up empty enum values
+        if (cleanData.tipoEquipo === '') delete cleanData.tipoEquipo;
       }
 
       if (cleanData.tipo !== 'Accesorio') {
         delete cleanData.tipoAccesorio;
         delete cleanData.compatibilidad;
         delete cleanData.subcategoriaAccesorio;
+      } else {
+        // For accessories, remove empty string values to avoid enum validation errors
+        if (cleanData.subcategoriaAccesorio === '') {
+          delete cleanData.subcategoriaAccesorio;
+        }
+        if (cleanData.tipoAccesorio === '') {
+          delete cleanData.tipoAccesorio;
+        }
+        if (cleanData.compatibilidad === '') {
+          delete cleanData.compatibilidad;
+        }
       }
 
       if (product) {
@@ -537,6 +560,32 @@ const ProductForm = ({ product, onProductCreated, onProductUpdated, onCancel }) 
                   {tiposAccesorios.map(tipo => (
                     <option key={tipo} value={tipo}>{tipo}</option>
                   ))}
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="subcategoriaAccesorio">Subcategoría de Accesorio</label>
+                <select
+                  id="subcategoriaAccesorio"
+                  name="subcategoriaAccesorio"
+                  value={formData.subcategoriaAccesorio}
+                  onChange={handleInputChange}
+                >
+                  <option value="">Seleccionar subcategoría</option>
+                  <option value="Atriles & Soportes">Atriles & Soportes</option>
+                  <option value="Afinadores & Metronomos">Afinadores & Metronomos</option>
+                  <option value="Fundas & Estuches">Fundas & Estuches</option>
+                  <option value="Cables">Cables</option>
+                  <option value="Capos">Capos</option>
+                  <option value="Cuerdas Guitarra Acustica">Cuerdas Guitarra Acustica</option>
+                  <option value="Cuerdas Guitarra Electrica">Cuerdas Guitarra Electrica</option>
+                  <option value="Herramientas & Limpiadores">Herramientas & Limpiadores</option>
+                  <option value="Pastillas">Pastillas</option>
+                  <option value="Puas">Puas</option>
+                  <option value="Refacciones & Partes">Refacciones & Partes</option>
+                  <option value="Slides">Slides</option>
+                  <option value="Tahalis">Tahalis</option>
+                  <option value="Lifestyle">Lifestyle</option>
                 </select>
               </div>
 
