@@ -209,6 +209,27 @@
   color: #0f62fe;
 }
 
+/* Category Tree in Filter */
+.filter-category-tree {
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.filter-category-tree .category-tree {
+  border: none;
+  padding: 0;
+  max-height: none;
+}
+
+.filter-category-tree .category-node {
+  font-size: 0.875rem;
+}
+
+.filter-category-tree .category-tree-selector.compact .category-tree {
+  max-height: none;
+  padding: 0;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
   .price-inputs {

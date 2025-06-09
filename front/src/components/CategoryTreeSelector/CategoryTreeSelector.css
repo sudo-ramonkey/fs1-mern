@@ -1,0 +1,111 @@
+.category-tree-selector {
+  width: 100%;
+}
+
+.category-tree-selector.compact {
+  font-size: 0.875rem;
+}
+
+.category-search {
+  margin-bottom: 1rem;
+}
+
+.category-tree {
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 0.5rem;
+}
+
+.category-tree-selector.compact .category-tree {
+  max-height: 300px;
+  padding: 0.25rem;
+}
+
+.category-node {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.25rem 0;
+}
+
+.category-node.compact {
+  gap: 0.25rem;
+  padding: 0.125rem 0;
+}
+
+.category-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.category-label:hover {
+  background-color: #f4f4f4;
+}
+
+.category-name {
+  font-weight: 500;
+  color: #161616;
+}
+
+.product-count {
+  font-size: 0.75rem;
+  color: #6f6f6f;
+  font-weight: normal;
+}
+
+.category-tree-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.category-tree-error {
+  text-align: center;
+  padding: 1rem;
+  color: #da1e28;
+}
+
+.category-tree-error p {
+  margin-bottom: 1rem;
+}
+
+.no-categories {
+  text-align: center;
+  padding: 2rem;
+  color: #6f6f6f;
+  font-style: italic;
+}
+
+/* Carbon TreeView customizations */
+.cds--tree-node {
+  margin-bottom: 0.25rem;
+}
+
+.cds--tree-node__label {
+  width: 100%;
+}
+
+.cds--tree-leaf-node .cds--tree-node__label {
+  padding-left: 2rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .category-tree {
+    max-height: 250px;
+  }
+  
+  .category-node {
+    font-size: 0.875rem;
+  }
+}

@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchProductos } from "../../service/service";
-import { articleMockData } from "./articleMockData";
+import { fetchProductos, getCategoriesService } from "../../service/service";
 
 export const fetchProductosThunk = createAsyncThunk(
   "shop/fetchProductos",
@@ -10,14 +9,53 @@ export const fetchProductosThunk = createAsyncThunk(
   },
 );
 
+export const fetchCategoriesThunk = createAsyncThunk(
+  "shop/fetchCategories",
+  async (params = {}) => {
+    const data = await getCategoriesService(params);
+    return data;
+  },
+);
+
+// Helper function to get all descendant category IDs from a tree structure
+const getCategoryDescendants = (categories, categoryId) => {
+  const descendants = [];
+  const findDescendants = (id) => {
+    const category = categories.find(cat => cat._id === id);
+    if (category && category.children) {
+      category.children.forEach(childId => {
+        descendants.push(childId);
+        findDescendants(childId);
+      });
+    }
+  };
+  findDescendants(categoryId);
+  return descendants;
+};
+
+// Helper function to check if a product belongs to a category or its subcategories
+const productBelongsToCategory = (product, selectedCategoryIds, categories) => {
+  if (!product.categoria || !selectedCategoryIds.length) return true;
+  
+  // Get all category IDs that should match (including descendants)
+  const allRelevantCategoryIds = [];
+  selectedCategoryIds.forEach(categoryId => {
+    allRelevantCategoryIds.push(categoryId);
+    allRelevantCategoryIds.push(...getCategoryDescendants(categories, categoryId));
+  });
+  
+  // Check if product's category reference matches any of the relevant categories
+  return allRelevantCategoryIds.includes(product.categoria);
+};
+
 // Función helper para aplicar filtros
-const filterProducts = (productos, filters) => {
+const filterProducts = (productos, filters, categories = []) => {
   let filtered = [...productos];
 
-  // Filtrar por categorías
+  // Filtrar por categorías (ahora soporta estructura de árbol)
   if (filters.selectedCategories && filters.selectedCategories.length > 0) {
     filtered = filtered.filter((producto) =>
-      filters.selectedCategories.includes(producto.categoriaProducto),
+      productBelongsToCategory(producto, filters.selectedCategories, categories)
     );
   }
 
@@ -143,15 +181,10 @@ const filterProducts = (productos, filters) => {
 
 const initialState = {
   productos: [], // Inicializa como arreglo vacío
-  categories: [
-    { id: "Guitarras Electricas", name: "Guitarras Eléctricas" },
-    { id: "Guitarras Acusticas", name: "Guitarras Acústicas" },
-    { id: "Bajos", name: "Bajos" },
-    { id: "Amplificadores", name: "Amplificadores" },
-    { id: "Efectos", name: "Efectos" },
-    { id: "Accesorios", name: "Accesorios" },
-    { id: "Otros", name: "Otros" },
-  ],
+  categories: [], // Now populated from API instead of hardcoded
+  categoriesTree: [], // Tree structure for hierarchical display
+  categoriesLoading: false,
+  categoriesError: null,
   filters: {
     selectedCategories: [],
     selectedSubcategories: [],
@@ -189,7 +222,7 @@ const shopSlice = createSlice({
     setCategoryFilter: (state, action) => {
       state.filters.selectedCategories = action.payload;
       // Aplicar filtros automáticamente
-      state.filteredProductos = filterProducts(state.productos, state.filters);
+      state.filteredProductos = filterProducts(state.productos, state.filters, state.categories);
     },
     toggleCategoryFilter: (state, action) => {
       const category = action.payload;
@@ -200,11 +233,11 @@ const shopSlice = createSlice({
         state.filters.selectedCategories.push(category);
       }
       // Aplicar filtros automáticamente
-      state.filteredProductos = filterProducts(state.productos, state.filters);
+      state.filteredProductos = filterProducts(state.productos, state.filters, state.categories);
     },
     setSubcategoryFilter: (state, action) => {
       state.filters.selectedSubcategories = action.payload;
-      state.filteredProductos = filterProducts(state.productos, state.filters);
+      state.filteredProductos = filterProducts(state.productos, state.filters, state.categories);
     },
     toggleSubcategoryFilter: (state, action) => {
       const subcategory = action.payload;
@@ -214,11 +247,11 @@ const shopSlice = createSlice({
       } else {
         state.filters.selectedSubcategories.push(subcategory);
       }
-      state.filteredProductos = filterProducts(state.productos, state.filters);
+      state.filteredProductos = filterProducts(state.productos, state.filters, state.categories);
     },
     setAmpTypeFilter: (state, action) => {
       state.filters.selectedAmpTypes = action.payload;
-      state.filteredProductos = filterProducts(state.productos, state.filters);
+      state.filteredProductos = filterProducts(state.productos, state.filters, state.categories);
     },
     toggleAmpTypeFilter: (state, action) => {
       const ampType = action.payload;
@@ -229,11 +262,11 @@ const shopSlice = createSlice({
       } else {
         state.filters.selectedAmpTypes.push(ampType);
       }
-      state.filteredProductos = filterProducts(state.productos, state.filters);
+      state.filteredProductos = filterProducts(state.productos, state.filters, state.categories);
     },
     setProductTypeFilter: (state, action) => {
       state.filters.selectedProductTypes = action.payload;
-      state.filteredProductos = filterProducts(state.productos, state.filters);
+      state.filteredProductos = filterProducts(state.productos, state.filters, state.categories);
     },
     toggleProductTypeFilter: (state, action) => {
       const productType = action.payload;
@@ -243,11 +276,11 @@ const shopSlice = createSlice({
       } else {
         state.filters.selectedProductTypes.push(productType);
       }
-      state.filteredProductos = filterProducts(state.productos, state.filters);
+      state.filteredProductos = filterProducts(state.productos, state.filters, state.categories);
     },
     setMaterialFilter: (state, action) => {
       state.filters.selectedMaterials = action.payload;
-      state.filteredProductos = filterProducts(state.productos, state.filters);
+      state.filteredProductos = filterProducts(state.productos, state.filters, state.categories);
     },
     toggleMaterialFilter: (state, action) => {
       const material = action.payload;
@@ -257,7 +290,7 @@ const shopSlice = createSlice({
       } else {
         state.filters.selectedMaterials.push(material);
       }
-      state.filteredProductos = filterProducts(state.productos, state.filters);
+      state.filteredProductos = filterProducts(state.productos, state.filters, state.categories);
     },
 
     setFiltersFromURL: (state, action) => {
@@ -292,12 +325,12 @@ const shopSlice = createSlice({
         state.filters.priceRange = filters.priceRange;
       }
 
-      state.filteredProductos = filterProducts(state.productos, state.filters);
+      state.filteredProductos = filterProducts(state.productos, state.filters, state.categories);
     },
     setPriceRangeFilter: (state, action) => {
       state.filters.priceRange = action.payload;
       // Aplicar filtros automáticamente
-      state.filteredProductos = filterProducts(state.productos, state.filters);
+      state.filteredProductos = filterProducts(state.productos, state.filters, state.categories);
     },
     toggleBrandFilter: (state, action) => {
       const brand = action.payload;
@@ -309,17 +342,17 @@ const shopSlice = createSlice({
         state.filters.selectedBrands.push(brand);
       }
       // Aplicar filtros automáticamente
-      state.filteredProductos = filterProducts(state.productos, state.filters);
+      state.filteredProductos = filterProducts(state.productos, state.filters, state.categories);
     },
     setSearchText: (state, action) => {
       state.filters.searchText = action.payload;
       // Aplicar filtros automáticamente
-      state.filteredProductos = filterProducts(state.productos, state.filters);
+      state.filteredProductos = filterProducts(state.productos, state.filters, state.categories);
     },
     setSortBy: (state, action) => {
       state.filters.sortBy = action.payload;
       // Aplicar filtros automáticamente
-      state.filteredProductos = filterProducts(state.productos, state.filters);
+      state.filteredProductos = filterProducts(state.productos, state.filters, state.categories);
     },
     clearFilters: (state) => {
       // Calcular rango de precios dinámico
@@ -340,32 +373,56 @@ const shopSlice = createSlice({
         sortBy: "name",
       };
       // Aplicar filtros automáticamente
-      state.filteredProductos = filterProducts(state.productos, state.filters);
+      state.filteredProductos = filterProducts(state.productos, state.filters, state.categories);
     },
     applyFilters: (state) => {
-      state.filteredProductos = filterProducts(state.productos, state.filters);
+      state.filteredProductos = filterProducts(state.productos, state.filters, state.categories);
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchProductosThunk.fulfilled, (state, action) => {
-      state.productos = action.payload;
+    builder
+      .addCase(fetchProductosThunk.fulfilled, (state, action) => {
+        state.productos = action.payload;
 
-      // Establecer rango de precios dinámico si no ha sido modificado por el usuario
-      if (
-        state.filters.priceRange[0] === 0 &&
-        state.filters.priceRange[1] === 9999
-      ) {
-        const prices = action.payload.map((producto) => producto.precio);
-        if (prices.length > 0) {
-          const minPrice = Math.min(...prices);
-          const maxPrice = Math.max(...prices);
-          state.filters.priceRange = [minPrice, maxPrice];
+        // Establecer rango de precios dinámico si no ha sido modificado por el usuario
+        if (
+          state.filters.priceRange[0] === 0 &&
+          state.filters.priceRange[1] === 9999
+        ) {
+          const prices = action.payload.map((producto) => producto.precio);
+          if (prices.length > 0) {
+            const minPrice = Math.min(...prices);
+            const maxPrice = Math.max(...prices);
+            state.filters.priceRange = [minPrice, maxPrice];
+          }
         }
-      }
 
-      // Aplicar filtros después de cargar productos
-      state.filteredProductos = filterProducts(state.productos, state.filters);
-    });
+        // Aplicar filtros después de cargar productos
+        state.filteredProductos = filterProducts(state.productos, state.filters, state.categories);
+      })
+      .addCase(fetchCategoriesThunk.pending, (state) => {
+        state.categoriesLoading = true;
+        state.categoriesError = null;
+      })
+      .addCase(fetchCategoriesThunk.fulfilled, (state, action) => {
+        state.categoriesLoading = false;
+        state.categories = action.payload.data || action.payload;
+        
+        // If the response includes a tree structure, store it separately
+        if (action.payload.tree) {
+          state.categoriesTree = action.payload.tree;
+        } else {
+          // Create a basic tree structure from flat categories
+          state.categoriesTree = state.categories.filter(cat => !cat.parent);
+        }
+        
+        // Re-apply filters with new categories
+        state.filteredProductos = filterProducts(state.productos, state.filters, state.categories);
+      })
+      .addCase(fetchCategoriesThunk.rejected, (state, action) => {
+        state.categoriesLoading = false;
+        state.categoriesError = action.error.message;
+      });
   },
 });
 
@@ -397,6 +454,9 @@ export const selectAllProducts = (state) => state.shop.productos;
 export const selectFilteredProducts = (state) => state.shop.filteredProductos;
 export const selectFilters = (state) => state.shop.filters;
 export const selectCategories = (state) => state.shop.categories;
+export const selectCategoriesTree = (state) => state.shop.categoriesTree;
+export const selectCategoriesLoading = (state) => state.shop.categoriesLoading;
+export const selectCategoriesError = (state) => state.shop.categoriesError;
 export const selectAvailableBrands = (state) => {
   const productos = state.shop.productos;
   const brands = [
