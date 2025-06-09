@@ -34,11 +34,8 @@ function App() {
           <Route path="/productos" element={<AllProducts />} />
           <Route path="/ofertas" element={<Offers />} />
           <Route path="/contacto" element={<Contact />} />
-          <Route path="/category/:categoryId" element={<Category />} />
-          <Route
-            path="/category/:categoryId/:subcategory"
-            element={<Category />}
-          />
+          <Route path="/category/:categorySlug" element={<Category />} />
+          <Route path="/category/:categorySlug/*" element={<Category />} />
           <Route path="/auth" element={<Auth />} />
           <Route
             path="/profile"

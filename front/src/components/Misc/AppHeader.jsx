@@ -25,7 +25,7 @@ import {
   Close,
   NotificationNew,
 } from "@carbon/react/icons";
-import { setSearchText } from "../../redux/slices/shopSlice";
+import { setSearchText, fetchCategoriesThunk } from "../../redux/slices/shopSlice";
 import { toggleCart, selectCartTotalItems } from "../../redux/slices/cartSlice";
 import { selectAuth, logoutUser } from "../../redux/slices/authSlice";
 import CartDrawer from "../CartDrawer/CartDrawer";
@@ -41,95 +41,16 @@ const AppHeader = () => {
   const searchInputRef = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { filters, loading } = useSelector((state) => state.shop);
+  const { filters, categoriesTree, categoriesLoading } = useSelector((state) => state.shop);
   const cartTotalItems = useSelector(selectCartTotalItems);
   const { isAuthenticated, user } = useSelector(selectAuth);
 
-  // Define category structures based on product schemas
-  const categoryStructure = {
-    "Guitarras Electricas": {
-      name: "Guitarras Eléctricas",
-      icon: "🎸",
-      subcategories: [
-        { id: "Stratocaster", name: "Stratocaster", icon: "🎸" },
-        { id: "Telecaster", name: "Telecaster", icon: "🎸" },
-        { id: "Les Paul", name: "Les Paul", icon: "🎸" },
-        { id: "SG", name: "SG", icon: "🎸" },
-        { id: "Flying V", name: "Flying V", icon: "🎸" },
-        { id: "Explorer", name: "Explorer", icon: "🎸" },
-      ],
-    },
-    "Guitarras Acusticas": {
-      name: "Guitarras Acústicas",
-      icon: "🎼",
-      subcategories: [
-        { id: "Dreadnought", name: "Dreadnought", icon: "🎼" },
-        { id: "Folk", name: "Folk", icon: "🎼" },
-        { id: "Jazz", name: "Jazz", icon: "🎼" },
-        { id: "Clásica", name: "Clásica", icon: "🎼" },
-      ],
-    },
-    Bajos: {
-      name: "Bajos",
-      icon: "🎵",
-      subcategories: [
-        { id: "Jazz Bass", name: "Jazz Bass", icon: "🎵" },
-        { id: "Precision Bass", name: "Precision Bass", icon: "🎵" },
-        { id: "Active Bass", name: "Bajo Activo", icon: "🎵" },
-        { id: "Acoustic Bass", name: "Bajo Acústico", icon: "🎵" },
-      ],
-    },
-    Amplificadores: {
-      name: "Amplificadores",
-      icon: "🔊",
-      subcategories: [
-        { id: "Cabezal", name: "Cabezales", icon: "🔊" },
-        { id: "Combo", name: "Combos", icon: "🔊" },
-        { id: "Gabinete", name: "Gabinetes", icon: "🔊" },
-        { id: "Tubos", name: "A Tubos", icon: "🔥" },
-        { id: "Estado Sólido", name: "Estado Sólido", icon: "⚡" },
-        { id: "Híbrido", name: "Híbridos", icon: "🔀" },
-      ],
-    },
-    Efectos: {
-      name: "Efectos",
-      icon: "🎛️",
-      subcategories: [
-        { id: "Distorsión", name: "Distorsión", icon: "🔥" },
-        { id: "Overdrive", name: "Overdrive", icon: "🌋" },
-        { id: "Delay", name: "Delay", icon: "🔄" },
-        { id: "Reverb", name: "Reverb", icon: "🌊" },
-        { id: "Chorus", name: "Chorus", icon: "🌀" },
-        { id: "Multiefectos", name: "Multiefectos", icon: "🎛️" },
-      ],
-    },
-    Accesorios: {
-      name: "Accesorios",
-      icon: "🛠️",
-      subcategories: [
-        {
-          id: "Cuerdas Guitarra Electrica",
-          name: "Cuerdas Eléctricas",
-          icon: "🎸",
-        },
-        {
-          id: "Cuerdas Guitarra Acustica",
-          name: "Cuerdas Acústicas",
-          icon: "🎼",
-        },
-        { id: "Fundas & Estuches", name: "Fundas & Estuches", icon: "💼" },
-        { id: "Pastillas", name: "Pastillas", icon: "🎤" },
-        { id: "Puas", name: "Púas", icon: "🎯" },
-        { id: "Cables", name: "Cables", icon: "🔌" },
-        {
-          id: "Afinadores & Metronomos",
-          name: "Afinadores & Metrónomos",
-          icon: "⏱️",
-        },
-        { id: "Capos", name: "Capos", icon: "🔒" },
-      ],
-    },
-  };
+  // Fetch categories on component mount
+  useEffect(() => {
+    if (!categoriesTree || categoriesTree.length === 0) {
+      dispatch(fetchCategoriesThunk());
+    }
+  }, [dispatch, categoriesTree]);
 
   // Handle scroll effect and close menus on outside click
   useEffect(() => {
@@ -235,18 +156,10 @@ const AppHeader = () => {
     setUserMenuOpen(false);
   };
 
-  // Handle category navigation with filters
-  const handleCategoryNavigation = (categoryId, subcategoryId = null) => {
-    // Build URL with query parameters
-    const params = new URLSearchParams();
-    params.set("category", categoryId);
-
-    if (subcategoryId) {
-      params.set("subcategory", subcategoryId);
-    }
-
-    // Navigate to products page with URL parameters using replace to prevent back-and-forth
-    navigate(`/productos?${params.toString()}`, { replace: true });
+  // Handle category navigation using slugs
+  const handleCategoryNavigation = (categorySlug) => {
+    // Navigate to category page using slug
+    navigate(`/category/${categorySlug}`);
   };
 
   return (
@@ -295,19 +208,19 @@ const AppHeader = () => {
         >
           Productos
         </HeaderMenuItem>
-        {/* Menús de categorías dinámicos basados en schemas */}
-        {loading ? (
+        {/* Menús de categorías dinámicos basados en backend */}
+        {categoriesLoading ? (
           <div className="categories-loading">
             <Loading small={true} withOverlay={false} />
           </div>
         ) : (
-          Object.entries(categoryStructure)
-            .slice(0, 4)
-            .map(([categoryId, categoryData]) => (
+          categoriesTree
+            ?.slice(0, 4)
+            .map((category) => (
               <HeaderMenu
-                key={categoryId}
-                aria-label={`Categoría ${categoryData.name}`}
-                menuLinkName={`${categoryData.icon} ${categoryData.name}`}
+                key={category._id}
+                aria-label={`Categoría ${category.name}`}
+                menuLinkName={`${category.icon || '📂'} ${category.name}`}
                 className="header-category-menu"
               >
                 {/* Main category actions */}
@@ -315,49 +228,45 @@ const AppHeader = () => {
                   href="#"
                   onClick={(e) => {
                     e.preventDefault();
-                    handleCategoryNavigation(categoryId);
+                    handleCategoryNavigation(category.slug);
                   }}
                   className="category-main-item"
                 >
-                  📋 Ver todos los {categoryData.name.toLowerCase()}
+                  📋 Ver todos los {category.name.toLowerCase()}
                 </HeaderMenuItem>
 
                 {/* Subcategories */}
-
-                {categoryData.subcategories &&
-                  categoryData.subcategories.length > 0 && (
+                {category.children &&
+                  category.children.length > 0 && (
                     <>
                       <div className="submenu-header" role="presentation">
-                        🏷️ Por tipo:
+                        🏷️ Subcategorías:
                       </div>
-                      {categoryData.subcategories
+                      {category.children
                         .slice(0, 8)
                         .map((subcategory) => (
                           <HeaderMenuItem
-                            key={subcategory.id}
+                            key={subcategory._id}
                             href="#"
                             onClick={(e) => {
                               e.preventDefault();
-                              handleCategoryNavigation(
-                                categoryId,
-                                subcategory.id,
-                              );
+                              handleCategoryNavigation(subcategory.slug);
                             }}
                             className="category-subcategory-item"
                           >
-                            {subcategory.icon} {subcategory.name}
+                            {subcategory.icon || '📄'} {subcategory.name}
                           </HeaderMenuItem>
                         ))}
-                      {categoryData.subcategories.length > 8 && (
+                      {category.children.length > 8 && (
                         <HeaderMenuItem
                           href="#"
                           onClick={(e) => {
                             e.preventDefault();
-                            handleCategoryNavigation(categoryId);
+                            handleCategoryNavigation(category.slug);
                           }}
                           className="category-see-more"
                         >
-                          ➡️ Ver todos los tipos
+                          ➡️ Ver todas las subcategorías
                         </HeaderMenuItem>
                       )}
                     </>
@@ -570,68 +479,63 @@ const AppHeader = () => {
               >
                 🛍️ Productos
               </button>
-              {loading ? (
+              {categoriesLoading ? (
                 <div className="mobile-categories-loading">
                   <Loading small={true} withOverlay={false} />
                   <span>Cargando categorías...</span>
                 </div>
               ) : (
-                Object.entries(categoryStructure).map(
-                  ([categoryId, categoryData]) => (
-                    <div key={categoryId} className="mobile-category-section">
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handleCategoryNavigation(categoryId);
-                          setMenuOpen(false);
-                        }}
-                        className="mobile-nav-item category-header"
-                        aria-label={`Ver ${categoryData.name}`}
-                      >
-                        {categoryData.icon} {categoryData.name}
-                      </button>
+                categoriesTree?.map((category) => (
+                  <div key={category._id} className="mobile-category-section">
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleCategoryNavigation(category.slug);
+                        setMenuOpen(false);
+                      }}
+                      className="mobile-nav-item category-header"
+                      aria-label={`Ver ${category.name}`}
+                    >
+                      {category.icon || '📂'} {category.name}
+                    </button>
 
-                      {/* Mobile subcategories */}
-                      {categoryData.subcategories &&
-                        categoryData.subcategories.length > 0 && (
-                          <div className="mobile-subcategories">
-                            {categoryData.subcategories
-                              .slice(0, 4)
-                              .map((subcategory) => (
-                                <button
-                                  key={subcategory.id}
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    handleCategoryNavigation(
-                                      categoryId,
-                                      subcategory.id,
-                                    );
-                                    setMenuOpen(false);
-                                  }}
-                                  className="mobile-nav-item subcategory"
-                                  aria-label={`Ver ${subcategory.name}`}
-                                >
-                                  {subcategory.icon} {subcategory.name}
-                                </button>
-                              ))}
-                            {categoryData.subcategories.length > 4 && (
+                    {/* Mobile subcategories */}
+                    {category.children &&
+                      category.children.length > 0 && (
+                        <div className="mobile-subcategories">
+                          {category.children
+                            .slice(0, 4)
+                            .map((subcategory) => (
                               <button
+                                key={subcategory._id}
                                 onClick={(e) => {
                                   e.preventDefault();
-                                  handleCategoryNavigation(categoryId);
+                                  handleCategoryNavigation(subcategory.slug);
                                   setMenuOpen(false);
                                 }}
-                                className="mobile-nav-item see-more"
-                                aria-label={`Ver todos los ${categoryData.name.toLowerCase()}`}
+                                className="mobile-nav-item subcategory"
+                                aria-label={`Ver ${subcategory.name}`}
                               >
-                                ➡️ Ver más tipos
+                                {subcategory.icon || '📄'} {subcategory.name}
                               </button>
-                            )}
-                          </div>
-                        )}
-                    </div>
-                  ),
-                )
+                            ))}
+                          {category.children.length > 4 && (
+                            <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                handleCategoryNavigation(category.slug);
+                                setMenuOpen(false);
+                              }}
+                              className="mobile-nav-item see-more"
+                              aria-label={`Ver todos los ${category.name.toLowerCase()}`}
+                            >
+                              ➡️ Ver más subcategorías
+                            </button>
+                          )}
+                        </div>
+                      )}
+                  </div>
+                ))
               )}
               <button
                 onClick={(e) => {

@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { createProductService, updateProductService } from '../../service/service';
+import { fetchCategoriesThunk } from '../../redux/slices/shopSlice';
+import CategoryTreeSelector from '../../components/CategoryTreeSelector/CategoryTreeSelector';
 
 const ProductForm = ({ product, onProductCreated, onProductUpdated, onCancel }) => {
+  const dispatch = useDispatch();
+  const { categoriesTree, categoriesLoading } = useSelector(state => state.shop);
+
   const [formData, setFormData] = useState({
     nombre: '',
     descripcion: '',
@@ -10,7 +16,7 @@ const ProductForm = ({ product, onProductCreated, onProductUpdated, onCancel }) 
     stock: '',
     tipo: 'Instrumento',
     imagenes: ['', '', ''],
-    categoriaProducto: '',
+    categories: [], // Changed from categoriaProducto to categories array
     subcategoriaAccesorio: '',
     // Instrumento fields
     categoria: '',
@@ -38,6 +44,13 @@ const ProductForm = ({ product, onProductCreated, onProductUpdated, onCancel }) 
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
+  // Fetch categories on component mount
+  useEffect(() => {
+    if (!categoriesTree || categoriesTree.length === 0) {
+      dispatch(fetchCategoriesThunk());
+    }
+  }, [dispatch, categoriesTree]);
+
   useEffect(() => {
     if (product) {
       setFormData({
@@ -48,7 +61,7 @@ const ProductForm = ({ product, onProductCreated, onProductUpdated, onCancel }) 
         stock: product.stock || '',
         tipo: product.tipo || 'Instrumento',
         imagenes: product.imagenes || ['', '', ''],
-        categoriaProducto: product.categoriaProducto || '',
+        categories: product.categories || [], // Updated from categoriaProducto
         subcategoriaAccesorio: product.subcategoriaAccesorio || '',
         // Instrumento fields
         categoria: product.categoria || '',
@@ -79,6 +92,13 @@ const ProductForm = ({ product, onProductCreated, onProductUpdated, onCancel }) 
     setFormData(prev => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value
+    }));
+  };
+
+  const handleCategoryChange = (selectedCategories) => {
+    setFormData(prev => ({
+      ...prev,
+      categories: selectedCategories
     }));
   };
 
@@ -166,11 +186,6 @@ const ProductForm = ({ product, onProductCreated, onProductUpdated, onCancel }) 
     "Epiphone", "EVH", "Gretsch", "Gibson", "Martin",
     "Taylor", "Yamaha", "PRS", "Behringer", "Elixir",
     "Dunlop", "Snark", "Otros"
-  ];
-
-  const categoriasProducto = [
-    "Guitarras Electricas", "Guitarras Acusticas", "Bajos",
-    "Amplificadores", "Efectos", "Accesorios", "Otros"
   ];
 
   const tiposAccesorios = [
@@ -266,18 +281,18 @@ const ProductForm = ({ product, onProductCreated, onProductUpdated, onCancel }) 
             </div>
 
             <div className="form-group">
-              <label htmlFor="categoriaProducto">Categoría del Producto</label>
-              <select
-                id="categoriaProducto"
-                name="categoriaProducto"
-                value={formData.categoriaProducto}
-                onChange={handleInputChange}
-              >
-                <option value="">Seleccionar categoría</option>
-                {categoriasProducto.map(cat => (
-                  <option key={cat} value={cat}>{cat}</option>
-                ))}
-              </select>
+              <label htmlFor="categoriaProducto">Categorías del Producto</label>
+              <div className="category-selector-wrapper">
+                <CategoryTreeSelector
+                  categories={categoriesTree}
+                  selectedCategories={formData.categories}
+                  onSelectionChange={handleCategoryChange}
+                  allowMultiple={true}
+                  showProductCount={false}
+                  disabled={categoriesLoading}
+                />
+                {categoriesLoading && <div className="loading-message">Cargando categorías...</div>}
+              </div>
             </div>
           </div>
 

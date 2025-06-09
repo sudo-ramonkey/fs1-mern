@@ -170,4 +170,173 @@ export const getProductByIdService = async (productId) => {
   }
 };
 
+// Category Management Services
+export const getCategoriesService = async (params = {}) => {
+  try {
+    const queryParams = new URLSearchParams(params).toString();
+    const response = await axios.get(`${API_URL}/api/categories${queryParams ? `?${queryParams}` : ''}`);
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      throw error.response.data;
+    }
+    throw { error: "Network error" };
+  }
+};
+
+export const getRootCategoriesService = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/api/categories/roots`);
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      throw error.response.data;
+    }
+    throw { error: "Network error" };
+  }
+};
+
+export const getCategoryByIdService = async (categoryId, params = {}) => {
+  try {
+    const queryParams = new URLSearchParams(params).toString();
+    const response = await axios.get(`${API_URL}/api/categories/${categoryId}${queryParams ? `?${queryParams}` : ''}`);
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      throw error.response.data;
+    }
+    throw { error: "Network error" };
+  }
+};
+
+export const getCategoryBySlugService = async (slug) => {
+  try {
+    const response = await axios.get(`${API_URL}/api/categories/slug/${slug}`);
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      throw error.response.data;
+    }
+    throw { error: "Network error" };
+  }
+};
+
+export const getCategoryBreadcrumbService = async (categoryId) => {
+  try {
+    const response = await axios.get(`${API_URL}/api/categories/${categoryId}/breadcrumb`);
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      throw error.response.data;
+    }
+    throw { error: "Network error" };
+  }
+};
+
+export const searchCategoriesService = async (query, limit = 10) => {
+  try {
+    const response = await axios.get(`${API_URL}/api/categories/search`, {
+      params: { q: query, limit }
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      throw error.response.data;
+    }
+    throw { error: "Network error" };
+  }
+};
+
+// Admin Category Management Services
+export const createCategoryService = async (categoryData) => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.post(`${API_URL}/api/categories`, categoryData, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      throw error.response.data;
+    }
+    throw { error: "Network error" };
+  }
+};
+
+export const updateCategoryService = async (categoryId, categoryData) => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.put(`${API_URL}/api/categories/${categoryId}`, categoryData, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      throw error.response.data;
+    }
+    throw { error: "Network error" };
+  }
+};
+
+export const deleteCategoryService = async (categoryId, options = {}) => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.delete(`${API_URL}/api/categories/${categoryId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+      data: options
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      throw error.response.data;
+    }
+    throw { error: "Network error" };
+  }
+};
+
+export const moveCategoryService = async (categoryId, moveData) => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.put(`${API_URL}/api/categories/${categoryId}/move`, moveData, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      throw error.response.data;
+    }
+    throw { error: "Network error" };
+  }
+};
+
+export const reorderCategoriesService = async (categoryOrders) => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.put(`${API_URL}/api/categories/reorder`, { categoryOrders }, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      throw error.response.data;
+    }
+    throw { error: "Network error" };
+  }
+};
+
+export const updateProductCountsService = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.put(`${API_URL}/api/categories/update-product-counts`, {}, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      throw error.response.data;
+    }
+    throw { error: "Network error" };
+  }
+};
+
 export { fetchProductos };

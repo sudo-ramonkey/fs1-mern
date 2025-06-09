@@ -137,92 +137,71 @@ export const filtersToURLParams = (filters) => {
 };
 
 /**
- * Get available subcategories for a given main category
- * @param {string} categoryId - Main category ID
+ * Get available subcategories for a given main category from dynamic category tree
+ * @param {string} categoryId - Main category ID or slug
+ * @param {Array} categoriesTree - Dynamic categories tree from Redux
  * @returns {Array} Array of subcategory objects
  */
-export const getSubcategoriesForCategory = (categoryId) => {
-  const categorySubcategories = {
-    "Guitarras Electricas": [
-      { id: "Stratocaster", name: "Stratocaster", icon: "🎸" },
-      { id: "Telecaster", name: "Telecaster", icon: "🎸" },
-      { id: "Les Paul", name: "Les Paul", icon: "🎸" },
-      { id: "SG", name: "SG", icon: "🎸" },
-      { id: "Flying V", name: "Flying V", icon: "🎸" },
-      { id: "Explorer", name: "Explorer", icon: "🎸" },
-    ],
-    "Guitarras Acusticas": [
-      { id: "Dreadnought", name: "Dreadnought", icon: "🎼" },
-      { id: "Folk", name: "Folk", icon: "🎼" },
-      { id: "Jazz", name: "Jazz", icon: "🎼" },
-      { id: "Clásica", name: "Clásica", icon: "🎼" },
-    ],
-    Bajos: [
-      { id: "Jazz Bass", name: "Jazz Bass", icon: "🎵" },
-      { id: "Precision Bass", name: "Precision Bass", icon: "🎵" },
-      { id: "Active Bass", name: "Bajo Activo", icon: "🎵" },
-      { id: "Acoustic Bass", name: "Bajo Acústico", icon: "🎵" },
-    ],
-    Amplificadores: [
-      { id: "Cabezal", name: "Cabezales", icon: "🔊" },
-      { id: "Combo", name: "Combos", icon: "🔊" },
-      { id: "Gabinete", name: "Gabinetes", icon: "🔊" },
-      { id: "Tubos", name: "A Tubos", icon: "🔥" },
-      { id: "Estado Sólido", name: "Estado Sólido", icon: "⚡" },
-      { id: "Híbrido", name: "Híbridos", icon: "🔀" },
-    ],
-    Efectos: [
-      { id: "Distorsión", name: "Distorsión", icon: "🔥" },
-      { id: "Overdrive", name: "Overdrive", icon: "🌋" },
-      { id: "Delay", name: "Delay", icon: "🔄" },
-      { id: "Reverb", name: "Reverb", icon: "🌊" },
-      { id: "Chorus", name: "Chorus", icon: "🌀" },
-      { id: "Multiefectos", name: "Multiefectos", icon: "🎛️" },
-    ],
-    Accesorios: [
-      {
-        id: "Cuerdas Guitarra Electrica",
-        name: "Cuerdas Eléctricas",
-        icon: "🎸",
-      },
-      {
-        id: "Cuerdas Guitarra Acustica",
-        name: "Cuerdas Acústicas",
-        icon: "🎼",
-      },
-      { id: "Fundas & Estuches", name: "Fundas & Estuches", icon: "💼" },
-      { id: "Pastillas", name: "Pastillas", icon: "🎤" },
-      { id: "Puas", name: "Púas", icon: "🎯" },
-      { id: "Cables", name: "Cables", icon: "🔌" },
-      {
-        id: "Afinadores & Metronomos",
-        name: "Afinadores & Metrónomos",
-        icon: "⏱️",
-      },
-      { id: "Capos", name: "Capos", icon: "🔒" },
-    ],
+export const getSubcategoriesForCategory = (categoryId, categoriesTree = []) => {
+  if (!categoryId || !categoriesTree) return [];
+
+  // Find the category in the tree (by ID, slug, or name)
+  const findCategory = (categories, id) => {
+    for (const category of categories) {
+      if (category._id === id || category.slug === id || category.name === id) {
+        return category;
+      }
+      if (category.children && category.children.length > 0) {
+        const found = findCategory(category.children, id);
+        if (found) return found;
+      }
+    }
+    return null;
   };
 
-  return categorySubcategories[categoryId] || [];
+  const category = findCategory(categoriesTree, categoryId);
+  if (!category || !category.children) return [];
+
+  // Convert children to the expected format
+  return category.children.map(child => ({
+    id: child.slug || child._id,
+    name: child.name,
+    icon: child.icon || "�",
+    _id: child._id,
+    slug: child.slug
+  }));
 };
 
 /**
- * Get category display name with icon
- * @param {string} categoryId - Category ID
+ * Get category display name with icon from dynamic category tree
+ * @param {string} categoryId - Category ID, slug, or name
+ * @param {Array} categoriesTree - Dynamic categories tree from Redux
  * @returns {Object} Category object with name and icon
  */
-export const getCategoryInfo = (categoryId) => {
-  const categoryInfo = {
-    "Guitarras Electricas": { name: "Guitarras Eléctricas", icon: "🎸" },
-    "Guitarras Acusticas": { name: "Guitarras Acústicas", icon: "🎼" },
-    Bajos: { name: "Bajos", icon: "🎵" },
-    Amplificadores: { name: "Amplificadores", icon: "🔊" },
-    Efectos: { name: "Efectos", icon: "🎛️" },
-    Accesorios: { name: "Accesorios", icon: "🛠️" },
-    Otros: { name: "Otros", icon: "📦" },
+export const getCategoryInfo = (categoryId, categoriesTree = []) => {
+  if (!categoryId) return { name: "Sin categoría", icon: "📦" };
+
+  // Find category in the tree
+  const findCategory = (categories, id) => {
+    for (const category of categories) {
+      if (category._id === id || category.slug === id || category.name === id) {
+        return {
+          name: category.name,
+          icon: category.icon || "�",
+          _id: category._id,
+          slug: category.slug
+        };
+      }
+      if (category.children && category.children.length > 0) {
+        const found = findCategory(category.children, id);
+        if (found) return found;
+      }
+    }
+    return null;
   };
 
-  return categoryInfo[categoryId] || { name: categoryId, icon: "📦" };
+  const categoryInfo = findCategory(categoriesTree, categoryId);
+  return categoryInfo || { name: categoryId, icon: "📦" };
 };
 
 /**
@@ -268,9 +247,10 @@ export const getNestedProperty = (obj, path) => {
 /**
  * Validate if a filter combination makes sense
  * @param {Object} filters - Filter object
+ * @param {Array} categoriesTree - Dynamic categories tree from Redux
  * @returns {Object} Validation result with errors and warnings
  */
-export const validateFilters = (filters) => {
+export const validateFilters = (filters, categoriesTree = []) => {
   const result = {
     isValid: true,
     errors: [],
@@ -289,9 +269,9 @@ export const validateFilters = (filters) => {
     const subcategory = filters.selectedSubcategories[0];
 
     if (mainCategory && subcategory) {
-      const validSubcategories = getSubcategoriesForCategory(mainCategory);
+      const validSubcategories = getSubcategoriesForCategory(mainCategory, categoriesTree);
       const isValidCombination = validSubcategories.some(
-        (sub) => sub.id === subcategory,
+        (sub) => sub.id === subcategory || sub.slug === subcategory || sub._id === subcategory,
       );
 
       if (!isValidCombination) {
@@ -324,13 +304,14 @@ export const validateFilters = (filters) => {
 /**
  * Generate user-friendly filter description
  * @param {Object} filters - Current filters
+ * @param {Array} categoriesTree - Dynamic categories tree from Redux
  * @returns {string} Human-readable description of active filters
  */
-export const getFilterDescription = (filters) => {
+export const getFilterDescription = (filters, categoriesTree = []) => {
   const descriptions = [];
 
   if (filters.selectedCategories?.length > 0) {
-    const categoryInfo = getCategoryInfo(filters.selectedCategories[0]);
+    const categoryInfo = getCategoryInfo(filters.selectedCategories[0], categoriesTree);
     descriptions.push(`Categoría: ${categoryInfo.name}`);
   }
 

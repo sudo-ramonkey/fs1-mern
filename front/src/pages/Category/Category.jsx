@@ -20,14 +20,20 @@ import {
   Grid as GridIcon,
   List,
   ArrowUp,
-  ShoppingCart,
 } from '@carbon/react/icons';
-import { fetchProductosThunk, selectFilteredProducts, selectCategories } from '../../redux/slices/shopSlice';
-import { addToCart } from '../../redux/slices/cartSlice';
+import { 
+  fetchProductosThunk, 
+  fetchCategoriesThunk,
+  selectFilteredProducts, 
+  selectCategories,
+  setCategoryFilter,
+} from '../../redux/slices/shopSlice';
+import { getCategoryBreadcrumbService } from '../../service/service';
 import InstrumentCard from '../../components/Cards/InstrumentCard';
 import './Category.css';
 
-const Category = () => {  const { categoryId, subcategory } = useParams();
+const Category = () => {
+  const { categorySlug, subcategory } = useParams(); // Changed from categoryId to categorySlug
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const productos = useSelector(selectFilteredProducts);
@@ -38,24 +44,66 @@ const Category = () => {  const { categoryId, subcategory } = useParams();
   const [sortBy, setSortBy] = useState('name');
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [currentCategory, setCurrentCategory] = useState(null);
   const productsPerPage = 12;
 
-  // Find current category
-  const currentCategory = categories?.find(cat => cat.id === categoryId || cat._id === categoryId);
   useEffect(() => {
     dispatch(fetchProductosThunk());
+    dispatch(fetchCategoriesThunk());
   }, [dispatch]);
 
   useEffect(() => {
+    const findCategoryBySlug = async () => {
+      if (!categorySlug || !categories.length) return;
+      
+      try {
+        // Try to find category by slug
+        const foundCategory = categories.find(cat => cat.slug === categorySlug);
+        
+        if (foundCategory) {
+          setCurrentCategory(foundCategory);
+          
+          // Get breadcrumb if category has parents
+          if (foundCategory._id) {
+            try {
+              const breadcrumbResponse = await getCategoryBreadcrumbService(foundCategory._id);
+              // Breadcrumb data available but not currently used in UI
+              console.log('Breadcrumb:', breadcrumbResponse.data);
+            } catch (error) {
+              console.warn('Could not fetch breadcrumb:', error);
+            }
+          }
+          
+          // Set filter to include this category and its children
+          dispatch(setCategoryFilter([foundCategory._id]));
+        } else {
+          // Fallback: try to find by name (backward compatibility)
+          const categoryByName = categories.find(cat => 
+            cat.name.toLowerCase().replace(/\s+/g, '-') === categorySlug ||
+            cat.name.toLowerCase() === categorySlug.replace(/-/g, ' ')
+          );
+          
+          if (categoryByName) {
+            setCurrentCategory(categoryByName);
+            dispatch(setCategoryFilter([categoryByName._id]));
+          }
+        }
+      } catch (error) {
+        console.error('Error finding category:', error);
+      }
+    };
+
+    findCategoryBySlug();
+  }, [categorySlug, categories, dispatch]);
+
+  useEffect(() => {
     if (productos && productos.length > 0 && currentCategory) {
-      let filtered = productos.filter(product => 
-        product.categoria === currentCategory.name || 
-        product.categoria?.toLowerCase().includes(currentCategory.name.toLowerCase())
-      );
+      let filtered = [...productos];
 
       // Apply subcategory filter if present
       if (subcategory === 'featured') {
-        filtered = filtered.slice(0, 6); // Show first 6 as featured      } else if (subcategory === 'offers') {
+        filtered = filtered.slice(0, 6); // Show first 6 as featured
+      } else if (subcategory === 'offers') {
         filtered = filtered.filter(product => product.precio < 1000); // Mock offers filter
       }
 
@@ -76,15 +124,6 @@ const Category = () => {  const { categoryId, subcategory } = useParams();
       setCurrentPage(1);
     }
   }, [productos, currentCategory, subcategory, sortBy]);
-  const handleAddToCart = (product) => {
-    dispatch(addToCart({
-      id: product._id,
-      name: product.nombre,
-      price: product.precio,
-      image: product.imagen || '/api/placeholder/300/300',
-      quantity: 1
-    }));
-  };
 
   // Pagination
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -185,7 +224,7 @@ const Category = () => {  const { categoryId, subcategory } = useParams();
             <Breadcrumb>
               <BreadcrumbItem href="/">Inicio</BreadcrumbItem>
               <BreadcrumbItem href="/productos">Productos</BreadcrumbItem>
-              <BreadcrumbItem href={`/category/${categoryId}`}>
+              <BreadcrumbItem href={`/category/${categorySlug}`}>
                 {currentCategory.name}
               </BreadcrumbItem>
               {subcategory && (
@@ -326,7 +365,7 @@ const Category = () => {  const { categoryId, subcategory } = useParams();
           
           <Grid className="categories-grid">
             {categories
-              .filter(cat => cat.id !== categoryId && cat._id !== categoryId)
+              .filter(cat => cat.id !== categorySlug && cat._id !== categorySlug && cat.slug !== categorySlug)
               .slice(0, 4)
               .map((category) => (
                 <Column key={category.id || category._id} lg={4} md={4} sm={4}>

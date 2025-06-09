@@ -8,38 +8,30 @@ import {
   AccordionItem,
   Checkbox,
   TextInput,
-  NumberInput,
   Select,
   SelectItem,
   Slider,
 } from "@carbon/react";
 import { Filter } from "@carbon/react/icons";
 import {
-  setCategoryFilter,
-  toggleCategoryFilter,
   setPriceRangeFilter,
   toggleBrandFilter,
   setSearchText,
   setSortBy,
   clearFilters,
   selectFilters,
-  selectCategories,
   selectAvailableBrands,
   selectPriceRange,
 } from '../../redux/slices/shopSlice';
+import CategoryTreeSelector from '../CategoryTreeSelector/CategoryTreeSelector';
 import "./styles.css";
 
 function FilterPopUp() {
   const [open, setOpen] = React.useState(false);
   const dispatch = useDispatch();
   const filters = useSelector(selectFilters);
-  const categories = useSelector(selectCategories);
   const availableBrands = useSelector(selectAvailableBrands);
   const priceRange = useSelector(selectPriceRange);
-
-  const handleCategoryToggle = useCallback((category) => {
-    dispatch(toggleCategoryFilter(category));
-  }, [dispatch]);
 
   const handleBrandToggle = useCallback((brand) => {
     dispatch(toggleBrandFilter(brand));
@@ -122,18 +114,13 @@ function FilterPopUp() {
           </div>
 
           <Accordion align="start">
-            {/* Categorías */}
+            {/* Categorías - Now using tree structure */}
             <AccordionItem title="Categorías">
-              <div className="filter-checkbox-group">
-                {categories.map((category) => (
-                  <Checkbox
-                    key={category.id}
-                    id={`category-${category.id}`}
-                    labelText={category.name}
-                    checked={filters.selectedCategories.includes(category.id)}
-                    onChange={() => handleCategoryToggle(category.id)}
-                  />
-                ))}
+              <div className="filter-category-tree">
+                <CategoryTreeSelector 
+                  compact={true}
+                  showProductCount={true}
+                />
               </div>
             </AccordionItem>
 
