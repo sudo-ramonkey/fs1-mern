@@ -117,6 +117,56 @@ const ProductForm = ({ product, onProductCreated, onProductUpdated, onCancel }) 
     setError(null);
     setSuccess(null);
 
+    // Helper function to find category name by ID
+    const findCategoryNameById = (categoryId) => {
+      // Helper function to search through the category tree
+      const searchInTree = (categories, id) => {
+        for (const category of categories) {
+          if (category._id === id) {
+            return category.name;
+          }
+          if (category.children && category.children.length > 0) {
+            const found = searchInTree(category.children, id);
+            if (found) return found;
+          }
+        }
+        return null;
+      };
+      
+      return searchInTree(categoriesTree, categoryId);
+    };
+
+    // Helper function to determine the main category
+    const determineMainCategory = (categoryId) => {
+      // Check if category is a direct match with top-level categories
+      for (const category of categoriesTree) {
+        if (category._id === categoryId) {
+          return category.name;
+        }
+        
+        // Check if it's a subcategory and return parent's name
+        if (category.children) {
+          const isChild = category.children.some(child => 
+            child._id === categoryId || 
+            (child.children && child.children.some(grandChild => grandChild._id === categoryId))
+          );
+          
+          if (isChild) {
+            return category.name;
+          }
+        }
+      }
+      
+      // Default mapping based on type
+      if (formData.tipoInstrumento === 'Guitarra') {
+        return formData.categoria === 'Acustico' ? 'Guitarras Acusticas' : 'Guitarras Electricas';
+      } else if (formData.tipoInstrumento === 'Bajo') {
+        return 'Bajos';
+      } else {
+        return 'Otros';
+      }
+    };
+
     try {
       // Clean up the data before sending
       const cleanData = { ...formData };
@@ -134,7 +184,46 @@ const ProductForm = ({ product, onProductCreated, onProductUpdated, onCancel }) 
 
       // Clean up empty enum values that could cause validation errors
       if (cleanData.marca === '') delete cleanData.marca;
-      if (cleanData.categoriaProducto === '') delete cleanData.categoriaProducto;
+
+      // Map categoriaProducto based on the tipo
+      if (cleanData.tipo === 'Instrumento') {
+        // For instruments, categoriaProducto is required
+        if (cleanData.categories && cleanData.categories.length > 0) {
+          // Use the selected category to determine categoriaProducto
+          cleanData.categoriaProducto = determineMainCategory(cleanData.categories[0]);
+        } else {
+          // Set a default value based on the instrument type
+          if (cleanData.tipoInstrumento === 'Guitarra') {
+            cleanData.categoriaProducto = cleanData.categoria === 'Acustico' ? 
+              'Guitarras Acusticas' : 'Guitarras Electricas';
+          } else if (cleanData.tipoInstrumento === 'Bajo') {
+            cleanData.categoriaProducto = 'Bajos';
+          } else {
+            cleanData.categoriaProducto = 'Otros';
+          }
+        }
+      } else if (cleanData.tipo === 'Equipo') {
+        // For equipment, set categoriaProducto based on tipoEquipo or categories
+        if (cleanData.categories && cleanData.categories.length > 0) {
+          cleanData.categoriaProducto = determineMainCategory(cleanData.categories[0]);
+        } else {
+          // Set based on tipoEquipo
+          if (cleanData.tipoEquipo === 'Amplificador') {
+            cleanData.categoriaProducto = 'Amplificadores';
+          } else if (cleanData.tipoEquipo === 'Efecto') {
+            cleanData.categoriaProducto = 'Efectos';
+          } else {
+            cleanData.categoriaProducto = 'Equipos';
+          }
+        }
+      } else if (cleanData.tipo === 'Accesorio') {
+        // For accessories, set categoriaProducto based on categories or tipoAccesorio
+        if (cleanData.categories && cleanData.categories.length > 0) {
+          cleanData.categoriaProducto = determineMainCategory(cleanData.categories[0]);
+        } else {
+          cleanData.categoriaProducto = 'Accesorios';
+        }
+      }
 
       // Remove empty fields based on type
       if (cleanData.tipo !== 'Instrumento') {
@@ -180,6 +269,9 @@ const ProductForm = ({ product, onProductCreated, onProductUpdated, onCancel }) 
           delete cleanData.compatibilidad;
         }
       }
+      
+      // Debug log to verify the data being sent
+      console.log('Saving product data:', cleanData);
 
       if (product) {
         // Update existing product
@@ -197,8 +289,10 @@ const ProductForm = ({ product, onProductCreated, onProductUpdated, onCancel }) 
         }, 1500);
       }
     } catch (err) {
-      setError(err.error || 'Error al guardar el producto');
       console.error('Error saving product:', err);
+      const errorMsg = err.response?.data?.error || err.error || 'Error al guardar el producto';
+      const errorDetails = err.response?.data?.details || err.message || '';
+      setError(`${errorMsg}${errorDetails ? ': ' + errorDetails : ''}`);
     } finally {
       setLoading(false);
     }
