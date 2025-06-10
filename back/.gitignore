@@ -47,3 +47,7 @@ coverage
 # Misc
 .tmp/
 temp/
+
+# Playwright reports and test results
+playwright-report/
+test-results/
