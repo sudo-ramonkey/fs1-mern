@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npx playwright test tests/api/backend-api.test.js --config=playwright-api.config.js",
+    "test:ui": "npx playwright test tests/api/backend-api.test.js --config=playwright-api.config.js --ui",
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "seed": "node scripts/newSeedDatabase.js",
@@ -14,10 +15,10 @@
     "db:backup": "node src/utils/dbManager.js backup-products && node src/utils/dbManager.js backup-users",
     "db:validate": "node src/utils/dbManager.js validate",
     "db:indexes": "node src/utils/dbManager.js create-indexes",
-    "test:api": "node src/utils/testApi.js",
-    "test:auth": "node src/utils/testApi.js auth",
-    "test:products": "node src/utils/testApi.js products",
-    "test:users": "node src/utils/testApi.js users"
+    "test:api:legacy": "node src/utils/testApi.js",
+    "test:auth:legacy": "node src/utils/testApi.js auth",
+    "test:products:legacy": "node src/utils/testApi.js products",
+    "test:users:legacy": "node src/utils/testApi.js users"
   },
   "keywords": [],
   "author": "",
@@ -33,6 +34,8 @@
     "mongoose": "^8.14.2"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "@playwright/test": "^1.52.0",
+    "nodemon": "^3.1.10",
+    "supertest": "^7.1.1"
   }
 }
