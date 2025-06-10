@@ -45,13 +45,23 @@ const AppHeader = () => {
   const cartTotalItems = useSelector(selectCartTotalItems);
   const { isAuthenticated, user } = useSelector(selectAuth);
 
+  // Define closeMenu callback early to avoid reference errors
+  const closeMenu = useCallback(() => {
+    setMenuOpen(false);
+  }, []);
+
+  // Define menuToggle callback
+  const handleMenuToggle = useCallback(() => {
+    setMenuOpen(!menuOpen);
+  }, [menuOpen]);
+
   // Fetch categories on component mount
   useEffect(() => {
     if (!categoriesTree || categoriesTree.length === 0) {
       dispatch(fetchCategoriesThunk());
     }
   }, [dispatch, categoriesTree]);
-
+  
   // Handle scroll effect and close menus on outside click
   useEffect(() => {
     const handleScroll = () => {
@@ -155,7 +165,6 @@ const AppHeader = () => {
     navigate("/admin");
     setUserMenuOpen(false);
   };
-
   // Handle category navigation using slugs
   const handleCategoryNavigation = (categorySlug) => {
     // Navigate to category page using slug
@@ -169,7 +178,7 @@ const AppHeader = () => {
     >
       <HeaderMenuButton
         aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
-        onClick={() => setMenuOpen(!menuOpen)}
+        onClick={handleMenuToggle}
         isActive={menuOpen}
         className="header-menu-button"
       >
@@ -451,11 +460,24 @@ const AppHeader = () => {
             Presiona Enter para buscar o Escape para cerrar
           </div>
         </div>
-      )}
-      {/* Menú móvil */}
+      )}      {/* Menú móvil */}
       {menuOpen && (
         <div className="mobile-menu" role="navigation" aria-label="Menú móvil">
           <div className="mobile-menu-content">
+            {/* Mobile Menu Header */}
+            <div className="mobile-menu-header">
+              <h2 className="mobile-menu-title">
+                <span className="logo-icon">🎸</span>
+                Menú
+              </h2>
+              <button
+                className="mobile-menu-close"
+                onClick={closeMenu}
+                aria-label="Cerrar menú"
+              >
+                <Close size={20} />
+              </button>
+            </div>
             <nav className="mobile-navigation">
               <button
                 onClick={(e) => {
@@ -563,7 +585,11 @@ const AppHeader = () => {
           </div>
           <div
             className="mobile-menu-overlay"
-            onClick={() => setMenuOpen(false)}
+            onClick={closeMenu}
+            role="button"
+            tabIndex={0}
+            aria-label="Cerrar menú"
+            onKeyDown={(e) => e.key === "Enter" && closeMenu()}
           />
         </div>
       )}

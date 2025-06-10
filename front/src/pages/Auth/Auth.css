@@ -471,23 +471,31 @@
     font-size: 1rem;
     padding: 0 0.5rem;
   }
-  
-  /* Tabs mobile styling */
+    /* Tabs mobile styling */
   .auth-content .cds--tabs {
     max-width: 100%;
     width: 100%;
+    position: relative;
+    z-index: 1;
   }
-  
-  .auth-content .cds--tabs .cds--tab-list {
+    .auth-content .cds--tabs .cds--tab-list {
     max-width: 100%;
     flex-wrap: nowrap;
     overflow-x: auto;
+    overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    padding: 0 0.5rem;
-    margin: 0 -0.5rem;
+    padding: 0.5rem 1rem;
+    margin: 0;
     justify-content: flex-start;
+    position: relative;
+    z-index: 2;
+    scroll-behavior: smooth;
+    /* Fix scroll container */
+    display: flex;
+    align-items: center;
+    min-height: 60px;
   }
   
   .auth-content .cds--tabs .cds--tab-list::-webkit-scrollbar {
@@ -496,12 +504,20 @@
   
   .auth-content .cds--tabs .cds--tab {
     flex-shrink: 0;
-    min-width: 140px;
+    min-width: 150px;
     max-width: none;
-    padding: 0.75rem 1rem;
-    font-size: 0.875rem;
+    padding: 0.875rem 1.25rem;
+    font-size: 0.9rem;
     margin: 0 0.25rem;
     white-space: nowrap;
+    /* Ensure tab is fully visible */
+    position: relative;
+    z-index: 3;
+    /* Add better touch targets */
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
   .auth-content .cds--tabs .cds--tab-panels {
@@ -639,12 +655,21 @@
     margin: 1rem 0 0.75rem 0;
     padding-top: 0.75rem;
   }
-  
-  /* Tabs adjustments for mobile */
+    /* Tabs adjustments for mobile */
   .auth-content .cds--tabs .cds--tab {
-    min-width: 120px;
-    padding: 0.625rem 0.75rem;
-    font-size: 0.8125rem;
+    min-width: 130px;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    /* Ensure proper touch targets */
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+    /* Improve tab list scrolling on small screens */
+  .auth-content .cds--tabs .cds--tab-list {
+    padding: 0.5rem 0.75rem;
+    margin: 0;
   }
   
   .auth-footer {
@@ -691,11 +716,21 @@
   .auth-submit-btn {
     height: 42px;
   }
-  
-  .auth-content .cds--tabs .cds--tab {
-    min-width: 100px;
-    padding: 0.5rem 0.625rem;
-    font-size: 0.75rem;
+    .auth-content .cds--tabs .cds--tab {
+    min-width: 110px;
+    padding: 0.625rem 0.75rem;
+    font-size: 0.8125rem;
+    /* Maintain proper touch targets even on small screens */
+    min-height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+    /* Ensure tab list is fully visible */
+  .auth-content .cds--tabs .cds--tab-list {
+    padding: 0.25rem 0.5rem;
+    margin: 0;
+    min-height: 48px;
   }
     .form-actions {
     gap: 0.5rem;
@@ -895,7 +930,112 @@
   }
 }
 
-/* Enhanced Centering Styles */
+/* Enhanced mobile tab fixes */
+@media (max-width: 768px) {
+  /* Ensure tabs container has proper stacking */
+  .auth-content .cds--tabs {
+    position: relative;
+    z-index: 10;
+    background: transparent;
+  }
+    /* Fix tab list visibility and scrolling */
+  .auth-content .cds--tabs .cds--tab-list {
+    overflow-x: auto;
+    overflow-y: hidden;
+    position: relative;
+    z-index: 11;
+    padding: 0.5rem 1rem;
+    margin: 0;
+    min-height: 52px;
+    scroll-behavior: smooth;
+  }
+  
+  /* Ensure individual tabs are fully clickable */
+  .auth-content .cds--tabs .cds--tab {
+    position: relative;
+    z-index: 12;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    /* Ensure minimum touch target */
+    min-width: 140px;
+    min-height: 48px;
+    /* Add slight border for better visibility */
+    border: 1px solid transparent;
+    /* Improve text readability */
+    font-weight: 500;
+  }
+  
+  /* Active tab styling for mobile */
+  .auth-content .cds--tabs .cds--tab--selected {
+    border-color: var(--cds-border-interactive);
+    background-color: var(--cds-layer-selected);
+    font-weight: 600;
+  }
+  
+  /* Tab panel fixes */
+  .auth-content .cds--tabs .cds--tab-panels {
+    position: relative;
+    z-index: 5;
+    margin-top: 0.5rem;
+  }
+}
+
+/* Mobile tab scrolling improvements */
+@media (max-width: 480px) {
+  .auth-content .cds--tabs .cds--tab-list {
+    padding: 0.25rem 0.75rem;
+    margin: 0;
+    scroll-behavior: smooth;
+  }
+  
+  .auth-content .cds--tabs .cds--tab {
+    min-width: 120px;
+    padding: 0.625rem 0.875rem;
+    font-size: 0.875rem;
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 400px) {
+  .auth-content .cds--tabs .cds--tab-list {
+    padding: 0.25rem 0.5rem;
+    margin: 0;
+    position: relative;
+  }
+  
+  .auth-content .cds--tabs .cds--tab {
+    min-width: 100px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8125rem;
+    min-height: 42px;
+  }
+}
+
+/* Fix for iOS Safari viewport issues */
+@supports (-webkit-touch-callout: none) {
+  .auth-content .cds--tabs .cds--tab-list {
+    /* Fix potential iOS scrolling issues */
+    -webkit-overflow-scrolling: touch;
+    /* Ensure content isn't clipped */
+    transform: translateZ(0);
+    /* Force hardware acceleration */
+    will-change: scroll-position;
+  }
+  
+  .auth-content .cds--tabs .cds--tab {
+    /* Ensure touch events work properly */
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Improve tab focus states for keyboard navigation */
+.auth-content .cds--tabs .cds--tab:focus {
+  outline: 2px solid var(--cds-focus);
+  outline-offset: -2px;
+  z-index: 20;
+}
+
 .auth-form .cds--form-item {
   display: flex;
   flex-direction: column;
@@ -947,21 +1087,6 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-}
-
-.auth-content .cds--tabs .cds--tab-list {
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  width: 100%;
-  flex-wrap: wrap;
-}
-
-.auth-content .cds--tabs .cds--tab {
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  text-align: center !important;
 }
 
 /* Additional icon positioning refinements */
